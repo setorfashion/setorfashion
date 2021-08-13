@@ -1,0 +1,7 @@
+.imagemPerfil{
+    width:"25vw";
+    height:"25vw";
+    border-radius:"50vw"; 
+    max-width:"160px";
+    max-height:"160px"
+}

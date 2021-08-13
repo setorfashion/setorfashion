@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@300&family=Source+Serif+Pro:ital,wght@1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+a{
+    color: black !important;
+}
+.brand-logo,h2{
+    font-family: 'Grand Hotel', cursive;
+}
+.myLoginCard{
+    margin: 0px auto;
+    padding-top: 50px;
+}
+.auth-card{
+    max-width: 400px;
+    text-align: center;
+    padding: 20px;
+    margin: 0px auto;
+}
+.home {
+    padding-top: 30px;
+}
+.nav{
+    margin-top: 0px;
+    z-index: 50;
+    position: fixed;
+    height: 36px;
+    line-height: 36px;
+    background-color: rgb(26, 26, 26);
+    color: white;
+
+}
+#toast-container {
+    right: auto !important;
+    top: 26px !important;
+  }
+.white-logo{
+    color: white !important;
+}
+.nav,i,a{
+    color: white;
+}
+.home-card{
+    max-width: 500px;
+    margin: 0px auto;
+}
+.card{
+    
+}
+.card .card-image img {   
+    height: 50vh;
+    object-fit: cover;
+}
+.icons{
+    justify-content: left;
+}
+
+  /* label underline focus color */
+  .input-field input[type=text]:focus {
+    border-bottom: 1px solid rgb(8, 93, 252) !important;
+    box-shadow: 0 1px 0 0 rgb(8, 93, 252) !important;
+  }
+
+  .galery{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+  }
+  .item{
+      width: 33%;
+      height: 145px;
+      margin: 3px 0px 0px 0px;
+      object-fit: cover;
+  }
+  .input-filed{
+      padding: 20px;
+      text-align: center;
+      max-width: 400px;
+      margin: 30px auto;
+  }
+  .input-filed-config{
+      padding: 11px;
+      text-align: center;
+      max-width: 400px;
+      margin: 0px auto;
+      position: relative;
+  }
+  #toast-container{
+      top:46px;
+  }
+
+.input-filed-config h6{
+    color:gray
+}
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after {
+    background-color: black;
+}
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
+    border: 2px solid black;
+}
+.settings-setor{
+    padding: 10px;
+}
+.gradiente-setor-amarelo{
+    padding: 10px;
+    background-image: linear-gradient(to right, white, #ffeb3b );
+}
+.gradiente-setor-roxo{
+    padding: 10px;
+    background-image: linear-gradient(to right, white, #673ab7 );
+}
+.gradiente-setor-verde{
+    padding: 10px;
+    background-image: linear-gradient(to right, white, #4caf50 );
+}
+.settings,h5,h2{
+    font-family: 'Abel', sans-serif;
+    font-weight: bolder;
+}
+.settings{
+
+}
