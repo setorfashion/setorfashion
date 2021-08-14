@@ -21,7 +21,7 @@ const CreatePost = () => {
 
         const token = localStorage.getItem('jwt');
         console.log(token);
-        fetch("/post/createpost",{
+        fetch("/api/post/createpost",{
             method: "Post",
             headers:{
                 "authorization":"Bearer "+token
@@ -35,22 +35,6 @@ const CreatePost = () => {
             }, 1000);
         }).catch(err=>{
             M.toast({html:"Falha ao criar sua postagem",classes:TOAST_ERROR})
-            console.log(err);
-        })
-    }
-
-    const criarPostagem_ = ()=>{
-        const data = new FormData()
-        data.append('file',image)
-        data.append('upload_preset',"setorfashion-dev")
-        data.append('cloud_name',"dbml8og1b")
-        fetch("https://api.cloudinary.com/v1_1/dbml8og1b/image/upload",{
-            method: "Post",
-            body:data,
-        }).then(res=>res.json())
-        .then(result=>{
-            console.log(result);
-        }).catch(err=>{
             console.log(err);
         })
     }

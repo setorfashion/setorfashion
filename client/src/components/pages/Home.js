@@ -6,7 +6,7 @@ const Home = () => {
     useEffect(() => {
         const token = localStorage.getItem("jwt")
 
-        fetch("post/getallposts", {
+        fetch("/api/post/getallposts", {
             headers: {
                 "Content-Type": "application/json"
             },

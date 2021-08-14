@@ -28,7 +28,7 @@ const ConfigStore = () => {
     
     useEffect(() => {
         async function fetchStore(){
-            return await fetch('/store/getstorebyid',{
+            return await fetch('/api/store/getstorebyid',{
                 method: "Post",
                 headers: {
                     "Content-Type":"application/json",
@@ -58,7 +58,7 @@ const ConfigStore = () => {
     },[])
     useEffect(() => {
         async function getSetors(){
-            await fetch('/config/getallsetor', {
+            await fetch('/api/config/getallsetor', {
                 headers:{
                     "authorization":"Bearer "+token
                 },
@@ -74,7 +74,7 @@ const ConfigStore = () => {
         }
         
         async function getAllCategories(){
-            await fetch('/config/getallcategories', {
+            await fetch('/api/config/getallcategories', {
                 headers:{
                     "authorization":"Bearer "+token
                 },
@@ -100,7 +100,7 @@ const ConfigStore = () => {
     
         }
         async function getAllSubCategories(){
-            fetch('/config/getallsubcategories', {
+            fetch('/api/config/getallsubcategories', {
                 headers:{
                     "authorization":"Bearer "+token
                 },
@@ -235,10 +235,10 @@ const ConfigStore = () => {
         let url = ''
         let method =''
         if(store_id!=''){
-            url = '/store/updatestore'
+            url = '/api/store/updatestore'
             method="PUT"
         }else{
-            url = '/config/createstore'
+            url = '/api/config/createstore'
             method="POST"
         }
 

@@ -3,7 +3,7 @@ const Profile = ()=>{
     const [data,setData]=useState([])
     useEffect(()=>{
         const token = localStorage.getItem("jwt")
-        fetch("/post/getmyposts",{
+        fetch("/api/post/getmyposts",{
             headers:{
                 "Content-Type":"application/json",
                 "authorization": "Bearer "+token

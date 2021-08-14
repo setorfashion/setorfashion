@@ -15,7 +15,7 @@ const Signup = ()=>{
       M.toast({html: "Informe um email válido", classes:TOAST_ERROR})
       return false;
     }
-    fetch("/auth/signup",{
+    fetch("/api/auth/signup",{
         method: "post",
         headers: {
           "Content-Type":"application/json",
