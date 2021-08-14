@@ -14,7 +14,7 @@ const Home = () => {
         }).then(res => res.json()).then((result) => {
             setData(result)
         }).catch(err => {
-            console.log(err)
+            console.log(JSON.stringify(err))
         })
     }, [])
 
