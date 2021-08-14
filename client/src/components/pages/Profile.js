@@ -37,7 +37,7 @@ const Profile = ()=>{
             {
                     data.map(item=>{
                         return(
-                            <img className='item' src={'/post/getpostimage/'+item.photo} />
+                            <img className='item' src={'/api/post/getpostimage/'+item.photo} />
                         )
                     })
                 }

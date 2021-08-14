@@ -27,7 +27,7 @@ const Home = () => {
                         <div key={key} className="card home-card">
                             <h5>{item.postedBy.name}</h5>
                             <div className="card-image">
-                                <img src={'/post/getpostimage/' + item.photo} />
+                                <img src={'/api/post/getpostimage/' + item.photo} />
                             </div>
                             <div className="card-content">
                                 <h6>
