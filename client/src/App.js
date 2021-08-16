@@ -32,25 +32,25 @@ const Routing = () =>{
   return(
     <Switch>
       <Route exact path='/'>
-      <Home />
+        <Home />
       </Route>
       <Route path='/signup'>
-      <Signup></Signup>
+        <Signup></Signup>
       </Route>
       <Route path='/signin'>
-      <Login></Login>
+        <Login></Login>
       </Route>
       <Route path='/profile/'>
-      <Profile></Profile>
+        <Profile></Profile>
       </Route>      
       <Route path='/createpost'>
-      <CreatePost></CreatePost>
+        <CreatePost></CreatePost>
       </Route>
       <Route path='/config'>
-      <ConfigStore></ConfigStore>
+        <ConfigStore></ConfigStore>
       </Route>
-      <Route path='/token:code'>
-      <Token></Token>
+      <Route path='/token/:code'>
+        <Token></Token>
       </Route>
     </Switch>
   )
