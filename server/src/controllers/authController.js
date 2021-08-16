@@ -3,12 +3,21 @@ const Usuario = mongoose.model('Usuario');
 const Store = mongoose.model('Store');
 const CategoryByStore = mongoose.model('CategoryByStore');
 const subCategoryByStore = mongoose.model('subCategoryByStore');
+const Token = mongoose.model('Token');
 const crypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {JWT_SECRET} = require('../../keys');
 
 
 module.exports = {
+    async getTokenInstagram(req,res){
+        const token = req.params.code
+        Token.save({token:token}).then((saved)=>{
+            console.log(saved)
+        }).catch(err=>{
+            console.log(err)
+        })
+    },
     async protected(req,res){
         return res.status(201).json({user:req.user});
     },

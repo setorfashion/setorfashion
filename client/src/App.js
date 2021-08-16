@@ -30,7 +30,7 @@ const Routing = () =>{
   },[])
   return(
     <Switch>
-      <Route exact path='/'>
+      <Route exact path='/:code'>
       <Home />
       </Route>
       <Route path='/signup'>
@@ -39,7 +39,7 @@ const Routing = () =>{
       <Route path='/signin'>
       <Login></Login>
       </Route>
-      <Route path='/profile'>
+      <Route path='/profile/'>
       <Profile></Profile>
       </Route>      
       <Route path='/createpost'>

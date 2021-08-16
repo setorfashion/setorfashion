@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react'
+import {useParams} from "react-router-dom"
 
 const Home = () => {
-
+    const params = useParams()
+    var instaCod = '';
+    console.log(params)
+    if(params){
+        instaCod = params.code
+    }
+    const instaconfig = new URLSearchParams({
+        app_id: 561391024887319,
+        redirect_uri: 'https://sf.fortaldelivery.com.br/profile/',
+        scope: 'user_profile,user_media',
+        response_type: 'code'
+    }) 
     const [data, setData] = useState([])
     useEffect(() => {
         const token = localStorage.getItem("jwt")
@@ -21,6 +33,8 @@ const Home = () => {
 
     return (
         <div className="home">
+            {'codigo '+instaCod}
+                <a href={`https://api.instagram.com/oauth/authorize?$instaconfig`}>Instagram</a>
             {
                 data.map((item,key) => {
                     return (

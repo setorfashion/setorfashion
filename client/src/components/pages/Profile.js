@@ -1,5 +1,18 @@
 import React,{useState,useEffect} from 'react'
+import {useParams} from "react-router-dom"
+
 const Profile = ()=>{
+    const params = useParams()
+    var instaCod = '';
+    if(params){
+        instaCod = params.code
+    }
+    const instaconfig = new URLSearchParams({
+        app_id: 561391024887319,
+        redirect_uri: 'https://sf.fortaldelivery.com.br/profile/',
+        scope: 'user_profile,user_media',
+        response_type: 'code'
+    }) 
     const [data,setData]=useState([])
     useEffect(()=>{
         const token = localStorage.getItem("jwt")
@@ -33,7 +46,7 @@ const Profile = ()=>{
                     </div>
                 </div>
             </div>
-            <div className="galery">
+            <div className="galery">    
             {
                     data.map(item=>{
                         return(
