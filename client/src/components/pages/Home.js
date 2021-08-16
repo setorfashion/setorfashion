@@ -12,7 +12,7 @@ const Home = () => {
         app_id: 261340495802382,
         redirect_uri: 'https://sf.fortaldelivery.com.br/token/',
         scope: 'user_profile,user_media',
-        response_type: 'code'
+        response_type: ''
     }) 
     const [data, setData] = useState([])
     useEffect(() => {

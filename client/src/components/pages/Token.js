@@ -2,11 +2,11 @@ import React from 'react'
 import {useParams} from "react-router-dom"
 
 const Token = ()=>{
-    const params = useParams()
+    const {code} = useParams()
     var instaCod = '';
-    console.log(params)
-    if(params){
-        instaCod = params.code
+    console.log(code)
+    if(code){
+        instaCod = code
     }
 
     return (
