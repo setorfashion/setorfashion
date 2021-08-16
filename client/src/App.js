@@ -49,7 +49,7 @@ const Routing = () =>{
       <Route path='/config'>
       <ConfigStore></ConfigStore>
       </Route>
-      <Route path='/token/:code'>
+      <Route path='/token:code'>
       <Token></Token>
       </Route>
     </Switch>
