@@ -9,8 +9,8 @@ const Home = () => {
         instaCod = params.code
     }
     const instaconfig = new URLSearchParams({
-        app_id: 561391024887319,
-        redirect_uri: 'https://sf.fortaldelivery.com.br/profile/',
+        app_id: 261340495802382,
+        redirect_uri: 'https://sf.fortaldelivery.com.br/token/',
         scope: 'user_profile,user_media',
         response_type: 'code'
     }) 
@@ -33,8 +33,7 @@ const Home = () => {
 
     return (
         <div className="home">
-            {'codigo '+instaCod}
-                <a href={`https://api.instagram.com/oauth/authorize?$instaconfig`}>Instagram</a>
+                <a href={'https://api.instagram.com/oauth/authorize?'+instaconfig}>Instagram</a>
             {
                 data.map((item,key) => {
                     return (

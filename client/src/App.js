@@ -1,6 +1,7 @@
 import React,{useEffect,createContext,useReducer, useContext} from 'react'
 import NavBar from './components/Navbar'
 import Home from './components/pages/Home'
+import Token from './components/pages/Token'
 import Login from './components/pages/Login'
 import Signup from './components/pages/Signup'
 import Profile from './components/pages/Profile'
@@ -30,7 +31,7 @@ const Routing = () =>{
   },[])
   return(
     <Switch>
-      <Route exact path='/:code'>
+      <Route exact path='/'>
       <Home />
       </Route>
       <Route path='/signup'>
@@ -47,6 +48,9 @@ const Routing = () =>{
       </Route>
       <Route path='/config'>
       <ConfigStore></ConfigStore>
+      </Route>
+      <Route path='/token/:code'>
+      <Token></Token>
       </Route>
     </Switch>
   )
