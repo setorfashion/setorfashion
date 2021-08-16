@@ -10,7 +10,7 @@ const Home = () => {
     }
     const instaconfig = new URLSearchParams({
         app_id: 261340495802382,
-        redirect_uri: 'https://sf.fortaldelivery.com.br/token',
+        redirect_uri: 'https://sf.fortaldelivery.com.br/token/',
         scope: 'user_profile,user_media',
         response_type: 'code'
     }) 
