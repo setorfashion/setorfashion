@@ -18,17 +18,17 @@ const Routing = () =>{
   const history = useHistory()
   const {state,dispatch} = useContext(UserContext)
 
-  useEffect(()=>{
-    const user = JSON.parse(localStorage.getItem("userData"))
-    if(user){
-      dispatch({type:"USER",payload:user})
-      history.push('/profile')
-    }else{
-      history.push('/')
-      // history.push('/signin')
-    }
+  // useEffect(()=>{
+  //   const user = JSON.parse(localStorage.getItem("userData"))
+  //   if(user){
+  //     dispatch({type:"USER",payload:user})
+  //     history.push('/')
+  //   }else{
+  //     history.push('/')
+  //     // history.push('/signin')
+  //   }
 
-  },[])
+  // },[])
   return(
     <Switch>
       <Route exact path='/'>
