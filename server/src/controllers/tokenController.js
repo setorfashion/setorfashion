@@ -15,7 +15,7 @@ const postAsync = promisify(post);
 module.exports = {
     async receiveToken(req,res){
         const user = req.user
-        const shortToken = req.params.shortToken
+        const shortToken = req.body.shortToken
         console.log('shortToken: '+shortToken)
         const options ={
           url: `https://api.instagram.com/oauth/access_token `,
