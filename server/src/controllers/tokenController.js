@@ -94,7 +94,7 @@ module.exports = {
         if(typeof respLongToken['data'] === 'undefined'){
           console.log('erro long token')
         }
-        const dadosToken = JSON.parse(respLongToken['data'])
+        const dadosToken = respLongToken['data']
         const longToken = dadosToken.access_token
         const longToken_live_at = dadosToken.expires_in
         const longtoken_type = dadosToken.token_type
