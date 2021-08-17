@@ -29,12 +29,13 @@ module.exports = {
     async receiveToken(req,res) {
         // sending the request.
         const shortToken = req.body.shortToken
-        console.log(shortToken)
+        console.log('shortToken '+shortToken)
+        console.log('Body '+req.body)
         let { body, statusCode } = await postAsync({
           url: `https://api.instagram.com/oauth/access_token `,
           formData: {
             client_id: 261340495802382,
-            client_secret: '037970e3ad9ba0d26dac202d2fd366e1',
+            client_secret: '76eb60ab926342457302b9441cc38ebd',
             redirect_uri: 'https://sf.fortaldelivery.com.br/token',
             code: shortToken,
             grant_type: "authorization_code",
