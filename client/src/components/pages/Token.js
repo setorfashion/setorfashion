@@ -10,7 +10,7 @@ const Token = ()=>{
     let query = useQuery();
     const instaCod = query.get("code");
     const Auth = query.get("authorization_code");
-    const jwt = localStorage.get('jwt')
+    const jwt = localStorage.getItem('jwt')
    
     fetch(API.AMBIENTE+'/token',{
         headers:{
