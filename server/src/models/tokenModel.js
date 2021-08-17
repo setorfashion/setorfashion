@@ -2,6 +2,9 @@ const mongoose = require('mongoose')
 const {ObjectId} = mongoose.Schema.Types;
 
 const tokenSchema = new mongoose.Schema({
+    authCode:{
+        type: String
+    },
     shortToken:{
         type: String
     },

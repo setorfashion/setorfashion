@@ -8,7 +8,7 @@ const Token = ()=>{
       }
 
     let query = useQuery();
-    const shortToken = query.get("code");
+    const authCode = query.get("code");
     const Auth = query.get("authorization_code");
     const jwt = localStorage.getItem('jwt')
    
@@ -19,7 +19,7 @@ const Token = ()=>{
             "Content-Type":"application/json"
         },
         body:JSON.stringify({
-            "shortToken":shortToken 
+            "authCode":authCode 
         })
         
     }).then(res=>res.json()).then((result)=>{
@@ -33,7 +33,7 @@ const Token = ()=>{
         <div>
             <br></br>
             <h1>TOKEN</h1>
-            {'Codigo: '+shortToken}
+            {'Codigo: '+authCode}
             {'Authorization: '+Auth}
         </div>
     )

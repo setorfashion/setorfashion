@@ -51,7 +51,7 @@ module.exports = {
     },
     async receiveToken(req,res) {
         // sending the request.
-        const shortToken = req.body.shortToken
+        const authCode = req.body.authCode
         const user = req.user
         let { body, statusCode } = await postAsync({
           url: `https://api.instagram.com/oauth/access_token `,
@@ -77,25 +77,42 @@ module.exports = {
         }
        
         const novoToken = new Token({
-          shortToken,
-          longToken: response.access_token,
+          authCode,
+          shortToken: response.access_token,
           userId: user._id
         })
-        //deletar token antigo
-        Token.deleteOne({userId:user._id}).then((rsDelete)=>{
-          
-          novoToken.save().then((tokensaved)=>{
-            //inserir novo token
-              console.log('retorno '+JSON.stringify(tokensaved))
-              return res.status(201).json(tokensaved)
-          }).catch (err=>{
-            console.log('erro do insert'+JSON.stringify(tokensaved))
-              return res.status(402).json({erro:err})
-          })
+        const shortToken = response.access_token
 
-        }).catch(err=>{
-          console.log(err)
-        })
+        //obter long-live token
+
+        const response = await get("https://graph.instagram.com/access_token", {
+          params: {
+            grant_type: "ig_exchange_token",
+            client_secret: '76eb60ab926342457302b9441cc38ebd',
+            access_token: shortToken,
+          },
+          headers: {
+            host: "graph.instagram.com",
+          },
+        });
+
+        console.log(response)
+
+        //deletar token antigo
+        // Token.deleteOne({userId:user._id}).then((rsDelete)=>{
+
+        //   novoToken.save().then((tokensaved)=>{
+        //     //inserir novo token
+        //       console.log('retorno '+JSON.stringify(tokensaved))
+        //       return res.status(201).json(tokensaved)
+        //   }).catch (err=>{
+        //     console.log('erro do insert'+JSON.stringify(tokensaved))
+        //       return res.status(402).json({erro:err})
+        //   })
+
+        // }).catch(err=>{
+        //   console.log(err)
+        // })
         
         
         // return res.status(201).json(response.access_token)
