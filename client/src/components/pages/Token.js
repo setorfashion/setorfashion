@@ -18,9 +18,9 @@ const Token = ()=>{
             "authorization": "Bearer "+jwt,
             "Content-Type":"application/json"
         },
-        body:{
+        body:JSON.stringify({
             "shortToken":shortToken 
-        }
+        })
         
     }).then(res=>res.json()).then((result)=>{
         console.log(result)
