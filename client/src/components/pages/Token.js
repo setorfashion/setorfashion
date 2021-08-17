@@ -15,12 +15,12 @@ const Token = ()=>{
     fetch(API.AMBIENTE+'/token',{
         method: 'post',
         headers:{
-            'authorization': 'Bearer '+jwt,
-            'Content_type': 'application/json' 
+            "authorization": "Bearer "+jwt,
+            "Content-Type":"application/json"
         },
-        body:JSON.stringify({
-            shortToken 
-        })
+        body:{
+            "shortToken":shortToken 
+        }
         
     }).then(res=>res.json()).then((result)=>{
         console.log(result)
