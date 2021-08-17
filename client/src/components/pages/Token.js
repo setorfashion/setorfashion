@@ -24,9 +24,24 @@ const Token = ()=>{
         
     }).then(res=>res.json()).then((result)=>{
         console.log(result)
+        loadInstagramData()
     }).catch(err=>{
         console.log(err)
     })
+
+    const loadInstagramData = () =>{
+        console.log('chamou load data')
+        fetch(API.AMBIENTE+'/token/getInstagramData',{
+            method: 'get',
+            headers:{
+                "authorization": "Bearer "+jwt,
+            }            
+        }).then(res=>res.json()).then((result)=>{
+            console.log(result)
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
 
 
     return (
