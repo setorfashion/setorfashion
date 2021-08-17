@@ -38,7 +38,7 @@ const Profile = ()=>{
         // }).catch(err=>{
         //     console.log(err);
         // })
-    },[posts])
+    },[])
     return(
         <div style={{maxWidth:"550px", margin:"0px auto", paddingTop:"30px"}}>
             
