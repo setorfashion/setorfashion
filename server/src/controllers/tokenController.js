@@ -59,7 +59,7 @@ module.exports = {
             client_id: 261340495802382,
             client_secret: '76eb60ab926342457302b9441cc38ebd',
             redirect_uri: 'https://sf.fortaldelivery.com.br/token',
-            code: shortToken,
+            code: authCode,
             grant_type: "authorization_code",
           },
           headers: {
@@ -76,11 +76,7 @@ module.exports = {
           return res.status(402).json({msg:error_message})
         }
        
-        const novoToken = new Token({
-          authCode,
-          shortToken: response.access_token,
-          userId: user._id
-        })
+        
         const shortToken = response.access_token
 
         //obter long-live token
@@ -98,6 +94,11 @@ module.exports = {
 
         console.log(resrespLongTokenponse)
 
+        // const novoToken = new Token({
+        //   authCode,
+        //   shortToken: response.access_token,
+        //   userId: user._id
+        // })
         //deletar token antigo
         // Token.deleteOne({userId:user._id}).then((rsDelete)=>{
 
