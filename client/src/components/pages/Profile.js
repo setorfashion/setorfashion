@@ -21,8 +21,8 @@ const Profile = ()=>{
                 "authorization": "Bearer "+jwt,
             }            
         }).then(res=>res.json()).then((result)=>{
-            console.log(result)
-            setPosts(JSON.parse(result))
+            console.log(result.data)
+            setPosts(result.data)
         }).catch(err=>{
             console.log(err)
         })
