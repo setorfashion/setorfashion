@@ -15,6 +15,8 @@ const postAsync = promisify(post);
 module.exports = {
     async receiveToken(req,res){
         const user = req.user
+        console.log(user)
+        console.log(req)
         const shortToken = req.body.shortToken
         console.log(req.body)
         console.log('linha 19 shortToken: '+shortToken)

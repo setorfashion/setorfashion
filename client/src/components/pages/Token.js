@@ -13,14 +13,15 @@ const Token = ()=>{
     const jwt = localStorage.getItem('jwt')
    
     fetch(API.AMBIENTE+'/token',{
+        method: 'post',
         headers:{
             'authorization': 'Bearer '+jwt,
             'Content_type': 'application/json' 
         },
         body:JSON.stringify({
             shortToken 
-        }),
-        method: 'Post'
+        })
+        
     }).then(res=>res.json()).then((result)=>{
         console.log(result)
     }).catch(err=>{
