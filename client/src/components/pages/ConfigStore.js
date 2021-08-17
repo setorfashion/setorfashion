@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import {useHistory } from 'react-router-dom'
 import M from 'materialize-css'
 const COLORS = require('../../classes')
+const API = require('../../Api')
 
 const ConfigStore = () => {
 
@@ -28,7 +29,7 @@ const ConfigStore = () => {
     
     useEffect(() => {
         async function fetchStore(){
-            return await fetch('/api/store/getstorebyid',{
+            return await fetch(API.AMBIENTE+'/store/getstorebyid',{
                 method: "Post",
                 headers: {
                     "Content-Type":"application/json",
@@ -58,7 +59,7 @@ const ConfigStore = () => {
     },[])
     useEffect(() => {
         async function getSetors(){
-            await fetch('/api/config/getallsetor', {
+            await fetch(API.AMBIENTE+'/config/getallsetor', {
                 headers:{
                     "authorization":"Bearer "+token
                 },
@@ -74,7 +75,7 @@ const ConfigStore = () => {
         }
         
         async function getAllCategories(){
-            await fetch('/api/config/getallcategories', {
+            await fetch(API.AMBIENTE+'/config/getallcategories', {
                 headers:{
                     "authorization":"Bearer "+token
                 },
@@ -100,7 +101,7 @@ const ConfigStore = () => {
     
         }
         async function getAllSubCategories(){
-            fetch('/api/config/getallsubcategories', {
+            fetch(API.AMBIENTE+'/config/getallsubcategories', {
                 headers:{
                     "authorization":"Bearer "+token
                 },
@@ -235,10 +236,10 @@ const ConfigStore = () => {
         let url = ''
         let method =''
         if(store_id!=''){
-            url = '/api/store/updatestore'
+            url = API.AMBIENTE+'/store/updatestore'
             method="PUT"
         }else{
-            url = '/api/config/createstore'
+            url = API.AMBIENTE+'/config/createstore'
             method="POST"
         }
 

@@ -7,6 +7,5 @@ const requireLogin = require('../middleware/requireLogin'); //irá validar o log
 routes.post('/signin',authController.signin);
 routes.post('/signup',authController.signup);
 routes.get('/protected',requireLogin, authController.protected); //chama o requireLogin para validar a sessão pois precisa estar logado para realizar a ação
-routes.get('/oauth/:code', authController); //chama o requireLogin para validar a sessão pois precisa estar logado para realizar a ação
 
 module.exports =routes;

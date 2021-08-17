@@ -1,22 +1,18 @@
 import React,{useState,useEffect} from 'react'
 import {useParams} from "react-router-dom"
+const API = require('../../Api')
 
 const Profile = ()=>{
-    const params = useParams()
-    var instaCod = '';
-    if(params){
-        instaCod = params.code
-    }
     const instaconfig = new URLSearchParams({
-        app_id: 561391024887319,
-        redirect_uri: 'https://sf.fortaldelivery.com.br/profile/',
+        app_id: 261340495802382,
+        redirect_uri: 'https://sf.fortaldelivery.com.br/token',
         scope: 'user_profile,user_media',
         response_type: 'code'
     }) 
     const [data,setData]=useState([])
     useEffect(()=>{
         const token = localStorage.getItem("jwt")
-        fetch("/api/post/getmyposts",{
+        fetch(API.AMBIENTE+"/post/getmyposts",{
             headers:{
                 "Content-Type":"application/json",
                 "authorization": "Bearer "+token
@@ -31,6 +27,7 @@ const Profile = ()=>{
     },[])
     return(
         <div style={{maxWidth:"550px", margin:"0px auto", paddingTop:"30px"}}>
+            
             <div style={{display:"flex", justifyContent:"space-around", margin:"18px 0px", borderBottom:"1px solid gray"}}>
                 <div>
                     <img className="imagemPerfil"
@@ -39,10 +36,12 @@ const Profile = ()=>{
                 </div>
                 <div>
                     <h4>User name</h4>
+                    <a href={'https://api.instagram.com/oauth/authorize?'+instaconfig}><i className="material-icons icons " style={{fontSize:"24px", color:'black'}}>autorenew</i></a>
                     <div style={{display:"flex", justifyContent:"space-between", width:"108%"}}>
                         <h5>Infor 1</h5>
                         <h5>Infor 2</h5>
                         <h5>Infor 3</h5>
+                       
                     </div>
                 </div>
             </div>
@@ -50,7 +49,7 @@ const Profile = ()=>{
             {
                     data.map(item=>{
                         return(
-                            <img className='item' src={'/api/post/getpostimage/'+item.photo} />
+                            <img className='item' src={API.AMBIENTE+'/post/getpostimage/'+item.photo} />
                         )
                     })
                 }

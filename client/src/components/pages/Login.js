@@ -2,7 +2,8 @@ import React,{useState,useContext} from 'react'
 import {Link,useHistory} from 'react-router-dom'
 import M from 'materialize-css'
 import {UserContext} from '../../App'
-const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes');
+const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes')
+const API = require('../../Api')
 
 const Login = ()=>{
   const {state,dispatch} = useContext(UserContext)
@@ -14,7 +15,7 @@ const Login = ()=>{
       M.toast({html: "Informe um email válido", classes:TOAST_ERROR})
       return false;
     }
-    fetch('/api/auth/signin',{
+    fetch(API.AMBIENTE+'/auth/signin',{
       method: "post",
       headers:{
         "Content-Type":"application/json"

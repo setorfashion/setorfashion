@@ -3,6 +3,7 @@ import {Link,useHistory} from 'react-router-dom';
 import M from 'materialize-css'
 const {URL_BASE_SERVER} = require('../../urlsBase');
 const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes');
+const API = require('../../Api')
 
 const Signup = ()=>{
   const history = useHistory();
@@ -15,7 +16,7 @@ const Signup = ()=>{
       M.toast({html: "Informe um email válido", classes:TOAST_ERROR})
       return false;
     }
-    fetch("/api/auth/signup",{
+    fetch(API.AMBIENTE+"/auth/signup",{
         method: "post",
         headers: {
           "Content-Type":"application/json",

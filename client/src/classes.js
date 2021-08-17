@@ -5,5 +5,6 @@ module.exports = {
     SETOR_COLOR_WHITEW: "#ffffff white",
     SETOR_COLOR_GREEN: "#4caf50 green",
     SETOR_COLOR_PURPLE: "#673ab7 deep-purple",
-    SETOR_COLOR_BLUE: "#2196f3 blue"
+    SETOR_COLOR_BLUE: "#2196f3 blue",
+    
 }

@@ -6,4 +6,5 @@ const userController = require('../controllers/userController');
 routes.get('/',userController.hello);
 routes.get('/about', userController.about);
 
+
 module.exports = routes;

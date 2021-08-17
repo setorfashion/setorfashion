@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import {Link,useHistory} from 'react-router-dom'
 import M from 'materialize-css'
 const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes')
-
+const API = require('../../Api')
 
 const CreatePost = () => {
 
@@ -21,7 +21,7 @@ const CreatePost = () => {
 
         const token = localStorage.getItem('jwt');
         console.log(token);
-        fetch("/api/post/createpost",{
+        fetch(API.AMBIENTE+"/post/createpost",{
             method: "Post",
             headers:{
                 "authorization":"Bearer "+token
