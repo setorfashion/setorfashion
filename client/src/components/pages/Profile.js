@@ -13,6 +13,7 @@ const Profile = ()=>{
 
 
     const [data,setData]=useState([])
+    const [posts,setPosts]=useState([])
     useEffect(()=>{
         fetch(API.AMBIENTE+'/token/getInstagramData',{
             method: 'get',
@@ -21,22 +22,23 @@ const Profile = ()=>{
             }            
         }).then(res=>res.json()).then((result)=>{
             console.log(result)
+            setPosts(result)
         }).catch(err=>{
             console.log(err)
         })
-        fetch(API.AMBIENTE+"/post/getmyposts",{
-            headers:{
-                "Content-Type":"application/json",
-                "authorization": "Bearer "+jwt
-            },
-            method: "Get"
-        }).then(res=>res.json()).then((result)=>{
-            // console.log(result)
-            setData(result)
-        }).catch(err=>{
-            console.log(err);
-        })
-    },[])
+        // fetch(API.AMBIENTE+"/post/getmyposts",{
+        //     headers:{
+        //         "Content-Type":"application/json",
+        //         "authorization": "Bearer "+jwt
+        //     },
+        //     method: "Get"
+        // }).then(res=>res.json()).then((result)=>{
+        //     // console.log(result)
+        //     setData(result)
+        // }).catch(err=>{
+        //     console.log(err);
+        // })
+    },[posts])
     return(
         <div style={{maxWidth:"550px", margin:"0px auto", paddingTop:"30px"}}>
             
@@ -60,9 +62,9 @@ const Profile = ()=>{
             </div>
             <div className="galery">    
             {
-                    data.map(item=>{
+                    posts.map(item=>{
                         return(
-                            <img className='item' src={API.AMBIENTE+'/post/getpostimage/'+item.photo} />
+                            <img className='item' src={item.media_url} />
                         )
                     })
                 }
