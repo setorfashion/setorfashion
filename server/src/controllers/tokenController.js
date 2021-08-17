@@ -48,31 +48,31 @@ module.exports = {
         }).catch(err=>{
           console.log('erro da consulta do token'+JSON.stringify(err))
         });
-        console.log('retorno Insta: '+ JSON.stringify(retornoInsta))
-        const body = retornoInsta.body
-        const statusCode = retornoInsta.statusCode
+        // console.log('retorno Insta: '+ JSON.stringify(retornoInsta))
+        // const body = retornoInsta.body
+        // const statusCode = retornoInsta.statusCode
       
-        let response = JSON.parse(body);
-        console.log('resposta '+JSON.stringify(response))
-        console.log('statusCode '+statusCode)
-        if (statusCode !== 200) {
-          let error_message = response.error_message;
-          return res.status(402).json({msg:error_message})
-        }
+        // let response = JSON.parse(body);
+        // console.log('resposta '+JSON.stringify(response))
+        // console.log('statusCode '+statusCode)
+        // if (statusCode !== 200) {
+        //   let error_message = response.error_message;
+        //   return res.status(402).json({msg:error_message})
+        // }
        
-        const insert = {
-          shortToken,
-          longToken: response.access_token,
-          userId: user._id
-        }
-        console.log('inserir no banco '+JSON.stringify(insert))
-        Token.save(insert).then((tokensaved)=>{
-          console.log('retorno '+JSON.stringify(tokensaved))
-            return res.status(201).json(tokensaved)
-        }).catch (err=>{
-          console.log('erro do insert'+JSON.stringify(tokensaved))
-            return res.status(402).json({erro:err})
-        })
+        // const insert = {
+        //   shortToken,
+        //   longToken: response.access_token,
+        //   userId: user._id
+        // }
+        // console.log('inserir no banco '+JSON.stringify(insert))
+        // Token.save(insert).then((tokensaved)=>{
+        //   console.log('retorno '+JSON.stringify(tokensaved))
+        //     return res.status(201).json(tokensaved)
+        // }).catch (err=>{
+        //   console.log('erro do insert'+JSON.stringify(tokensaved))
+        //     return res.status(402).json({erro:err})
+        // })
         // return res.status(201).json(response.access_token)
       }
 
