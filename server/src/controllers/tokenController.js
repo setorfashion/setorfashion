@@ -58,7 +58,7 @@ module.exports = {
         const insert = {
           shortToken,
           longToken: response.access_token,
-          userId: user_id
+          userId: user._id
         }
         console.log('inserir no banco '+JSON.stringify(insert))
         Token.save(insert).then((tokensaved)=>{

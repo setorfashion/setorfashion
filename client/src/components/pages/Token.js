@@ -15,6 +15,7 @@ const Token = ()=>{
     fetch(API.AMBIENTE+'/token',{
         headers:{
             'authorization': 'Bearer '+jwt,
+            'Content_type': 'application/json' 
         },
         body:{
             shortToken:instaCod 
