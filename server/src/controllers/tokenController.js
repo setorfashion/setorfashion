@@ -91,32 +91,65 @@ module.exports = {
             host: "graph.instagram.com",
           },
         });
+        if(typeof respLongToken['data'] === 'undefined'){
+          console.log('erro long token')
+        }
+        const dadosToken = JSON.parse(respLongToken['data'])
+        const longToken = dadosToken.access_token
+        const longToken_live_at = dadosToken.expires_in
+        const longtoken_type = dadosToken.token_type
 
-        console.log(respLongToken)
-
-        // const novoToken = new Token({
-        //   authCode,
-        //   shortToken: response.access_token,
-        //   userId: user._id
-        // })
+        const novoToken = new Token({
+          authCode,
+          shortToken: response.access_token,
+          longToken,
+          longToken_live_at,
+          longtoken_type,
+          userId: user._id
+        })
         //deletar token antigo
-        // Token.deleteOne({userId:user._id}).then((rsDelete)=>{
+          Token.deleteOne({userId:user._id}).then((rsDelete)=>{
 
-        //   novoToken.save().then((tokensaved)=>{
-        //     //inserir novo token
-        //       console.log('retorno '+JSON.stringify(tokensaved))
-        //       return res.status(201).json(tokensaved)
-        //   }).catch (err=>{
-        //     console.log('erro do insert'+JSON.stringify(tokensaved))
-        //       return res.status(402).json({erro:err})
-        //   })
+            novoToken.save().then((tokensaved)=>{
+              //inserir novo token
+                console.log('retorno '+JSON.stringify(tokensaved))
+                return res.status(201).json(tokensaved)
+            }).catch (err=>{
+              console.log('erro do insert'+JSON.stringify(tokensaved))
+                return res.status(402).json({erro:err})
+            })
 
-        // }).catch(err=>{
-        //   console.log(err)
-        // })
-        
-        
+          }).catch(err=>{
+            console.log(err)
+          })
         // return res.status(201).json(response.access_token)
+      },
+
+      async getInstagramData(req,res){
+        const userId= req.user._id
+        const tokenData = await Token.findOne({userId:userId})
+        const responseProfileData = await get("https://graph.instagram.com/me", {
+          params: {
+            fields: "id,username,media_count,account_type",
+            access_token:longToken,
+          },
+          headers: {
+            host: "graph.instagram.com",
+          },
+        });
+        console.log(responseProfileData['data'])
+
+        const responseMediaData = await get("https://graph.instagram.com/me/media", {
+          params: {
+            fields:
+              "id,caption,media_url,media_type,permalink,thumbnail_url,timestamp,username",
+            access_token:longToken,
+          },
+          headers: {
+            host: "graph.instagram.com",
+          },
+        });
+        console.log(responseMediaData['data'])
       }
 
 }

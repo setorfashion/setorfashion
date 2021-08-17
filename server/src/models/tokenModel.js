@@ -11,6 +11,12 @@ const tokenSchema = new mongoose.Schema({
     longToken:{
         type: String
     },
+    longToken_live_at:{
+        type: Number
+    },
+    longtoken_type:{
+        type: String
+    },
     userId:{
         type: ObjectId,
         ref: 'Usuario'
