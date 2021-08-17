@@ -27,7 +27,7 @@ const Profile = ()=>{
         fetch(API.AMBIENTE+"/post/getmyposts",{
             headers:{
                 "Content-Type":"application/json",
-                "authorization": "Bearer "+token
+                "authorization": "Bearer "+jwt
             },
             method: "Get"
         }).then(res=>res.json()).then((result)=>{

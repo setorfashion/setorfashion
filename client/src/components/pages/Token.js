@@ -11,6 +11,7 @@ const Token = ()=>{
     const authCode = query.get("code");
     const Auth = query.get("authorization_code");
     const jwt = localStorage.getItem('jwt')
+    const history = useHistory();
    
     fetch(API.AMBIENTE+'/token',{
         method: 'post',
