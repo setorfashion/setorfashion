@@ -13,7 +13,7 @@ const postAsync = promisify(post);
 
 
 module.exports = {
-    async receiveToken(req,res){
+    async receiveToken_old(req,res){
         const user = req.user
         console.log(user)
         console.log(req)
@@ -49,7 +49,7 @@ module.exports = {
 
         
     },
-    async receiveToken_(req,res) {
+    async receiveToken(req,res) {
         // sending the request.
         const shortToken = req.body.shortToken
         const user = req.user
