@@ -43,22 +43,29 @@ module.exports = {
             "content-type": "multipart/form-data",
             host: "api.instagram.com",
           },
+        }).catch(err=>{
+          console.log('erro da consulta do token'+JSON.stringify(err))
         });
       
         let response = JSON.parse(body);
-      
+        console.log('resposta '+JSON.stringify(response))
+        console.log('statusCode '+statusCode)
         if (statusCode !== 200) {
           let error_message = response.error_message;
           return res.status(402).json({msg:error_message})
         }
+       
         const insert = {
           shortToken,
           longToken: response.access_token,
           userId: user_id
         }
+        console.log('inserir no banco '+JSON.stringify(insert))
         Token.save(insert).then((tokensaved)=>{
+          console.log('retorno '+JSON.stringify(tokensaved))
             return res.status(201).json(tokensaved)
         }).catch (err=>{
+          console.log('erro do insert'+JSON.stringify(tokensaved))
             return res.status(402).json({erro:err})
         })
         // return res.status(201).json(response.access_token)
