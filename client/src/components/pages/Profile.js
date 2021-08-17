@@ -22,7 +22,7 @@ const Profile = ()=>{
             }            
         }).then(res=>res.json()).then((result)=>{
             console.log(result)
-            setPosts(result)
+            setPosts(JSON.parse(result))
         }).catch(err=>{
             console.log(err)
         })
