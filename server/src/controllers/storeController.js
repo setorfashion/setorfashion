@@ -9,6 +9,7 @@ const Setor = mongoose.model ("Setor")
 
 module.exports = {
     async getStoreData(req,res){
+        console.log(req.body)
         Store.findById(req.body.id)
         .populate("setor")
         .then((store)=>{ 
