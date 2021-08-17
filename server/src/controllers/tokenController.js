@@ -128,10 +128,11 @@ module.exports = {
       async getInstagramData(req,res){
         const userId= req.user._id
         const tokenData = await Token.findOne({userId:userId})
+        console.log(tokenData.longToken)
         const responseProfileData = await get("https://graph.instagram.com/me", {
           params: {
             fields: "id,username,media_count,account_type",
-            access_token:longToken,
+            access_token:tokenData.longToken,
           },
           headers: {
             host: "graph.instagram.com",
@@ -143,7 +144,7 @@ module.exports = {
           params: {
             fields:
               "id,caption,media_url,media_type,permalink,thumbnail_url,timestamp,username",
-            access_token:longToken,
+            access_token:tokenData.longToken,
           },
           headers: {
             host: "graph.instagram.com",
