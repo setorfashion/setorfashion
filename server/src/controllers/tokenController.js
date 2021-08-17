@@ -53,7 +53,7 @@ module.exports = {
           return res.status(402).json({msg:error_message})
         }
       
-        return res.status(200).json({msg :JSON.stringify(response)})
+        return res.status(201).json(response.access_token)
       }
 
 }
