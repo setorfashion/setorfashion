@@ -92,7 +92,7 @@ module.exports = {
           },
         });
 
-        console.log(resrespLongTokenponse)
+        console.log(respLongToken)
 
         // const novoToken = new Token({
         //   authCode,
