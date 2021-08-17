@@ -3,15 +3,27 @@ import {useParams} from "react-router-dom"
 const API = require('../../Api')
 
 const Profile = ()=>{
+    const jwt = localStorage.getItem('jwt')
     const instaconfig = new URLSearchParams({
         app_id: 261340495802382,
         redirect_uri: 'https://sf.fortaldelivery.com.br/token',
         scope: 'user_profile,user_media',
         response_type: 'code'
     }) 
+
+
     const [data,setData]=useState([])
     useEffect(()=>{
-        const token = localStorage.getItem("jwt")
+        fetch(API.AMBIENTE+'/token/getInstagramData',{
+            method: 'get',
+            headers:{
+                "authorization": "Bearer "+jwt,
+            }            
+        }).then(res=>res.json()).then((result)=>{
+            console.log(result)
+        }).catch(err=>{
+            console.log(err)
+        })
         fetch(API.AMBIENTE+"/post/getmyposts",{
             headers:{
                 "Content-Type":"application/json",
@@ -37,6 +49,7 @@ const Profile = ()=>{
                 <div>
                     <h4>User name</h4>
                     <a href={'https://api.instagram.com/oauth/authorize?'+instaconfig}><i className="material-icons icons " style={{fontSize:"24px", color:'black'}}>autorenew</i></a>
+                    
                     <div style={{display:"flex", justifyContent:"space-between", width:"108%"}}>
                         <h5>Infor 1</h5>
                         <h5>Infor 2</h5>

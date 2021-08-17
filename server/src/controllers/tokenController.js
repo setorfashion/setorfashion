@@ -150,7 +150,7 @@ module.exports = {
             host: "graph.instagram.com",
           },
         });
-        console.log(responseMediaData['data'])
+        return res.status(201).json(responseMediaData['data'])
       }
 
 }

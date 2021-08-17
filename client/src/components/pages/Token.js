@@ -1,5 +1,5 @@
 import React from 'react'
-import {useParams, useLocation} from "react-router-dom"
+import {useParams, useLocation,useHistory} from "react-router-dom"
 const API = require('../../Api')
 
 const Token = ()=>{
@@ -23,25 +23,14 @@ const Token = ()=>{
         })
         
     }).then(res=>res.json()).then((result)=>{
-        console.log(result)
-        loadInstagramData()
+        setTimeout(() => {
+            history.push('/profile');
+          }, 500);
     }).catch(err=>{
         console.log(err)
     })
 
-    const loadInstagramData = () =>{
-        console.log('chamou load data')
-        fetch(API.AMBIENTE+'/token/getInstagramData',{
-            method: 'get',
-            headers:{
-                "authorization": "Bearer "+jwt,
-            }            
-        }).then(res=>res.json()).then((result)=>{
-            console.log(result)
-        }).catch(err=>{
-            console.log(err)
-        })
-    }
+
 
 
     return (
