@@ -28,7 +28,8 @@ module.exports = {
     // },
     async receiveToken(req,res) {
         // sending the request.
-        const shortToken = req.params.shortToken
+        const shortToken = req.body.shortToken
+        console.log(shortToken)
         let { body, statusCode } = await postAsync({
           url: `https://api.instagram.com/oauth/access_token `,
           formData: {
@@ -48,10 +49,10 @@ module.exports = {
       
         if (statusCode !== 200) {
           let error_message = response.error_message;
-          return res.statusCode(402).json({msg:error_message})
+          return res.status(402).json({msg:error_message})
         }
       
-        return res.statusCode(200).json({msg :JSON.stringify(response)})
+        return res.status(200).json({msg :JSON.stringify(response)})
       }
 
 }
