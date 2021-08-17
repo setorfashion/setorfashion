@@ -30,7 +30,7 @@ module.exports = {
         // sending the request.
         const shortToken = req.body.shortToken
         const user = req.user
-        let { body, statusCode } = await postAsync({
+        let retornoInsta = await postAsync({
           url: `https://api.instagram.com/oauth/access_token `,
           formData: {
             client_id: 261340495802382,
@@ -46,6 +46,9 @@ module.exports = {
         }).catch(err=>{
           console.log('erro da consulta do token'+JSON.stringify(err))
         });
+        console.log('retorno Insta: '+ JSON.stringify(retornoInsta))
+        const body = retornoInsta.body
+        const statusCode = retornoInsta.statusCode
       
         let response = JSON.parse(body);
         console.log('resposta '+JSON.stringify(response))
