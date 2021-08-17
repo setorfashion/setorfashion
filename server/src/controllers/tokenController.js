@@ -85,7 +85,7 @@ module.exports = {
 
         //obter long-live token
 
-        const response = await get("https://graph.instagram.com/access_token", {
+        const respLongToken = await get("https://graph.instagram.com/access_token", {
           params: {
             grant_type: "ig_exchange_token",
             client_secret: '76eb60ab926342457302b9441cc38ebd',
@@ -96,7 +96,7 @@ module.exports = {
           },
         });
 
-        console.log(response)
+        console.log(resrespLongTokenponse)
 
         //deletar token antigo
         // Token.deleteOne({userId:user._id}).then((rsDelete)=>{
