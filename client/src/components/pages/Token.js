@@ -20,8 +20,8 @@ const Token = ()=>{
             shortToken:instaCod 
         },
         method: 'Post'
-    }).then((retorno)=>{
-        console.log(retorno)
+    }).then(res=>res.json()).then((result)=>{
+        console.log(result)
     }).catch(err=>{
         console.log(err)
     })

@@ -29,8 +29,7 @@ module.exports = {
     async receiveToken(req,res) {
         // sending the request.
         const shortToken = req.body.shortToken
-        console.log('shortToken '+shortToken)
-        console.log('Body '+req.body)
+        const user = req.user
         let { body, statusCode } = await postAsync({
           url: `https://api.instagram.com/oauth/access_token `,
           formData: {
@@ -52,8 +51,17 @@ module.exports = {
           let error_message = response.error_message;
           return res.status(402).json({msg:error_message})
         }
-      
-        return res.status(201).json(response.access_token)
+        const insert = {
+          shortToken,
+          longToken: response.access_token,
+          userId: user_id
+        }
+        Token.save(insert).then((tokensaved)=>{
+            return res.status(201).json(tokensaved)
+        }).catch (err=>{
+            return res.status(402).json({erro:err})
+        })
+        // return res.status(201).json(response.access_token)
       }
 
 }
