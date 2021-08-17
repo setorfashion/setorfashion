@@ -8,7 +8,7 @@ const Token = ()=>{
       }
 
     let query = useQuery();
-    const instaCod = query.get("code");
+    const shortToken = query.get("code");
     const Auth = query.get("authorization_code");
     const jwt = localStorage.getItem('jwt')
    
@@ -17,9 +17,9 @@ const Token = ()=>{
             'authorization': 'Bearer '+jwt,
             'Content_type': 'application/json' 
         },
-        body:{
-            shortToken:instaCod 
-        },
+        body:JSON.stringify({
+            shortToken 
+        }),
         method: 'Post'
     }).then(res=>res.json()).then((result)=>{
         console.log(result)
@@ -32,7 +32,7 @@ const Token = ()=>{
         <div>
             <br></br>
             <h1>TOKEN</h1>
-            {'Codigo: '+instaCod}
+            {'Codigo: '+shortToken}
             {'Authorization: '+Auth}
         </div>
     )
