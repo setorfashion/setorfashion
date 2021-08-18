@@ -37,10 +37,6 @@ const Token = () => {
         })
     }, [])
 
-    if(authCode!=''){
-        vincular()
-    }
-
     const vincular = () => {
         fetch(API.AMBIENTE + '/token', {
             method: 'post',
@@ -59,6 +55,11 @@ const Token = () => {
             console.log(err)
         })
     }
+
+    if(authCode!=''){
+        vincular()
+    }
+
     const content = () => {
         if (statusToken) {
             return (
