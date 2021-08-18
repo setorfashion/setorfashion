@@ -54,9 +54,10 @@ const Token = () => {
         }).catch(err => {
             console.log(err)
         })
-    }
+    }   
+    console.log('authCode '+authCode)
 
-    if(authCode!=''){
+    if(authCode){
         vincular()
     }
 
