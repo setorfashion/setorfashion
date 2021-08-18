@@ -5,5 +5,6 @@ const requireLogin = require('../middleware/requireLogin'); //irá validar o log
 
 routes.post('/getstorebyid',storeControle.getStoreData)
 routes.put('/updatestore',requireLogin,storeControle.updateStore)
+routes.post('/createstore',requireLogin,storeControle.createStore)
 
 module.exports = routes

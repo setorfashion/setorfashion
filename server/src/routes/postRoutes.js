@@ -7,7 +7,7 @@ const upload = multer({dest:'uploads/'})
 
 routes.post('/createpost',requireLogin,upload.single('image'),postController.createPost);
 routes.get('/getallposts', postController.getAllPosts);
-routes.get('/getmyposts',requireLogin, postController.getMyPost);
+routes.post('/getstoreposts', postController.getStorePosts);
 routes.get('/getpostimage/:path/:key',postController.getPostImage);
 
 module.exports = routes;

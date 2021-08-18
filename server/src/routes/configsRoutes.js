@@ -9,7 +9,7 @@ routes.post('/createsubcategory',configController.createSubCategory)
 routes.get('/getallsubcategories',requireLogin,configController.getAllSubCategories)
 routes.post('/createsetor',configController.createSetor)
 routes.get('/getallsetor',requireLogin,configController.getAllSetor)
-routes.post('/createstore',requireLogin,configController.createStore)
+
 // routes.get('/getstore',requireLogin,configController.getAllSetor)
 // routes.put('/updatestore',requireLogin,configController.getAllSetor)
 

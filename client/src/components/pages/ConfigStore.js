@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useContext} from 'react'
 import {useHistory } from 'react-router-dom'
 import M from 'materialize-css'
+import {UserContext} from '../../App'
+
+
 const COLORS = require('../../classes')
 const API = require('../../Api')
 
-const ConfigStore = () => {
 
+
+const ConfigStore = () => {
+    const {state,dispatch} = useContext(UserContext)
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
-    const [selectedCategories, setSelectedCategories] = useState([])
-    const [selectedSubCategories, setSelectedSubCategories] = useState([])
     const [listSetor, setListSetor] = useState([])
     const [setorColor, setSetorColor] = useState('')
     const [prevSetor,setprevSetor]=useState('')
@@ -55,7 +58,10 @@ const ConfigStore = () => {
                 console.log(err)
             })
         }
-        fetchStore()
+        if(store_id){
+            fetchStore()
+        }
+        
     },[])
     useEffect(() => {
         async function getSetors(){
@@ -136,7 +142,7 @@ const ConfigStore = () => {
         let ischecked=(e.target.checked)
         let id = e.target.id
         categories.map((item,key)=>{
-            if(item._id==id){
+            if(item._id===id){
                     item.checked = ischecked
                     categories[key]=item
                 
@@ -150,7 +156,7 @@ const ConfigStore = () => {
         let ischecked=(e.target.checked)
         let id = e.target.id
         subCategories.map((item,key)=>{
-            if(item._id==id){
+            if(item._id===id){
                     item.checked = ischecked
                     subCategories[key]=item
                 
@@ -161,21 +167,21 @@ const ConfigStore = () => {
     }
 
     const defaultCategoryChecked=(id)=>{
-        var it = categories.find(i=>i._id==id)
+        var it = categories.find(i=>i._id===id)
         if(it){
             if(it.checked)
                 return 'checked'
         }        
     }
     const defaultSubCategoryChecked=(id)=>{
-        var it = subCategories.find(i=>i._id==id)
+        var it = subCategories.find(i=>i._id===id)
         if(it){
             if(it.checked)
                 return 'checked'
         }        
     }
     const defaultSetor=(id)=>{
-        var it = prevSetor==id
+        var it = prevSetor===id
         if(it){
             return 'checked'
         }        
@@ -192,7 +198,7 @@ const ConfigStore = () => {
                 checkedCategories.push(item._id)
             }
         })
-        if (checkedCategories.length == 0) {
+        if (checkedCategories.length === 0) {
             M.toast({ html: "Você deve selecionar ao menos 1 Categoria", classes: COLORS.TOAST_ERROR });
             return false
         }
@@ -201,7 +207,7 @@ const ConfigStore = () => {
                 checkedSubCategories.push(item._id)
             }
         })
-        if (checkedSubCategories.length == 0) {
+        if (checkedSubCategories.length === 0) {
             M.toast({ html: "Você deve selecionar ao menos 1 Subcategoria", classes: COLORS.TOAST_ERROR });
             return false
         }
@@ -232,14 +238,13 @@ const ConfigStore = () => {
             checkedCategories
         })
 
-        // storeName,street,number,whatsapp,instagram,email,setorId
         let url = ''
         let method =''
         if(store_id!=''){
             url = API.AMBIENTE+'/store/updatestore'
             method="PUT"
         }else{
-            url = API.AMBIENTE+'/config/createstore'
+            url = API.AMBIENTE+'/store/createstore'
             method="POST"
         }
 
@@ -269,6 +274,7 @@ const ConfigStore = () => {
             console.log(resp);
             if(!store_id){
                 localStorage.setItem("store_id",resp.store_id)
+                dispatch({type:"STORE",payload:"STORE"})
             }            
             M.toast({html:"Configurações Atualizadas!",classes:COLORS.TOAST_SUCCESS});
             setTimeout(() => {
@@ -283,18 +289,36 @@ const ConfigStore = () => {
 
     return (
         <div className="input-filed-config settings">
-            <h2>
+            <h4>
                 Configurações
-            </h2>
+            </h4>
             <h5>
-                da sua loja
+                (LOJA)
             </h5>
-            <input onChange={(e) => setStoreName(e.target.value)} type="text" value={storeName} placeholder="Nome da sua Loja" />
-            <input onChange={(e) => setStoreAddress(e.target.value)} type="text" value={storeAddress} placeholder="Endereço (Endereço no Setor)" />
-            <input onChange={(e) => setStoreNumber(e.target.value)} type="number" value={storeNumber} placeholder="Número (Número da loja)" />
-            <input onChange={(e) => setEmail(e.target.value)} type="text" value={email} placeholder="Email" />
-            <input onChange={(e) => setInstagram(e.target.value)} type="text" value={instagram} placeholder="Instagram" />
-            <input onChange={(e) => setWhatsApp(e.target.value)} type="text" value={whatsapp} placeholder="WhatsApp" />
+            <div className="input-field">
+                <input id='nome'  onChange={(e) => setStoreName(e.target.value)} type="text" value={storeName}/>
+                <label htmlFor="nome" >Nome da Loja</label>
+            </div>
+            <div className="input-field">
+                <input id='endereco' onChange={(e) => setStoreAddress(e.target.value)} type="text" value={storeAddress}/>
+                <label htmlFor="endereco">Endereço (Endereço no Setor)</label>
+            </div>
+            <div className="input-field">
+                <input id='numero' min='0' onChange={(e) => setStoreNumber(e.target.value.replace(/[^\w\s]/gi, ''))} type="number" value={storeNumber} />
+                <label htmlFor="numero">Número</label>
+            </div>
+            <div className="input-field">
+                <input id='email' onChange={(e) => setEmail(e.target.value)} type="text" value={email} />
+                <label htmlFor="email">Email</label>
+            </div>
+            <div className="input-field">
+                <input id='instagram'  onChange={(e) => setInstagram(e.target.value.replace(/[^\w\s]/gi, ''))} type="text" value={instagram} />
+                <label htmlFor="instagram">Instagram (Sem @)</label>
+            </div>
+            <div className="input-field">
+                <input id='whatsapp' onChange={(e) => setWhatsApp(e.target.value)} type="text" value={whatsapp} />
+                <label htmlFor="whatsapp">WhatsApp</label>
+            </div>
             <h5>
                 Escolha o Setor
             </h5>

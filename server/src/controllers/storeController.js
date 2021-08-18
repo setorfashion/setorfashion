@@ -43,6 +43,57 @@ module.exports = {
             return console.log(err)
         })
     },
+    async createStore(req,res){
+        const setorId = req.body.setorId
+        const setor = await Setor.findById(setorId)
+        
+
+        const {storeName,street,number,whatsapp,instagram,email,checkedSubCategories,checkedCategories} = req.body
+        
+
+        let newStore = new Store({
+            createdBy:req.user,
+            storeName,
+            address:{street,number},
+            whatsapp,
+            email,
+            instagram,
+            setor:setor
+        })
+        await newStore.save().then((storeSaved)=>{
+            // console.log(storeSaved._id)            
+            checkedCategories.map(item=>{ //cadastrar as categorias selecionadas
+                
+                Category.findById(item)
+                .then((result)=>{
+                    let newCategoriesByStore = new CategoryByStore({
+                        byStore:storeSaved,
+                        byCategory:result
+                    })
+                    newCategoriesByStore.save().catch(err=>{console.log(err)})
+                })
+                .catch(err=>{console.log(err)})
+            })
+
+            
+            checkedSubCategories.map(item=>{ //cadastrar as categorias selecionadas
+                subCategory.findById(item).then((subcategory)=>{
+                    let newSubCategoriesByStore = new subCategoryByStore({
+                        byStore:storeSaved,
+                        bySubCategory:subcategory
+                    })
+                    newSubCategoriesByStore.save().catch(err=>{console.log(err)})
+                 }).catch(err=>{
+                     console.log(err)
+                 })
+                 
+            })            
+            res.status(201).json({message:"Sua loja foi configurada com sucesso",store_id:storeSaved._id})
+        }).catch(err=>{
+            console.log(err)
+        })
+
+    },
     async updateStore(req,res){
 
         const {storeName,street,number,whatsapp,instagram,email,checkedSubCategories,checkedCategories,store_id,setorId} = req.body

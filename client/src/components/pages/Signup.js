@@ -54,7 +54,7 @@ const Signup = ()=>{
                 Criar
             </button>
             <h6>
-                <Link to='/signin'>Já tenho uma conta</Link>
+                <Link to='/signin' className='font-black'>Já tenho uma conta</Link>
             </h6>
         </div>
       </div>

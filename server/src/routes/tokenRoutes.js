@@ -5,5 +5,6 @@ const requireLogin = require('../middleware/requireLogin');
 
 routes.post('/',requireLogin,tokenController.receiveToken)
 routes.get('/getInstagramData',requireLogin,tokenController.getInstagramData)
+routes.get('/checktoken',requireLogin,tokenController.checktoken)
 
 module.exports = routes

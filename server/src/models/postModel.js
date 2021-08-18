@@ -3,12 +3,7 @@ const {ObjectId} = mongoose.Schema.Types;
 
 const postSchema = new mongoose.Schema({
     title:{
-        type:String,
-        required:true
-    },
-    body:{
-        type: String,
-        required: true
+        type:String
     },
     photo:{
         type: String,
@@ -16,11 +11,27 @@ const postSchema = new mongoose.Schema({
     },
     postedBy:{
         type: ObjectId, //irá obter o _id do model Usuario
-        ref: "Usuario" //faz referencia ao model do Usuario
+        ref: "Store" //faz referencia ao model do Usuario
+    },
+    from:{
+        type: String,
+        required: true
+    },
+    caption: {
+        type: String,
+        required: true
+    },
+    id:{
+        type: Number
+    },
+    permalink: {
+        type: String
+    },
+    media_url:{
+        type: String
     },
     createdAt:{
-        type: Date,
-        default: Date.now
+        type: Date,        
     }
 })
 

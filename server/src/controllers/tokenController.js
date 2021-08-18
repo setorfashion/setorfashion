@@ -7,7 +7,7 @@ const { get } = require("axios").default;
 const { post } = require("request");
 const { promisify } = require("util");
 require("dotenv").config();
-const http = require('http')
+const http = require('http');
 
 const postAsync = promisify(post);
 
@@ -128,29 +128,46 @@ module.exports = {
       async getInstagramData(req,res){
         const userId= req.user._id
         const tokenData = await Token.findOne({userId:userId})
-        console.log(tokenData.longToken)
-        const responseProfileData = await get("https://graph.instagram.com/me", {
-          params: {
-            fields: "id,username,media_count,account_type",
-            access_token:tokenData.longToken,
-          },
-          headers: {
-            host: "graph.instagram.com",
-          },
-        });
-        console.log(responseProfileData['data'])
+        if(tokenData){        
+          const responseProfileData = await get("https://graph.instagram.com/me", {
+            params: {
+              fields: "id,username,media_count,account_type",
+              access_token:tokenData.longToken,
+            },
+            headers: {
+              host: "graph.instagram.com",
+            },
+          });
+          console.log(responseProfileData)
 
-        const responseMediaData = await get("https://graph.instagram.com/me/media", {
-          params: {
-            fields:
-              "id,caption,media_url,media_type,permalink,thumbnail_url,timestamp,username",
-            access_token:tokenData.longToken,
-          },
-          headers: {
-            host: "graph.instagram.com",
-          },
-        });
-        return res.status(201).json(responseMediaData['data'])
+          const responseMediaData = await get("https://graph.instagram.com/me/media", {
+            params: {
+              fields:
+                "id,caption,media_url,media_type,permalink,thumbnail_url,timestamp,username",
+              access_token:tokenData.longToken,
+            },
+            headers: {
+              host: "graph.instagram.com",
+            },
+          });
+          console.log(responseMediaData)
+          return res.status(201).json({data:responseMediaData['data']})
+        }
+        return res.status(201).json({data:''})
+      },
+
+      async checktoken(req,res){
+        const userId= req.user._id
+        Token.findOne({userId}).then((resultToken)=>{
+          if(resultToken){
+            return res.status(201).json(resultToken)
+          }else{
+            return res.status(200).json()
+          }
+          
+        }).catch(err=>{
+          console.log('nao achou valor')
+        })
       }
 
 }

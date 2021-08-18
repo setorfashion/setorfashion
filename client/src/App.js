@@ -9,7 +9,7 @@ import CreatePost from './components/pages/CreatePost'
 import ConfigStore from './components/pages/ConfigStore'
 import {reducer,initialState} from './reducers/userReducer'
 
-import {BrowserRouter, Route, Switch, useHistory, useRouteMatch,useLocation} from 'react-router-dom'
+import {BrowserRouter, Route, Switch, useHistory} from 'react-router-dom'
 import './App.css'
 
 // alteração de ambiente no arquivo CLASSES.JS alterar variavel AMBIENTE para o valor /api/, homologação fica vazio
@@ -21,28 +21,24 @@ const Routing = () =>{
 
   const history = useHistory();
   const {state,dispatch} = useContext(UserContext);
-  let match = useRouteMatch();
 
-  function useQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
 
-  // const query = new URLSearchParams(this.props.location.search);
-  // const code = query.get('code')
-  // console.log(code)
+  useEffect(()=>{
+    const user = localStorage.getItem('userData')
+    const store = localStorage.getItem('store_id')
+    if(store && store!==''){     
+      dispatch({type:"STORE",payload:"STORE"})
+      // history.push('/')
+    }else if(user){
+      dispatch({type:"USER",payload:"USER"})
+      // history.push('/config')
+    }
+    else{
+      dispatch({type:"USER",payload:"CLEAR"})
+      history.push('/')
+    }
 
-  // useEffect(()=>{
-  //   const user = JSON.parse(localStorage.getItem("userData"))
-  //   if(user){
-  //     dispatch({type:"USER",payload:user})
-  //     history.push('/')
-  //   }else{
-  //     history.push('/')
-  //     // history.push('/signin')
-  //   }
-
-  // },[])
-  let query = useQuery();
+  },[])
   return(
     <Switch>
       <Route exact path='/'>
@@ -54,7 +50,7 @@ const Routing = () =>{
       <Route path='/signin'>
         <Login></Login>
       </Route>
-      <Route path='/profile/'>
+      <Route path='/profile' component={Profile}>
         <Profile></Profile>
       </Route>      
       <Route path='/createpost'>

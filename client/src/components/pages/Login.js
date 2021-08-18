@@ -30,17 +30,23 @@ const Login = ()=>{
         M.toast({html: data.error,classes:TOAST_ERROR})
       }else{
         const userData = data.userData;
-        console.log(data)
         //armazenar dados do user no localstorange
         localStorage.setItem('jwt',data.token)
-        localStorage.setItem('userData',JSON.stringify(data.userData))
-        localStorage.setItem('store_id',data.store_id)
-        
-        dispatch({type:"USER",payload:data.userData})
-
+        localStorage.setItem('userData',JSON.stringify(data.userData._id))
+        localStorage.setItem('store_id',data.store_id)        
+        if(data.store_id!=''){
+          dispatch({type:"STORE",payload:"STORE"})
+        }else{
+          dispatch({type:"USER",payload:"USER"})
+        }       
         M.toast({html: "Seja Bem Vindo, "+userData.name+"!",classes:TOAST_SUCCESS})
         setTimeout(() => {
-          history.push('/profile');
+          if(data.store_id==''){
+            history.push('/config');
+          }else{
+            history.push('/profile');
+          }
+          
         }, 1000);
       }
     }).catch(err=>{
@@ -57,8 +63,8 @@ const Login = ()=>{
             <button onClick={()=>logar()} className="btn waves-effect waves-light #64b5f6 blue lighten-2">
                 Entrar
             </button>
-            <h6>
-                <Link to='/signup'>Criar conta</Link>
+            <h6 >
+                <Link to='/signup' className='font-black'>Criar Conta</Link>
             </h6>
         </div>
       </div>

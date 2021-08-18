@@ -28,7 +28,8 @@ const CreatePost = () => {
             },
             body:data,
         }).then(res=>res.json())
-        .then(result=>{
+        .then((result)=>{
+            console.log(result)
             M.toast({html:"Post Criado com sucesso",classes:TOAST_SUCCESS})
             setTimeout(() => {
                 history.push('/');
@@ -44,8 +45,12 @@ const CreatePost = () => {
             <h2>
                 Nova Postagem
             </h2>
-            <input onChange={(e)=>setTitle(e.target.value)} type="text" placeholder="Título"/>
-            <input onChange={(e)=>setContent(e.target.value)} type="text" placeholder="Content"/>
+            <input onChange={(e)=>setTitle(e.target.value)} type="text" hidden placeholder="Título"/>
+            <div className="input-field">
+                <input id='content' onChange={(e)=>setContent(e.target.value)} type="text"/>
+                <label htmlFor="content" >Descrição</label>
+            </div>
+            
 
             <div className="file-field input-field">
                 <div className="btn waves-effect waves-light #64b5f6 blue dark-1">
@@ -57,7 +62,7 @@ const CreatePost = () => {
                 </div>
             </div>
             <button onClick={()=>criarPostagem()} className="btn waves-effect waves-light #64b5f6 blue dark-1">
-                Postar
+                Publicar
             </button>
         </div>
     )

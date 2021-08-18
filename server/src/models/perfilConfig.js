@@ -35,6 +35,10 @@ const perfilConfigSchema = new mongoose.Schema({
     setor:{
         type: ObjectId,
         ref: "Setor"
+    },
+    dataFromInstagram:{
+        type: Boolean,
+        default: false
     }
 })
 

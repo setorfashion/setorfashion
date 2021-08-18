@@ -3,6 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla:wght@300&family=Source+Serif+Pro:ital,wght@1,300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
 a{
+    color: black ;
+}
+.font-black{
     color: black !important;
 }
 .brand-logo,h2{
@@ -11,6 +14,19 @@ a{
 .myLoginCard{
     margin: 0px auto;
     padding-top: 50px;
+}
+
+.instagram{ 
+    background: #f09433; 
+    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+    background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+
+}
+
+nav ul a{
+    padding: 0 8px;
 }
 .auth-card{
     max-width: 400px;
@@ -77,7 +93,7 @@ a{
       padding: 20px;
       text-align: center;
       max-width: 400px;
-      margin: 30px auto;
+      margin: 0px auto;
   }
   .input-filed-config{
       padding: 11px;
@@ -114,10 +130,10 @@ a{
     padding: 10px;
     background-image: linear-gradient(to right, white, #4caf50 );
 }
-.settings,h5,h2{
+.settings,h5,h2,h4{
     font-family: 'Abel', sans-serif;
     font-weight: bolder;
 }
 .settings{
-
+    padding-top: 30px;
 }

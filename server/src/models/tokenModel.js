@@ -21,6 +21,10 @@ const tokenSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Usuario'
     },
+    countPostHook:{
+        type:Number,
+        default: 0
+    },
     createdAt:{
         type: Date,
         default: Date.now
