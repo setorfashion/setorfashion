@@ -38,6 +38,7 @@ const Token = () => {
     }, [])
 
     const vincular = () => {
+        console.log('chamou vinculacao')
         fetch(API.AMBIENTE + '/token', {
             method: 'post',
             headers: {
@@ -58,6 +59,7 @@ const Token = () => {
     console.log('authCode '+authCode)
 
     if(authCode){
+        console.log('chamar vinculacao')
         vincular()
     }
 
