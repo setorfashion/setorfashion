@@ -16,6 +16,8 @@ const Token = () => {
     const history = useHistory();
     const [statusToken, setStatusToken] = useState()
 
+
+
     useEffect(() => {
         fetch(API.AMBIENTE + '/token/checktoken', {
             method: 'get',
@@ -35,7 +37,9 @@ const Token = () => {
         })
     }, [])
 
-    
+    if(authCode!=''){
+        vincular()
+    }
 
     const vincular = () => {
         fetch(API.AMBIENTE + '/token', {
