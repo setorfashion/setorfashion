@@ -1,8 +1,7 @@
 const { json } = require('express')
 const mongoose = require('mongoose')
 const Token = mongoose.model('Token')
-const {ApolloServer} = require('apollo-server-express')
-const { UserInputError } = require("apollo-server-express");
+const Store = mongoose.model('Store')
 const { get } = require("axios").default;
 const { post } = require("request");
 const { promisify } = require("util");
@@ -100,21 +99,23 @@ module.exports = {
         const longToken_live_at = dadosToken.expires_in
         const longtoken_type = dadosToken.token_type
 
+        const storeData = await Store.findOne({createdBy:user._id})
+
         const novoToken = new Token({
           authCode,
           shortToken: response.access_token,
           longToken,
           longToken_live_at,
           longtoken_type,
-          userId: user._id
+          storeId: storeData._id
         })
         //deletar token antigo
-          Token.deleteOne({userId:user._id}).then((rsDelete)=>{
+          Token.deleteOne({storeId:storeData._id}).then((rsDelete)=>{
             novoToken.save().then((tokensaved)=>{
               //inserir novo token
                 return res.status(201).json(tokensaved)
             }).catch (err=>{
-              console.log('erro do insert'+JSON.stringify(tokensaved))
+              console.log('erro do insert token '+ err)
                 return res.status(402).json({erro:err})
             })
 

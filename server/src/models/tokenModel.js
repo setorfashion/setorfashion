@@ -17,9 +17,10 @@ const tokenSchema = new mongoose.Schema({
     longtoken_type:{
         type: String
     },
-    userId:{
+    storeId:{
         type: ObjectId,
-        ref: 'Usuario'
+        ref: 'Store',
+        unique: true
     },
     countPostHook:{
         type:Number,
