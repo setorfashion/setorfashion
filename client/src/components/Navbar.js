@@ -7,7 +7,6 @@ const NavBar = ()=>{
   const history = useHistory()
 
   const renderList = () =>{
-    console.log(state)
     if(state){
       if(state==='USER'){
         return [
@@ -22,7 +21,7 @@ const NavBar = ()=>{
       }
       if(state==='STORE'){
         const storeId = localStorage.getItem('store_id')
-        console.log(storeId)
+        
         return [
           <li key="profile" ><Link to={'/profile?storeId='+storeId}><i className="material-icons icons " style={{fontSize:"18px"}}>person</i></Link></li>,
           <li key="config"><Link to='/config'><i className="material-icons icons" style={{fontSize:"18px"}}>settings</i></Link></li>,
