@@ -19,7 +19,11 @@ const Home = () => {
             },
             method: "Get"
         }).then(res => res.json()).then((result) => {
+            console.log(result.postedBy)
             console.log(result)
+            result.map(item=>{
+                console.log(item.postedBy)
+            })
             setData(result)
         }).catch(err => {
             console.log('erro')
