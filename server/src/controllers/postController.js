@@ -9,18 +9,6 @@ const fs = require("fs")
 module.exports = {
     async getAllPosts(req, res, next) {
         Post.find().sort({ createdAt: -1 })
-            .populate("postedBy", "_id, name") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
-            .then((result) => {
-                if (result) {
-                    return res.status(201).json(result);
-                }
-            }).catch(err => {
-                console.log(err);
-            });
-    },
-    async findPosts(store_id, res) {
-        Post.find({ postedBy: store_id })
-            .sort({ createdAt: -1 })
             .populate("postedBy") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
             .then((result) => {
                 if (result) {
@@ -30,10 +18,8 @@ module.exports = {
                 console.log(err);
             });
     },
-
     async getStorePosts(req, res, next) {
         const storeId = req.body.storeId
-        console.log(storeId)
         const storeData = await Store.findById(storeId)
         if (!storeData) {
             return res.status(402).json({ message: 'Você precisa criar sua loja antes de vincular sua conta do instagram!' })
@@ -68,7 +54,7 @@ module.exports = {
                     let newPost = new Post({
                         caption: item.caption,
                         id: item.id,
-                        postedBy: storeData._id,
+                        postedBy: storeData,
                         media_url: item.media_url,
                         permalink: item.permalink,
                         from: 'instagram',
@@ -89,7 +75,7 @@ module.exports = {
             })
             Post.find({ postedBy: storeData._id })
                 .sort({ createdAt: -1 })
-                .populate("postedBy", "_id, name") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
+                .populate("postedBy") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
                 .then((result) => {
                     if (result) {
                         return res.status(201).json(result);
@@ -102,7 +88,7 @@ module.exports = {
         } else {
             Post.find({postedBy:storeData._id})
             .sort({createdAt: -1})
-            .populate("postedBy","_id, name") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
+            .populate("postedBy") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
             .then((result)=>{
                 if(result){
                     return res.status(201).json(result);
