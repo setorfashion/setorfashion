@@ -21,7 +21,7 @@ module.exports = {
     async findPosts(store_id, res) {
         Post.find({ postedBy: store_id })
             .sort({ createdAt: -1 })
-            .populate("postedBy", "_id, storeName,setor") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
+            .populate("postedBy") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
             .then((result) => {
                 if (result) {
                     return res.status(201).json(result);

@@ -11,8 +11,8 @@ const postSchema = new mongoose.Schema({
         required: true       
     },
     postedBy:{
-        type: ObjectId, //irá obter o _id do model Usuario
-        ref: "Store" //faz referencia ao model do Usuario
+        type: ObjectId,
+        ref: "Store" 
     },
     from:{
         type: String,
