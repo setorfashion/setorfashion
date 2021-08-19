@@ -24,14 +24,16 @@ const Token = () => {
             headers: {
                 "authorization": "Bearer " + jwt,
             }
-        }).then(res => res.json()).then((result) => {
-            if(result){
+        })
+        .then(res => res.json())
+        .then((result) => {
+            if(result.data){
+                console.log('tem token')
                 setStatusToken(result)
             }            
-            if (!result && authCode) {
-                console.log('asd')
-                vincular()
-            }
+            // if (!result.data && authCode) {
+            //     vincular()
+            // }
         }).catch(err => {
             console.log(err)
         })

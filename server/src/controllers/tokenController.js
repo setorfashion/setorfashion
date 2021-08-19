@@ -161,9 +161,9 @@ module.exports = {
         const userId= req.user._id
         Token.findOne({userId}).then((resultToken)=>{
           if(resultToken){
-            return res.status(201).json(resultToken)
+            return res.status(201).json({data:resultToken})
           }else{
-            return res.status(200).json()
+            return res.status(200).json({data:''})
           }
           
         }).catch(err=>{
