@@ -82,7 +82,7 @@ const Profile = () => {
                 {                    
                     posts.map((item, key) => {
                         return (
-                            <img key={key} className='item' alt={item.title} src={item.photo?API.AMBIENTE+'/post/getpostimage/' +item.photo:item.media_url} />
+                            <img key={key} className='item' alt={item.title} src={item.photo!='no image'?API.AMBIENTE+'/post/getpostimage/' +item.photo:item.media_url} />
                         )
                     })
 

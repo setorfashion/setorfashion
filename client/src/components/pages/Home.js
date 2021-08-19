@@ -35,7 +35,7 @@ const Home = () => {
                     return (
                         <div key={key} className="card home-card">
                             <div className="card-image">
-                                <img src={item.photo!=''?API.AMBIENTE+'/post/getpostimage/' + item.photo:item.media_url} />
+                                <img src={item.photo!='no image'?API.AMBIENTE+'/post/getpostimage/' + item.photo:item.media_url} />
                             </div>
                             <div className="card-content">
                                 <h6>
