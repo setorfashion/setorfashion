@@ -13,6 +13,7 @@ const Token = () => {
     const authCode = query.get("code");
     const Auth = query.get("authorization_code");
     const jwt = localStorage.getItem('jwt')
+    const storeId = localStorage.getItem('storeId')
     const history = useHistory();
     const [statusToken, setStatusToken] = useState()
 
@@ -52,7 +53,7 @@ const Token = () => {
             })
         }).then(res => res.json()).then((result) => {
             setTimeout(() => {
-                history.push('/profile');
+                history.push('/profile?storeId='+storeId);
             }, 500);
         }).catch(err => {
             console.log(err)
