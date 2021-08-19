@@ -77,8 +77,15 @@ module.exports = {
                 await newPost.save()
             })
             await Promise.all(promises);            
-            Store.findByIdAndUpdate(storeData._id,{
-                dataFromInstagram:true
+            Store.findByIdAndUpdate(storeData._id,
+                    {
+                    dataFromInstagram:true
+                    },
+                    {new:true}
+                ).then((updatedStore)=>{
+                console.log('loja atualizada '+updatedStore)
+            }).catch(err=>{
+                console.log('erro update store '+err)
             })
             Post.find({ postedBy: storeData._id })
                 .sort({ createdAt: -1 })

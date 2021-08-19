@@ -52,7 +52,6 @@ module.exports = {
         // sending the request.
         const authCode = req.body.authCode
         const user = req.user
-        console.log(req)
         let { body, statusCode } = await postAsync({
           url: `https://api.instagram.com/oauth/access_token `,
           formData: {
