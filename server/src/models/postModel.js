@@ -33,6 +33,12 @@ const postSchema = new mongoose.Schema({
     },
     createdAt:{
         type: Date,        
+    },
+    media_type:{
+        type: String
+    },
+    childrens:{
+        type: Array
     }
 })
 

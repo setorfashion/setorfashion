@@ -64,6 +64,11 @@ nav ul a{
 .card{
     
 }
+.card .card-content {
+    padding: 0px 15px 15px 15px;
+    
+    border-radius: 0 0 2px 2px;
+}
 .card .card-image img {   
     height: 50vh;
     object-fit: cover;

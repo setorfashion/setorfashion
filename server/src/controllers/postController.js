@@ -9,7 +9,13 @@ const fs = require("fs")
 module.exports = {
     async getAllPosts(req, res, next) {
         Post.find().sort({ createdAt: -1 })
-            .populate("postedBy") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
+            .populate(
+                        {path:"postedBy",
+                            populate: {
+                                path: 'setor' 
+                            }
+                        }
+                    ) //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
             .then((result) => {
                 if (result) {
                     return res.status(201).json(result);
@@ -37,12 +43,12 @@ module.exports = {
             // }).catch(err=>{
             //     console.log(err)
             // });
-            // console.log(responseProfileData)
-
+            // const profData = responseProfileData['data']
+            
             const responseMediaData = await get("https://graph.instagram.com/me/media", {
                 params: {
                     fields:
-                        "id,caption,media_url,media_type,permalink,thumbnail_url,timestamp,username",
+                        "id,caption,media_url,media_type,permalink,thumbmail_url,timestamp,username",
                     access_token: tokenData.longToken,
                 },
                 headers: {
@@ -50,7 +56,24 @@ module.exports = {
                 },
             });
             const postsInstagram = responseMediaData['data']['data']
-            const promises = postsInstagram.map( async (item,key) => {                
+            const promises = postsInstagram.map( async (item,key) => {  
+                let childrens = []
+                    if(item.media_type==='CAROUSEL_ALBUM'){
+                        const childMediaData = await get("https://graph.instagram.com/"+item.id+"/children", {
+                            params: {
+                                access_token: tokenData.longToken,
+                                fields:"id,media_url",
+                                
+                            },
+                            method: 'get',
+                            headers: {
+                                host: "graph.instagram.com",
+                            },
+                        }).catch(err=>{
+                            console.log(err)
+                        });  
+                        childrens = childMediaData['data']['data']
+                    }           
                     let newPost = new Post({
                         caption: item.caption,
                         id: item.id,
@@ -58,7 +81,8 @@ module.exports = {
                         media_url: item.media_url,
                         permalink: item.permalink,
                         from: 'instagram',
-                        createdAt: item.timestamp
+                        createdAt: item.timestamp,
+                        childrens:childrens
                     })                
                 await newPost.save()
             })
