@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation, useHistory } from "react-router-dom"
 import insta_logo from "../images/insta_icon_white.png"
+import Loading from '../loader'
 
 const API = require('../../Api')
 
@@ -10,13 +11,14 @@ const Token = () => {
         return new URLSearchParams(useLocation().search);
     }
     let query = useQuery();
+    const [load, setLoad] = useState(true)
     const authCode = query.get("code");
     const Auth = query.get("authorization_code");
     const jwt = localStorage.getItem('jwt')
     const storeId = localStorage.getItem('store_id')
     const history = useHistory();
     const [statusToken, setStatusToken] = useState()
-
+    
     useEffect(() => {
         async function vincular (){
             console.log('chamou vinculacao')
@@ -55,8 +57,9 @@ const Token = () => {
         })
             .then(res => res.json())
             .then((result) => {
+                setLoad(false)
                 if (result.data) {
-                    console.log('tem token')
+                    
                     if (!authCode) {
                         setStatusToken(result)
                     }
@@ -96,15 +99,22 @@ const Token = () => {
             )
         }
     }
-    return (
-        <div>
-            <div style={{ textAlign: 'center', padding: '50px 10px 20px 10px' }}>
-                <h5>Status: {statusToken ? '  Vinculado' : 'Não Vinculado'}</h5>
+    const renderConteudo = () =>{
+        return (
+            <div>
+                <div style={{ textAlign: 'center', padding: '50px 10px 20px 10px' }}>
+                    <h5>Status: {statusToken ? '  Vinculado' : 'Não Vinculado'}</h5>
+                </div>
+
+                <hr></hr>
+                {content()}
             </div>
-
-            <hr></hr>
-            {content()}
-
+        )
+    }
+    return (
+        
+        <div>
+            {load?<Loading/>:renderConteudo()}
         </div>
     )
 }

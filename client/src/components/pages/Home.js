@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom"
 import M from 'materialize-css/dist/js/materialize'
-
+import Loading from '../loader'
 
 
 const API = require('../../Api')
 
-const Home = () => {    
+
+const Home = () => {
+    const [data, setData] = useState([])
     const params = useParams()
     var instaCod = '';
     if (params) {
         instaCod = params.code
     }
     setTimeout(() => {
-            let options = {
-                fullWidth: true,
-                indicators: true,
-                noWrap: true,
-                duration: 200
-            }  
-            var elems = document.querySelectorAll('.carousel');        
-            var instances = M.Carousel.init(elems, options);
-            console.log(instances)
-        }, 300);
-        
-    
-    const [data, setData] = useState([])
+        let options = {
+            fullWidth: true,
+            indicators: true,
+            noWrap: true,
+            duration: 200
+        }
+        var elems = document.querySelectorAll('.carousel');
+        var instances = M.Carousel.init(elems, options);
+        console.log(instances)
+    }, 300);
+
+
+
     useEffect(() => {
         const token = localStorage.getItem("jwt")
         fetch(API.AMBIENTE + "/post/getallposts", {
@@ -34,8 +36,8 @@ const Home = () => {
             },
             method: "Get"
         }).then(res => res.json()).then((result) => {
-            console.log(result)
             setData(result)
+
         }).catch(err => {
             console.log('erro')
             console.log(JSON.stringify(err))
@@ -49,30 +51,32 @@ const Home = () => {
     }
     const caroulselImage = (item) => {
         return (
-            
+
             <div className="carousel carousel-slider center">
-                
+
                 {
-                    item.map((child, key) => {  
-                            return (
-                                <div key={key} className="carousel-item">
-                                    <img className='item' src={child.media_url} />
-                                </div>
-                            )
-                                          
-                        
+                    item.map((child, key) => {
+                        return (
+                            <div key={key} className="carousel-item">
+                                <img className='item' src={child.media_url} />
+                            </div>
+                        )
+
+
                     })
                 }
             </div>
         )
     }
+
     return (
-        
+
         <div className="home">
-            {
+            {data.length === 0 ? <Loading /> :
                 data.map((item, key) => {
                     return (
                         <div key={key} className="card home-card">
+
                             <div className="card-image">
                                 {item.childrens.length > 0 ? caroulselImage(item.childrens) : simpleImage(item, key)}
 
@@ -96,13 +100,14 @@ const Home = () => {
                         </div>
                     )
                 })
-                
+
+
 
             }
         </div>
     )
-    
-    
+
+
 }
 
 export default Home

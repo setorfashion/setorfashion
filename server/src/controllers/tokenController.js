@@ -157,7 +157,8 @@ module.exports = {
 
       async checktoken(req,res){
         const userId= req.user._id
-        Token.findOne({userId}).then((resultToken)=>{
+        const storeData = await Store.findOne({createdBy:userId})
+        Token.findOne({storeId:storeData._id}).then((resultToken)=>{
           if(resultToken){
             return res.status(201).json({data:resultToken})
           }else{
