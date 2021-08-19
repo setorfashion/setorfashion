@@ -68,7 +68,7 @@ module.exports = {
         .populate("postedBy","_id, name") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
         .then((result)=>{
             if(result){
-                console.log(result)
+                // console.log(result)
                 return res.status(201).json(result);
             }
         }).catch(err=>{
