@@ -17,6 +17,34 @@ const Token = () => {
     const history = useHistory();
     const [statusToken, setStatusToken] = useState()
 
+    useEffect(() => {
+        async function vincular (){
+            console.log('chamou vinculacao')
+            await fetch(API.AMBIENTE + '/token', {
+                method: 'post',
+                headers: {
+                    "authorization": "Bearer " + jwt,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "authCode": authCode
+                })
+            }).then(res => res.json()).then((result) => {
+                console.log('result vinculacao ' + result)
+                setTimeout(() => {
+                    // history.push('/profile?storeId='+storeId);
+                }, 500);
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+        console.log('authCode ' + authCode)
+
+        if (authCode) {
+            console.log('chamar vinculacao')
+            vincular()
+        }
+    }, [])
 
     useEffect(() => {
         fetch(API.AMBIENTE + '/token/checktoken', {
@@ -25,49 +53,22 @@ const Token = () => {
                 "authorization": "Bearer " + jwt,
             }
         })
-        .then(res => res.json())
-        .then((result) => {
-            if(result.data){
-                console.log('tem token')
-                if(!authCode){
-                    setStatusToken(result)
-                }                
-            }            
-            // if (!result.data && authCode) {
-            //     vincular()
-            // }
-        }).catch(err => {
-            console.log(err)
-        })
-    }, [])
-
-    const vincular = () => {
-        console.log('chamou vinculacao')
-        fetch(API.AMBIENTE + '/token', {
-            method: 'post',
-            headers: {
-                "authorization": "Bearer " + jwt,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "authCode": authCode
+            .then(res => res.json())
+            .then((result) => {
+                if (result.data) {
+                    console.log('tem token')
+                    if (!authCode) {
+                        setStatusToken(result)
+                    }
+                }
+                // if (!result.data && authCode) {
+                //     vincular()
+                // }
+            }).catch(err => {
+                console.log(err)
             })
-        }).then(res => res.json()).then((result) => {
-            console.log('result vinculacao '+result)
-            setTimeout(() => {
-                // history.push('/profile?storeId='+storeId);
-            }, 500);
-        }).catch(err => {
-            console.log(err)
-        })
-    }   
-    console.log('authCode '+authCode)
-
-    if(authCode){
-        console.log('chamar vinculacao')
-        vincular()
-    }
-
+    }, [])
+    
     const content = () => {
         if (statusToken) {
             return (

@@ -110,10 +110,8 @@ module.exports = {
         })
         //deletar token antigo
           Token.deleteOne({userId:user._id}).then((rsDelete)=>{
-
             novoToken.save().then((tokensaved)=>{
               //inserir novo token
-                console.log('retorno '+JSON.stringify(tokensaved))
                 return res.status(201).json(tokensaved)
             }).catch (err=>{
               console.log('erro do insert'+JSON.stringify(tokensaved))
