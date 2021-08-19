@@ -16,7 +16,7 @@ const Token = () => {
     const storeId = localStorage.getItem('store_id')
     const history = useHistory();
     const [statusToken, setStatusToken] = useState()
-
+    var send = true;
 
 
     useEffect(() => {
@@ -41,6 +41,7 @@ const Token = () => {
     }, [])
 
     const vincular = () => {
+        send = false
         console.log('chamou vinculacao')
         fetch(API.AMBIENTE + '/token', {
             method: 'post',
@@ -62,7 +63,7 @@ const Token = () => {
     }   
     console.log('authCode '+authCode)
 
-    if(authCode){
+    if(authCode && send){
         console.log('chamar vinculacao')
         vincular()
     }
