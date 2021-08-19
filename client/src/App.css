@@ -81,7 +81,7 @@ nav ul a{
   .galery{
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around;
+      justify-content: flex-start;
   }
   .item{
       width: 33%;

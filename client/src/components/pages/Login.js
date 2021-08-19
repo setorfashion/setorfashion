@@ -44,7 +44,7 @@ const Login = ()=>{
           if(data.store_id==''){
             history.push('/config');
           }else{
-            history.push('/profile');
+            history.push('/profile?storeId='+data.store_id);
           }
           
         }, 1000);

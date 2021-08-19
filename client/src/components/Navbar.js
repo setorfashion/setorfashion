@@ -7,7 +7,7 @@ const NavBar = ()=>{
   const history = useHistory()
 
   const renderList = () =>{
-   
+    console.log(state)
     if(state){
       if(state==='USER'){
         return [
@@ -22,9 +22,10 @@ const NavBar = ()=>{
       }
       if(state==='STORE'){
         const storeId = localStorage.getItem('store_id')
+        console.log(storeId)
         return [
-          <li key="profile" ><Link to="/profile"><i className="material-icons icons " style={{fontSize:"18px"}}>person</i></Link></li>,
-          <li key="config"><Link to={'/config?storeId='+storeId}><i className="material-icons icons" style={{fontSize:"18px"}}>settings</i></Link></li>,
+          <li key="profile" ><Link to={'/profile?storeId='+storeId}><i className="material-icons icons " style={{fontSize:"18px"}}>person</i></Link></li>,
+          <li key="config"><Link to='/config'><i className="material-icons icons" style={{fontSize:"18px"}}>settings</i></Link></li>,
           <li key="instagram"><Link to="/token"><img src={insta_logo} style={{width:'18px', float: 'left',marginTop: '19px'}}></img> </Link></li>,
           <li key="createpost"><Link to="/createpost"><i  className="material-icons icons" style={{fontSize:"18px"}}>add</i></Link></li>,
           <button key='logout' className='waves-effect waves-teal btn-flat' style={{marginTop:'-5px'}} onClick={()=>{
