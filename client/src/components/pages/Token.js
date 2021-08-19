@@ -30,10 +30,10 @@ const Token = () => {
                     "authCode": authCode
                 })
             }).then(res => res.json()).then((result) => {
-                console.log('result vinculacao ' + result)
+                // console.log('result vinculacao ' + result)
                 setTimeout(() => {
-                    // history.push('/profile?storeId='+storeId);
-                }, 500);
+                    history.push('/profile?storeId='+storeId);
+                }, 50);
             }).catch(err => {
                 console.log(err)
             })
@@ -41,7 +41,7 @@ const Token = () => {
         console.log('authCode ' + authCode)
 
         if (authCode) {
-            console.log('chamar vinculacao')
+            // console.log('chamar vinculacao')
             vincular()
         }
     }, [])
