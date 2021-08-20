@@ -77,7 +77,7 @@ const Home = () => {
             
                 data.map((item, key) => {
                     return (
-                        <TransformWrapper pan={{disabled:true}}>
+                        <TransformWrapper>
                         <div key={key} className="card home-card">
                             <div className='header-post' style={{justifyContent:'flex-start',backgroundImage: 'linear-gradient(to top, white 90%, ' + item.postedBy.setor.color + ' 80%)'}}>
                                 <div className='circle-g'>
