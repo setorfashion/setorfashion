@@ -5,7 +5,6 @@ import Loading from '../loader'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ShowMoreText from "react-show-more-text";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 const API = require('../../Api')
 
 
@@ -77,7 +76,7 @@ const Home = () => {
             
                 data.map((item, key) => {
                     return (
-                        <TransformWrapper>
+                        
                         <div key={key} className="card home-card">
                             <div className='header-post' style={{justifyContent:'flex-start',backgroundImage: 'linear-gradient(to top, white 90%, ' + item.postedBy.setor.color + ' 80%)'}}>
                                 <div className='circle-g'>
@@ -101,9 +100,7 @@ const Home = () => {
                             </div>
                             
                             <div className="card-image">
-                                <TransformComponent>
                                     {item.childrens.length > 0 ? caroulselImage(item.childrens) : simpleImage(item, key)}
-                                </TransformComponent>
                             </div>
 
                             
@@ -129,7 +126,6 @@ const Home = () => {
                                 <input type="text" placeholder="add comment" />
                             </div>
                         </div>
-                        </TransformWrapper>
                     )
                 })
             }
