@@ -93,6 +93,9 @@ nav ul a{
     height: 60px;
     padding: 16px ;
 }
+.my-anchor-css-class{
+    color: #8e8e8e !important;
+}
 .card .card-content {
     padding: 15px 15px 15px 15px;
     

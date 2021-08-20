@@ -4,6 +4,8 @@ import M from 'materialize-css/dist/js/materialize'
 import Loading from '../loader'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import ShowMoreText from "react-show-more-text";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 const API = require('../../Api')
 
 
@@ -44,8 +46,11 @@ const Home = () => {
 
     const simpleImage = (item, key) => {
         return (
-                <LazyLoadImage effect="blur" key={key} className='item' alt={item.title} src={item.photo !== 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
-            
+            <TransformWrapper>
+                <TransformComponent>
+                    <LazyLoadImage effect="blur" key={key} className='item' alt={item.title} src={item.photo !== 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
+                </TransformComponent>
+            </TransformWrapper>
         )
     }
     const caroulselImage = (item) => {
@@ -108,7 +113,18 @@ const Home = () => {
                                     </span>
 
                                 </div>
-                                <p>{item.caption}</p>
+                                <ShowMoreText className='a-home-image'
+                                /* Default options */
+                                lines={1}
+                                more="mais"
+                                less="menos"
+                                className="content-css"
+                                anchorClass="my-anchor-css-class"
+                                expanded={false}
+                                width={0}
+                                truncatedEndingComponent={"... "}
+                                ><p>{item.caption}</p></ShowMoreText>
+                                
                                 <input type="text" placeholder="add comment" />
                             </div>
                         </div>
