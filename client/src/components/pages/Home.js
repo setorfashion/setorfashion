@@ -46,11 +46,7 @@ const Home = () => {
 
     const simpleImage = (item, key) => {
         return (
-            <TransformWrapper>
-                <TransformComponent>
-                    <LazyLoadImage effect="blur" key={key} className='item' alt={item.title} src={item.photo !== 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
-                </TransformComponent>
-            </TransformWrapper>
+            <LazyLoadImage effect="blur" key={key} className='item' alt={item.title} src={item.photo !== 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
         )
     }
     const caroulselImage = (item) => {
@@ -74,11 +70,14 @@ const Home = () => {
     }
 
     return (
-
+        
         <div className="home">
+            
             {data.length === 0 ? <Loading /> :
+            
                 data.map((item, key) => {
                     return (
+                        <TransformWrapper>
                         <div key={key} className="card home-card">
                             <div className='header-post' style={{justifyContent:'flex-start',backgroundImage: 'linear-gradient(to top, white 90%, ' + item.postedBy.setor.color + ' 80%)'}}>
                                 <div className='circle-g'>
@@ -102,7 +101,9 @@ const Home = () => {
                             </div>
                             
                             <div className="card-image">
-                                {item.childrens.length > 0 ? caroulselImage(item.childrens) : simpleImage(item, key)}
+                                <TransformComponent>
+                                    {item.childrens.length > 0 ? caroulselImage(item.childrens) : simpleImage(item, key)}
+                                </TransformComponent>
                             </div>
 
                             
@@ -128,10 +129,13 @@ const Home = () => {
                                 <input type="text" placeholder="add comment" />
                             </div>
                         </div>
+                        </TransformWrapper>
                     )
                 })
             }
+            
         </div>
+        
     )
 
 
