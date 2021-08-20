@@ -24,7 +24,9 @@ a{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
 
 }
-
+.a-home-image{
+    color: black !important;
+}
 nav ul a{
     padding: 0 8px;
 }
@@ -36,6 +38,7 @@ nav ul a{
 }
 .home {
     padding-top: 30px;
+    background-color: rgb(245, 245, 245);
 }
 .nav{
     margin-top: 0px;
@@ -59,19 +62,49 @@ nav ul a{
 }
 .home-card{
     max-width: 500px;
-    margin: 0px auto;
+    margin: 20px auto;
 }
 .card{
     
 }
+.border-img-gradient{
+    display: flex;
+    align-items: center;
+}
+.image-circle{
+    vertical-align: middle;
+    text-align:center;
+    position:relative; /*makes left effective*/
+    display:table-cell;    
+}
+.circle-g {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(white, white) padding-box, linear-gradient(to right, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%) border-box;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    float: left;
+    margin-top: -5px;
+    margin-right: 16px;
+    
+}
+
+.header-post{
+    height: 60px;
+    padding: 16px ;
+}
 .card .card-content {
-    padding: 0px 15px 15px 15px;
+    padding: 15px 15px 15px 15px;
     
     border-radius: 0 0 2px 2px;
 }
-.card .card-image img {   
+.card .card-image{
+    text-align: center;
+}
+.card .card-image img{   
+    
     height: 50vh;
-    object-fit: cover;
+    object-fit: fill;
 }
 .icons{
     justify-content: left;

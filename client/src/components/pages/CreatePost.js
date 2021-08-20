@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
-import {Link,useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import M from 'materialize-css'
+import { useCookies } from 'react-cookie';
 const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes')
 const API = require('../../Api')
 
@@ -10,7 +11,6 @@ const CreatePost = () => {
     const [title,setTitle] = useState("")
     const [content,setContent] = useState("")
     const [image,setImage] = useState("")
-    var imagemPostada = ""
     const history = useHistory()
     // dbml8og1b
     const criarPostagem = ()=>{
@@ -19,7 +19,7 @@ const CreatePost = () => {
         data.append('title',title)
         data.append('body',content)
 
-        const token = localStorage.getItem('jwt');
+        const token = useCookies.jwt
         console.log(token);
         fetch(API.AMBIENTE+"/post/createpost",{
             method: "Post",

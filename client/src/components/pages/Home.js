@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom"
 import M from 'materialize-css/dist/js/materialize'
 import Loading from '../loader'
-
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 const API = require('../../Api')
 
 
@@ -23,13 +23,11 @@ const Home = () => {
         }
         var elems = document.querySelectorAll('.carousel');
         var instances = M.Carousel.init(elems, options);
-        console.log(instances)
     }, 300);
 
 
 
     useEffect(() => {
-        const token = localStorage.getItem("jwt")
         fetch(API.AMBIENTE + "/post/getallposts", {
             headers: {
                 "Content-Type": "application/json"
@@ -46,7 +44,8 @@ const Home = () => {
 
     const simpleImage = (item, key) => {
         return (
-            <img key={key} className='item' alt={item.title} src={item.photo != 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
+                <LazyLoadImage effect="blur" key={key} className='item' alt={item.title} src={item.photo !== 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
+            
         )
     }
     const caroulselImage = (item) => {
@@ -58,7 +57,7 @@ const Home = () => {
                     item.map((child, key) => {
                         return (
                             <div key={key} className="carousel-item">
-                                <img className='item' src={child.media_url} />
+                                <LazyLoadImage effect="blur" className='item' src={child.media_url} alt={item.title} />
                             </div>
                         )
 
@@ -76,22 +75,37 @@ const Home = () => {
                 data.map((item, key) => {
                     return (
                         <div key={key} className="card home-card">
-
+                            <div className='header-post' style={{justifyContent:'flex-start',backgroundImage: 'linear-gradient(to top, white 90%, ' + item.postedBy.setor.color + ' 80%)'}}>
+                                <div className='circle-g'>
+                                    <LazyLoadImage className='img-circle' style={{width:'32.5px', height: '32.5px', borderRadius:'45%', margin:'2px 2px 2px 2px'}} src={item.media_url}/>
+                                </div>
+                                <div style={{marginTop:'-5px', display: 'inline-block'}}>
+                                    <span style={{ fontWeight: 'bold', fontSize: '14px'}}>
+                                        <a className='a-home-image' href={'/profile?storeId='+item.postedBy._id}>{item.postedBy.storeName}</a>
+                                    </span>
+                                    <br></br>
+                                    <span style={{ fontSize: '14px' }}>
+                                        {item.postedBy.address.street+', '+item.postedBy.address.number}
+                                    </span>
+                                </div>
+                                <div style={{marginTop:'-5px', right:'0px', float:'right'}}>
+                                    
+                                    <div style={{  paddingLeft: '15px' }}>
+                                        <span style={{ fontWeight: 'bold', color: item.postedBy.setor.color }}>{item.postedBy.setor.description}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div className="card-image">
                                 {item.childrens.length > 0 ? caroulselImage(item.childrens) : simpleImage(item, key)}
-
                             </div>
 
-                            <div style={{ backgroundImage: 'linear-gradient(to top, white 70%, ' + item.postedBy.setor.color + ')', paddingLeft: '15px' }}>
-                                <span style={{ fontWeight: 'bold', color: item.postedBy.setor.color }}>{item.postedBy.setor.description}</span>
-                            </div>
+                            
                             <div className="card-content">
-                                <div style={{ justifyContent: 'space-between' }}>
-                                    <div>
-                                        <h6 style={{ fontWeight: 'bold' }}>
-                                            {item.postedBy.storeName}
-                                        </h6>
-                                    </div>
+                                <div style={{ justifyContent: 'space-between', marginBottom:'10px'}}>
+                                    <span style={{ fontWeight: 'bold', fontSize: '14px'}}>
+                                        <a className='a-home-image' href={'/profile?storeId='+item.postedBy._id}>{item.postedBy.storeName}</a>
+                                    </span>
 
                                 </div>
                                 <p>{item.caption}</p>
@@ -100,9 +114,6 @@ const Home = () => {
                         </div>
                     )
                 })
-
-
-
             }
         </div>
     )

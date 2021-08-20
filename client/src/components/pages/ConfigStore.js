@@ -2,7 +2,7 @@ import React, { useState, useEffect,useContext} from 'react'
 import {useHistory } from 'react-router-dom'
 import M from 'materialize-css'
 import {UserContext} from '../../App'
-
+import { useCookies } from 'react-cookie';
 
 const COLORS = require('../../classes')
 const API = require('../../Api')
@@ -10,6 +10,7 @@ const API = require('../../Api')
 
 
 const ConfigStore = () => {
+    const [cookies, setCookie] = useCookies(['user']);
     const {state,dispatch} = useContext(UserContext)
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
@@ -18,7 +19,6 @@ const ConfigStore = () => {
     const [prevSetor,setprevSetor]=useState('')
     const [prevCategories,setPrevCategories]=useState([])    
     const [prevSubCategories,setSubPrevCategories]=useState([])
-
     const [storeName, setStoreName] = useState("")
     const [storeAddress, setStoreAddress] = useState("")
     const [storeNumber, setStoreNumber] = useState("")
@@ -27,8 +27,8 @@ const ConfigStore = () => {
     const [whatsapp, setWhatsApp] = useState("")
 
 
-    const token = localStorage.getItem('jwt')
-    const store_id = localStorage.getItem('store_id')
+    const token = useCookies.jwt
+    const store_id = useCookies.store_id
     
     useEffect(() => {
         async function fetchStore(){
@@ -135,7 +135,6 @@ const ConfigStore = () => {
         
     },[prevCategories && prevSubCategories])
 
-    var imagemPostada = ""
     const history = useHistory()
 
     const handleCategories = (e) => {
@@ -240,7 +239,7 @@ const ConfigStore = () => {
 
         let url = ''
         let method =''
-        if(store_id!=''){
+        if(store_id!==''){
             url = API.AMBIENTE+'/store/updatestore'
             method="PUT"
         }else{
@@ -273,13 +272,13 @@ const ConfigStore = () => {
         .then((resp)=>{
             console.log(resp);
             if(!store_id){
-                localStorage.setItem("store_id",resp.store_id)
+                setCookie('store_id',resp.store_id,{ path: '/' })
                 dispatch({type:"STORE",payload:"STORE"})
             }            
             M.toast({html:"Configurações Atualizadas!",classes:COLORS.TOAST_SUCCESS});
             setTimeout(() => {
-                history.push('/profile');
-              }, 500);
+                history.push('/profile?storeId='+resp.store_id);
+              }, 100);
             
         }).catch(err=>{
             M.toast({html:"Tivemos uma falha por favor entre em contato com o suporte!",classes:COLORS.TOAST_ERROR});

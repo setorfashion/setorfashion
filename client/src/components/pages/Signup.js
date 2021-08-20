@@ -1,7 +1,6 @@
 import React,{useState} from 'react';
 import {Link,useHistory} from 'react-router-dom';
 import M from 'materialize-css'
-const {URL_BASE_SERVER} = require('../../urlsBase');
 const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes');
 const API = require('../../Api')
 

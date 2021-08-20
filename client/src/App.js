@@ -8,7 +8,7 @@ import Profile from './components/pages/Profile'
 import CreatePost from './components/pages/CreatePost'
 import ConfigStore from './components/pages/ConfigStore'
 import {reducer,initialState} from './reducers/userReducer'
-
+import { useCookies } from "react-cookie";
 import {BrowserRouter, Route, Switch, useHistory} from 'react-router-dom'
 import './App.css'
 
@@ -18,14 +18,14 @@ export const UserContext = createContext()
 
 const Routing = () =>{
 
-
+  
   const history = useHistory();
-  const {state,dispatch} = useContext(UserContext);
-
+  const {dispatch} = useContext(UserContext);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   useEffect(()=>{
-    const user = localStorage.getItem('userData')
-    const store = localStorage.getItem('store_id')
+    const user = cookies.userData
+    const store = cookies.store_id
     if(store && store!==''){     
       dispatch({type:"STORE",payload:"STORE"})
       // history.push('/')
@@ -69,11 +69,13 @@ const Routing = () =>{
 
 function App() {
   const [state,dispatch] = useReducer(reducer,initialState)
+  
   return (
     <UserContext.Provider value={{state,dispatch}}>
       <BrowserRouter>
-        <NavBar />
-        <Routing />
+        
+          <NavBar />
+          <Routing />
       </BrowserRouter>
     </UserContext.Provider>
   );

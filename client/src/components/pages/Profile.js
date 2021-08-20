@@ -3,7 +3,9 @@ import { useHistory, useLocation } from "react-router-dom"
 import insta_logo from "../images/insta_icon_white.png"
 import { UserContext } from '../../App'
 import Loading from '../loader'
-
+import { useCookies } from 'react-cookie';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 const API = require('../../Api')
 
 
@@ -11,12 +13,10 @@ const Profile = () => {
     function useQuery() {
         return new URLSearchParams(useLocation().search);
     }
-
+    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     let query = useQuery();
     const storeId = query.get("storeId");
-    console.log(storeId)
     const { state, dispatch } = useContext(UserContext)
-    const jwt = localStorage.getItem('jwt')
     const [posts, setPosts] = useState([])
     const [load, setLoad] = useState(true)
     const history = useHistory()
@@ -66,7 +66,7 @@ const Profile = () => {
                 <h6>Você não possui nenhuma publicação, deseja vincular sua loja a um perfil do instagram e acessar todas as publicações?</h6>
                 <div style={{ margin: '0px 0px 50px 0px' }}>
                     <a style={{ marginTop: '20px' }} className='btn instagram' href={'https://api.instagram.com/oauth/authorize?' + API.INSTACONFIG}>
-                        <img src={insta_logo} style={{ width: '25px', float: 'left', marginRight: '10px', marginTop: '6px' }}></img>
+                        <LazyLoadImage effect="blur" src={insta_logo} style={{ width: '25px', float: 'left', marginRight: '10px', marginTop: '6px' }}/>
                         Vincular Instagram
                     </a>
                 </div>
@@ -118,7 +118,7 @@ const Profile = () => {
                 </div>
                 <div>
 
-                    {posts.length == 0 ? renderMsg() : renderGalery()}
+                    {posts.length === 0 ? renderMsg() : renderGalery()}
                 </div>
             </div>
         )

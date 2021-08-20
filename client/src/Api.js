@@ -1,5 +1,7 @@
+const PRD = '/api'
+const DEV = ''
 module.exports = {
-    AMBIENTE: '/api',
+    AMBIENTE: PRD,
     INSTACONFIG: new URLSearchParams({
         app_id: 261340495802382,
         redirect_uri: 'https://sf.fortaldelivery.com.br/token',

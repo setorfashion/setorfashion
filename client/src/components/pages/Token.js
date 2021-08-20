@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, useLocation, useHistory } from "react-router-dom"
+import { useLocation, useHistory } from "react-router-dom"
 import insta_logo from "../images/insta_icon_white.png"
 import Loading from '../loader'
-
+import { useCookies } from 'react-cookie';
 const API = require('../../Api')
 
 
@@ -13,9 +13,8 @@ const Token = () => {
     let query = useQuery();
     const [load, setLoad] = useState(true)
     const authCode = query.get("code");
-    const Auth = query.get("authorization_code");
-    const jwt = localStorage.getItem('jwt')
-    const storeId = localStorage.getItem('store_id')
+    const jwt = useCookies.jwt
+    const storeId = useCookies.store_id
     const history = useHistory();
     const [statusToken, setStatusToken] = useState()
     

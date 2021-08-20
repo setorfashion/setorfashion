@@ -2,10 +2,13 @@ import React,{useState,useContext} from 'react'
 import {Link,useHistory} from 'react-router-dom'
 import M from 'materialize-css'
 import {UserContext} from '../../App'
+import { useCookies } from 'react-cookie';
+
 const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes')
 const API = require('../../Api')
 
 const Login = ()=>{
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const {state,dispatch} = useContext(UserContext)
   const [email,setEmail] = useState("");
   const [password,setpassword] = useState("");
@@ -30,18 +33,21 @@ const Login = ()=>{
         M.toast({html: data.error,classes:TOAST_ERROR})
       }else{
         const userData = data.userData;
-        //armazenar dados do user no localstorange
-        localStorage.setItem('jwt',data.token)
-        localStorage.setItem('userData',JSON.stringify(data.userData._id))
-        localStorage.setItem('store_id',data.store_id)        
-        if(data.store_id!=''){
+        // localStorage.setItem('jwt',data.token)
+        // localStorage.setItem('userData',data.userData._id)
+        // localStorage.setItem('store_id',data.store_id)    
+        setCookie('jwt',data.token, { path: '/' })    
+        setCookie('userData',data.userData._id, { path: '/' })    
+        setCookie('store_id',data.store_id, { path: '/' })  
+
+        if(data.store_id!==''){
           dispatch({type:"STORE",payload:"STORE"})
         }else{
           dispatch({type:"USER",payload:"USER"})
         }       
         M.toast({html: "Seja Bem Vindo, "+userData.name+"!",classes:TOAST_SUCCESS})
         setTimeout(() => {
-          if(data.store_id==''){
+          if(data.store_id===''){
             history.push('/config');
           }else{
             history.push('/profile?storeId='+data.store_id);
