@@ -56,6 +56,7 @@ const Home = () => {
             options={{ minScale: 1, maxScale: 4 }}
             wheel={{ step: 35, limitsOnWheel: true }}
             defaultScale={1}
+            limitToBounds={false}
             >
                 <TransformComponent>
                     <LazyLoadImage effect="blur" key={key} className='item' alt={item.title} src={item.photo !== 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
@@ -73,6 +74,7 @@ const Home = () => {
                         return (
                             <div key={key} className="carousel-item">
                                 <TransformWrapper 
+                                limitToBounds={false}
                                 panning={{ disabled: true, paddingSize: 0 }}
                                 doubleClick={{ disabled: true }}
                                 zoomIn={{ step: 5 }}
