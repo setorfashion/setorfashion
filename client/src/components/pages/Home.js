@@ -91,7 +91,7 @@ const Home = () => {
                        
                         <div key={key} className="card home-card">
                             <div className='header-post' style={{justifyContent:'flex-start',backgroundImage: 'linear-gradient(to top, white 90%, ' + item.postedBy.setor.color + ' 80%)'}}>
-                                <div className='circle-g'>
+                                <div className='circle-g' style={{background: "linear-gradient(white, white) padding-box, linear-gradient(to right, "+item.postedBy.setor.color+" 0%, "+item.postedBy.setor.color+" 100%) border-box"}}>
                                     <LazyLoadImage className='img-circle' style={{width:'32.5px', height: '32.5px', borderRadius:'45%', margin:'2px 2px 2px 2px'}} src={item.media_url}/>
                                 </div>
                                 <div style={{marginTop:'-5px', display: 'inline-block'}}>

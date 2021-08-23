@@ -1,5 +1,6 @@
 import React,{useEffect,createContext,useReducer, useContext} from 'react'
 import NavBar from './components/Navbar'
+import BottomBar from './components/footer'
 import Home from './components/pages/Home'
 import Token from './components/pages/Token'
 import Login from './components/pages/Login'
@@ -75,6 +76,7 @@ function App() {
       <BrowserRouter>        
           <NavBar />
           <Routing />
+          <BottomBar/>
       </BrowserRouter>
     </UserContext.Provider>
   );

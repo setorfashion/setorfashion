@@ -15,7 +15,15 @@ a{
     margin: 0px auto;
     padding-top: 50px;
 }
-
+.footer{
+    color: #fff;
+    background-color: black;
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    height: 36px;
+    z-index: 50;
+}
 .instagram{ 
     background: #f09433; 
     background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
@@ -38,6 +46,7 @@ nav ul a{
 }
 .home {
     padding-top: 30px;
+    padding-bottom: 30px;
     background-color: rgb(245, 245, 245);
 }
 .nav{
@@ -77,10 +86,10 @@ nav ul a{
     position:relative; /*makes left effective*/
     display:table-cell;    
 }
-.circle-g {
+.circle-g{
     width: 42px;
     height: 42px;
-    background: linear-gradient(white, white) padding-box, linear-gradient(to right, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%) border-box;
+    
     border-radius: 50%;
     border: 3px solid transparent;
     float: left;
