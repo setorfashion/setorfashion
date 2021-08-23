@@ -89,7 +89,7 @@ const Home = () => {
                     
                     return (
                         <TransformWrapper 
-                                panning={{ disabled: false, paddingSize: 0 }}
+                                panning={{ disabled: true, paddingSize: 0 }}
                                 doubleClick={{ disabled: true }}
                                 zoomIn={{ step: 5 }}
                                 options={{ minScale: 1, maxScale: 4 }}
