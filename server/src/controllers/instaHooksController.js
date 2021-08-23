@@ -11,9 +11,9 @@ module.exports={
     async posttxHooks(req,res){
         var entry = req.body.entry
         var entry = JSON.parse((JSON.stringify(entry[0])))
-        console.log(entry.changes)
         const changes = JSON.parse(JSON.stringify(entry.changes[0]))
-        console.log(changes)
+        console.log(changes.value)
+        console.log(changes.object_id)
     }
 
 }
