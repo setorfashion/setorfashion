@@ -5,9 +5,8 @@ module.exports={
     async gettxHooks(req,res){
         var key = JSON.parse(JSON.stringify(req.query))
         var key = JSON.parse(JSON.stringify(key))
-        const verify_token = key['hub.verify_token']
-        const challenge = key['hub.challenge']
-        return res.send(challenge)
+        console.log(key)
+        // return res.send(challenge)
     }
 
 }
