@@ -7,7 +7,7 @@ module.exports={
         var key = JSON.parse(JSON.stringify(key))
         const verify_token = key['hub.verify_token']
         const challenge = key['hub.challenge']
-        return res.status(201).json(challenge)
+        return res.send(challenge)
     }
 
 }
