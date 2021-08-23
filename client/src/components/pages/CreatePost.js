@@ -12,6 +12,7 @@ const CreatePost = () => {
     const [content,setContent] = useState("")
     const [image,setImage] = useState("")
     const history = useHistory()
+    const [cookies, setCookie] = useCookies(['user']);
     // dbml8og1b
     const criarPostagem = ()=>{
         const data = new FormData()
@@ -19,8 +20,7 @@ const CreatePost = () => {
         data.append('title',title)
         data.append('body',content)
 
-        const token = useCookies.jwt
-        console.log(token);
+        const token = cookies.jwt
         fetch(API.AMBIENTE+"/post/createpost",{
             method: "Post",
             headers:{

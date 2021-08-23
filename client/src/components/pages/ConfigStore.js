@@ -27,8 +27,8 @@ const ConfigStore = () => {
     const [whatsapp, setWhatsApp] = useState("")
 
 
-    const token = useCookies.jwt
-    const store_id = useCookies.store_id
+    const token = cookies.jwt
+    const store_id = cookies.store_id
     
     useEffect(() => {
         async function fetchStore(){

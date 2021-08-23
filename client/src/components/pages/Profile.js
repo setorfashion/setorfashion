@@ -68,7 +68,7 @@ const Profile = () => {
                 <h6>Você não possui nenhuma publicação, deseja vincular sua loja a um perfil do instagram e acessar todas as publicações?</h6>
                 <div style={{ margin: '0px 0px 50px 0px' }}>
                     <a style={{ marginTop: '20px' }} className='btn instagram' href={'https://api.instagram.com/oauth/authorize?' + API.INSTACONFIG}>
-                        <LazyLoadImage effect="blur" src={insta_logo} style={{ width: '25px', float: 'left', marginRight: '10px', marginTop: '6px' }}/>
+                        <img src={insta_logo} style={{ width: '25px', float: 'left', marginRight: '10px', marginTop: '6px' }}/>
                         Vincular Instagram
                     </a>
                 </div>
@@ -88,7 +88,7 @@ const Profile = () => {
                 {
                     posts.map((item, key) => {
                         return (
-                            <img key={key} className='item' alt={item.title} src={item.photo != 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
+                            <LazyLoadImage effect="blur" key={key} className='item' alt={item.title} src={item.photo != 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
                         )
                     })
 
@@ -101,7 +101,7 @@ const Profile = () => {
             <div>
                 <div style={{ display: "flex", justifyContent: "space-around", margin: "18px 0px", borderBottom: "1px solid gray" }}>
                     <div>
-                        <img className="imagemPerfil"
+                        <LazyLoadImage effect="blur" className="imagemPerfil"
                             style={{ width: '25vw', height: "25vw", borderRadius: "50vw", maxWidth: "160px", maxHeight: "160px", justifyContent: "space-around" }}
                             src="https://cdn.pixabay.com/photo/2015/12/19/21/03/person-1100286_960_720.jpg" />
                     </div>

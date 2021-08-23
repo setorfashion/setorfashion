@@ -7,14 +7,15 @@ const API = require('../../Api')
 
 
 const Token = () => {
+    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     function useQuery() {
         return new URLSearchParams(useLocation().search);
     }
     let query = useQuery();
     const [load, setLoad] = useState(true)
     const authCode = query.get("code");
-    const jwt = useCookies.jwt
-    const storeId = useCookies.store_id
+    const jwt = cookies.jwt
+    const storeId = cookies.store_id
     const history = useHistory();
     const [statusToken, setStatusToken] = useState()
     
