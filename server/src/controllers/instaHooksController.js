@@ -10,7 +10,8 @@ module.exports={
     },
     async posttxHooks(req,res){
         const entry =req.body.entry
-        console.log(entry.changes)
+        console.log(req.body)
+        console.log(entry)
         // return res.send(challenge)
     }
 
