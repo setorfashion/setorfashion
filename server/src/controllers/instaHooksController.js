@@ -14,8 +14,8 @@ module.exports={
         console.log(entry)
         var entry = JSON.parse((JSON.stringify(entry[0])))
         console.log(entry)
-        console.log(entry.changes)
-
+        const changes = JSON.parse(entry.changes)
+        console.log(changes.value.object_id)
     }
 
 }
