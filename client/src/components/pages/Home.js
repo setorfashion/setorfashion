@@ -88,14 +88,7 @@ const Home = () => {
                 data.map((item, key) => {
                     
                     return (
-                        <TransformWrapper 
-                                panning={{ disabled: true, paddingSize: 0 }}
-                                doubleClick={{ disabled: true }}
-                                zoomIn={{ step: 5 }}
-                                options={{ minScale: 1, maxScale: 4 }}
-                                wheel={{ step: 35, limitsOnWheel: true }}
-                                defaultScale={1}
-                                limitToBounds={false}>
+                       
                         <div key={key} className="card home-card">
                             <div className='header-post' style={{justifyContent:'flex-start',backgroundImage: 'linear-gradient(to top, white 90%, ' + item.postedBy.setor.color + ' 80%)'}}>
                                 <div className='circle-g'>
@@ -119,8 +112,16 @@ const Home = () => {
                             </div>
                             
                             <div className="card-image">
-                                
+                            <TransformWrapper 
+                                panning={{ disabled: true, paddingSize: 0 }}
+                                doubleClick={{ disabled: true }}
+                                zoomIn={{ step: 5 }}
+                                options={{ minScale: 1, maxScale: 4 }}
+                                wheel={{ step: 35, limitsOnWheel: true }}
+                                defaultScale={1}
+                                limitToBounds={false}>
                                         {item.childrens.length > 0 ? caroulselImage(item.childrens) : simpleImage(item, key)}
+                                </TransformWrapper>
                             </div>
 
                             
@@ -145,7 +146,7 @@ const Home = () => {
                                 
                             </div>
                         </div>
-                        </TransformWrapper>
+                        
                     )
                 })
             }
