@@ -22,7 +22,9 @@ const Profile = () => {
     const history = useHistory()
 
     if (state === 'USER') {
-        history.push('/config')
+        if(cookies.storeId===storeId){
+            history.push('/config')
+        }        
     }
     useEffect(() => {
         // fetch(API.AMBIENTE + '/token/getInstagramData', {
@@ -52,7 +54,7 @@ const Profile = () => {
             }),
             method: "Post"
         }).then(res => res.json()).then((result) => {
-            console.log(result)
+            // console.log(result)
             setLoad(false)
             setPosts(result)
         }).catch(err => {

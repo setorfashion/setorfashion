@@ -34,8 +34,8 @@ const Routing = () =>{
       // history.push('/config')
     }
     else{
-      dispatch({type:"USER",payload:"CLEAR"})
-      history.push('/')
+      dispatch({type:"CLEAR",payload:"CLEAR"})
+      // history.push('/')
     }
 
   },[])
@@ -72,8 +72,7 @@ function App() {
   
   return (
     <UserContext.Provider value={{state,dispatch}}>
-      <BrowserRouter>
-        
+      <BrowserRouter>        
           <NavBar />
           <Routing />
       </BrowserRouter>

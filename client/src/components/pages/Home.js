@@ -6,7 +6,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ShowMoreText from "react-show-more-text";
 // import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { Controlled as ControlledZoom } from 'react-medium-image-zoom'
+import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 const API = require('../../Api')
 
@@ -19,15 +19,7 @@ const Home = () => {
     if (params) {
         instaCod = params.code
     }
-    const [isZoomed, setIsZoomed] = useState(false)
 
-    const handleImgLoad = useCallback(() => {
-        setIsZoomed(true)
-    }, [])
-
-    const handleZoomChange = useCallback(shouldZoom => {
-        setIsZoomed(shouldZoom)
-    }, [])
 
     setTimeout(() => {
         let options = {
@@ -61,9 +53,9 @@ const Home = () => {
 
     const simpleImage = (item, key) => {
         return (
-            <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange}>
+            <Zoom>
                 <LazyLoadImage effect="blur" key={key} className='item' alt={item.title} src={item.photo !== 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
-            </ControlledZoom>
+            </Zoom>
         )
     }
     const caroulselImage = (item) => {
@@ -75,9 +67,9 @@ const Home = () => {
                     item.map((child, key) => {
                         return (
                             <div key={key} className="carousel-item">
-                                <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange}>
+                                <Zoom>
                                     <LazyLoadImage effect="blur" className='item' src={child.media_url} alt={item.title} />
-                                </ControlledZoom>
+                                </Zoom>
                             </div>
                         )
 

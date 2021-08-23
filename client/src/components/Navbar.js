@@ -38,6 +38,8 @@ const NavBar = ()=>{
             history.push('/')
           }}><i  className="material-icons icons" style={{fontSize:"18px", color: 'red'}}>power_settings_new</i></button>
         ]
+      }else if (state==='CLEAR' || !state) {
+        <li key="profile" ><Link to={'/profile?storeId='} hidden><i className="material-icons icons " style={{fontSize:"18px"}}>person</i></Link></li>
       }
       return [
         // <li key="signup"><Link to="/signup" style={{marginTop:'10px'}}>Sou Lojista</Link></li>,
