@@ -31,7 +31,7 @@ module.exports = {
             return res.status(402).json({ message: 'Você precisa criar sua loja antes de vincular sua conta do instagram!' })
         }
         const tokenData = await Token.findOne({ storeId: storeData._id })
-        if (storeData.dataFromInstagram && tokenData) {
+        if (!storeData.dataFromInstagram && tokenData) {
             // const responseProfileData = await get("https://graph.instagram.com/me", {
             // params: {
             //     fields: "id,username,media_count,account_type",
