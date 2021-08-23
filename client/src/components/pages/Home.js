@@ -82,10 +82,11 @@ const Home = () => {
     return (
         
         <div className="home">
-            
+           
             {data.length === 0 ? <Loading /> :
             
                 data.map((item, key) => {
+                    
                     return (
                         
                         <div key={key} className="card home-card">
@@ -109,11 +110,19 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+                            <TransformWrapper 
+                                panning={{ disabled: true, paddingSize: 0 }}
+                                doubleClick={{ disabled: true }}
+                                zoomIn={{ step: 5 }}
+                                options={{ minScale: 1, maxScale: 4 }}
+                                wheel={{ step: 35, limitsOnWheel: true }}
+                                defaultScale={1}
+                                limitToBounds={false}>
                             <div className="card-image">
                                 
                                         {item.childrens.length > 0 ? caroulselImage(item.childrens) : simpleImage(item, key)}
                             </div>
+                            </TransformWrapper>
 
                             
                             <div className="card-content">
@@ -137,6 +146,7 @@ const Home = () => {
                                 
                             </div>
                         </div>
+                        
                     )
                 })
             }
