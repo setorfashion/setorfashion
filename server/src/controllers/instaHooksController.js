@@ -9,12 +9,13 @@ module.exports={
         // return res.send(challenge)
     },
     async posttxHooks(req,res){
+        console.log(req.body)
         var entry = req.body.entry
         var entry = JSON.parse((JSON.stringify(entry[0])))
         const changes = JSON.parse(JSON.stringify(entry.changes[0]))
         const value = changes.value
-        console.log(value)
-        console.log(value.object_id)
+        const object_id = value.object_id
+        console.log(object_id)
     }
 
 }
