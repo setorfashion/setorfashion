@@ -50,7 +50,7 @@ const Home = () => {
     const simpleImage = (item, key) => {
         return (
             <TransformWrapper 
-            pan={{ disabled: false, paddingSize: 0 }}
+            panning={{ disabled: true, paddingSize: 0 }}
             doubleClick={{ disabled: true }}
             zoomIn={{ step: 5 }}
             options={{ minScale: 1, maxScale: 4 }}
@@ -73,7 +73,7 @@ const Home = () => {
                         return (
                             <div key={key} className="carousel-item">
                                 <TransformWrapper 
-                                pan={{ disabled: true, paddingSize: 0 }}
+                                panning={{ disabled: true, paddingSize: 0 }}
                                 doubleClick={{ disabled: true }}
                                 zoomIn={{ step: 5 }}
                                 options={{ minScale: 1, maxScale: 4 }}
@@ -148,7 +148,6 @@ const Home = () => {
                                 truncatedEndingComponent={"... "}
                                 ><p>{item.caption}</p></ShowMoreText>
                                 
-                                <input type="text" placeholder="add comment" />
                             </div>
                         </div>
                     )
