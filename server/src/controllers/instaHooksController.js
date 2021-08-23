@@ -9,10 +9,8 @@ module.exports={
         // return res.send(challenge)
     },
     async posttxHooks(req,res){
-        var key = JSON.parse(JSON.stringify(req.query))
-        var key = JSON.parse(JSON.stringify(key))
-        console.log(key)
-        console.log(req.body)
+        const entry =req.body.entry
+        console.log(entry.changes)
         // return res.send(challenge)
     }
 
