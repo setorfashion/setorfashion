@@ -84,7 +84,7 @@ module.exports = {
                         createdAt: item.timestamp,
                         childrens:childrens
                     })                
-                //await newPost.save()
+                await newPost.save()
             })
             await Promise.all(promises);            
             Store.findByIdAndUpdate(storeData._id,
