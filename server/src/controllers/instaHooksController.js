@@ -12,7 +12,8 @@ module.exports={
         var entry = req.body.entry
         var entry = JSON.parse((JSON.stringify(entry[0])))
         const changes = JSON.parse(JSON.stringify(entry.changes[0]))
-        console.log(changes.value)
+        const value =JSON.parse(JSON.stringify(changes.value))
+        console.log(value)
         console.log(changes.object_id)
     }
 
