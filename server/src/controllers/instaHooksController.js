@@ -7,6 +7,13 @@ module.exports={
         var key = JSON.parse(JSON.stringify(key))
         console.log(key)
         // return res.send(challenge)
+    },
+    async posttxHooks(req,res){
+        var key = JSON.parse(JSON.stringify(req.query))
+        var key = JSON.parse(JSON.stringify(key))
+        console.log(key)
+        console.log(req.body)
+        // return res.send(challenge)
     }
 
 }
