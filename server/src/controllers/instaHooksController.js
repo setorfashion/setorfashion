@@ -5,7 +5,7 @@ module.exports={
     async gettxHooks(req,res){
         const key = JSON.stringify(req.query)
         console.log(key)
-        return res.status(201).json(key)
+        return res.status(201).json({msg:'ok'})
     }
 
 }
