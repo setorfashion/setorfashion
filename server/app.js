@@ -30,7 +30,7 @@ app.use('/post', require('./src/routes/postRoutes'));
 app.use('/config', require('./src/routes/configsRoutes'));
 app.use('/store', require('./src/routes/storeRoutes'));
 app.use('/token', require('./src/routes/tokenRoutes'));
-app.use('/token', require('./src/routes/tokenRoutes'));
+app.use('/hook', require('./src/routes/instaHookRoutes'));
 
 
 
