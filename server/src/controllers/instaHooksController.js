@@ -12,7 +12,7 @@ module.exports={
         var entry = req.body.entry
         var entry = JSON.parse((JSON.stringify(entry[0])))
         console.log(entry.changes)
-        const changes = JSON.parse(entry.changes[0])
+        const changes = JSON.parse(JSON.stringify(entry.changes[0]))
         console.log(changes)
     }
 
