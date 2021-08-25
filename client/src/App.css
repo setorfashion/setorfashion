@@ -48,6 +48,7 @@ nav ul a{
     padding-top: 30px;
     padding-bottom: 30px;
     background-color: rgb(245, 245, 245);
+    overflow-x: hidden;
 }
 .nav{
     margin-top: 0px;
@@ -117,13 +118,15 @@ nav ul a{
 }
 .card .card-image img{   
     
-    height: 50vh;
+    height: 60vh;
     object-fit: fill;
 }
 .icons{
     justify-content: left;
 }
-
+.js-resize-sensor, .t-CardsRegion, .a-CardView-media, .a-TMV-w-scroll {
+    overflow: visible!important;
+ }
   /* label underline focus color */
   .input-field input[type=text]:focus {
     border-bottom: 1px solid rgb(8, 93, 252) !important;
