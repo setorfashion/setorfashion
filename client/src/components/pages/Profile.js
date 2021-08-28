@@ -17,11 +17,14 @@ const Profile = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     let query = useQuery();
     const storeId = query.get("storeId");
+    
     const { state, dispatch } = useContext(UserContext)
     const [posts, setPosts] = useState([])
     const [load, setLoad] = useState(true)
     const history = useHistory()
-
+    if(!storeId || storeId===undefined){
+        history.push('/');
+    }
     if (state === 'USER') {
         if (cookies.storeId === storeId) {
             history.push('/config')

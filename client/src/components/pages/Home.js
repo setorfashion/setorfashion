@@ -81,28 +81,24 @@ const Home = () => {
     }, 300);
 
     const verifyImage = (image_url) => {
-        let img = new Image();
-        img.src = image_url
-        img.onerror = function () {
-            if (this.width === 0) {
-                return true
-            } else {
-                return false
-            }
-        }
-        img.onload = function () {
-            if (this.width > 0) {
-                return true
-            } else {
-                return false
-            }
-        }
+        // if(image_url===undefined) return true
+        // const xhr = new XMLHttpRequest();
 
-        if (img.onerror()) {
-            return false
-        } else {
-            return img.onload()
-        }
+        // // listen for `onload` event
+        // xhr.onload = () => {
+        //     if (xhr.status == 200) {
+        //         return true
+        //     } else {
+        //         return false
+        //     }
+        // };
+
+        // // create a `HEAD` request
+        // xhr.open('HEAD', image_url);
+
+        // // send request
+        // xhr.send();
+
     }
 
     useEffect(() => {
@@ -155,9 +151,6 @@ const Home = () => {
             {data.length === 0 ? <Loading /> :
 
                 data.map((item, key) => {
-                    if (verifyImage(item.media_url) || item.photo !== 'no image') {
-                        console.log('carregar')
-
                         return (
 
                             <div key={key} className="card home-card ">
@@ -209,7 +202,6 @@ const Home = () => {
                             </div>
 
                         )
-                    }
                 })
             }
 
