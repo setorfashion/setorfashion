@@ -13,7 +13,6 @@ const CreatePost = () => {
     const [image,setImage] = useState("")
     const history = useHistory()
     const [cookies, setCookie] = useCookies(['user']);
-    // dbml8og1b
     const criarPostagem = ()=>{
         const data = new FormData()
         data.append('image',image)
@@ -29,7 +28,6 @@ const CreatePost = () => {
             body:data,
         }).then(res=>res.json())
         .then((result)=>{
-            console.log(result)
             M.toast({html:"Post Criado com sucesso",classes:TOAST_SUCCESS})
             setTimeout(() => {
                 history.push('/');

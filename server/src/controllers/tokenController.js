@@ -111,8 +111,16 @@ module.exports = {
         //deletar token antigo
           Token.deleteOne({storeId:storeData._id}).then((rsDelete)=>{
             novoToken.save().then((tokensaved)=>{
-              //inserir novo token
-                return res.status(201).json(tokensaved)
+                //atualizar a referencia do token na loja
+                Store.findByIdAndUpdate(storeData._id,{
+                  token:tokensaved._id
+                },
+                {new:true}
+                ).then((storeUpdated)=>{
+                  return res.status(201).json({msg: 'Token atualizado com suceso'})
+                }).catch(err=>{
+                  console.log(err)
+                })                
             }).catch (err=>{
               console.log('erro do insert token '+ err)
                 return res.status(402).json({erro:err})

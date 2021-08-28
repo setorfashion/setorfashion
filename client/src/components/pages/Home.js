@@ -5,11 +5,8 @@ import Loading from '../loader'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ShowMoreText from "react-show-more-text";
+
 const API = require('../../Api')
-
-
-
-
 
 
 const Home = () => {
@@ -17,14 +14,10 @@ const Home = () => {
     const params = useParams()
 
     const pinchZoom = (evt) => {
-        console.log(evt.target)
-        const id = evt.target.id
-        var imageElement = document.getElementById(id);
-
+        const {id} = evt.target
+        let imageElement = document.getElementById(id);
         let imageElementScale = 1;
-
         let start = {};
-
         // Calculate distance between two fingers
         const distance = (event) => {
             return Math.hypot(event.touches[0].pageX - event.touches[1].pageX, event.touches[0].pageY - event.touches[1].pageY);
@@ -71,7 +64,7 @@ const Home = () => {
         });
     }
 
-    var instaCod = '';
+    let instaCod = '';
     if (params) {
         instaCod = params.code
     }
@@ -83,8 +76,8 @@ const Home = () => {
             duration: 200,
             pressed: false
         }
-        var elems = document.querySelectorAll('.carousel');
-        var instances = M.Carousel.init(elems, options);
+        let elems = document.querySelectorAll('.carousel');
+        let instances = M.Carousel.init(elems, options);
     }, 300);
 
 
@@ -135,7 +128,7 @@ const Home = () => {
 
             {data.length === 0 ? <Loading /> :
 
-                data.map((item, key) => {
+                data.map((item, key)=>{
 
                     return (
 
@@ -161,7 +154,6 @@ const Home = () => {
                                 </div>
                             </div>
                             <div onLoad={(e) => pinchZoom(e)} id={key} className="card-image ">
-
                                 {item.childrens.length > 0 ? caroulselImage(item.childrens) : simpleImage(item, key)}
                             </div>
 

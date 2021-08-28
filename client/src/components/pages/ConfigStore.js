@@ -138,13 +138,11 @@ const ConfigStore = () => {
     const history = useHistory()
 
     const handleCategories = (e) => {
-        let ischecked=(e.target.checked)
-        let id = e.target.id
+        let {checked: ischecked, id} = e.target
         categories.map((item,key)=>{
             if(item._id===id){
                     item.checked = ischecked
-                    categories[key]=item
-                
+                    categories[key]=item                
             }
         })        
         var newcategories = categories
@@ -152,13 +150,11 @@ const ConfigStore = () => {
     }
 
     const handleSubCategories = (e) => {
-        let ischecked=(e.target.checked)
-        let id = e.target.id
+        let {checked: ischecked, id}=e.target
         subCategories.map((item,key)=>{
             if(item._id===id){
                     item.checked = ischecked
-                    subCategories[key]=item
-                
+                    subCategories[key]=item                
             }
         })        
         var newsubcategories = subCategories

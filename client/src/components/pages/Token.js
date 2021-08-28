@@ -21,7 +21,6 @@ const Token = () => {
     
     useEffect(() => {
         async function vincular (){
-            console.log('chamou vinculacao')
             await fetch(API.AMBIENTE + '/token', {
                 method: 'post',
                 headers: {

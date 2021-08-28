@@ -7,6 +7,10 @@ const perfilConfigSchema = new mongoose.Schema({
         ref: "Usuario",
         unique: true
     },
+    token:{
+        type: ObjectId,
+        ref: "Token"
+    },
     storeName:{
         type: String,
         required: true
@@ -39,6 +43,10 @@ const perfilConfigSchema = new mongoose.Schema({
     dataFromInstagram:{
         type: Boolean,
         default: false
+    },
+    lastCheck:{
+        type: Date,
+        default: Date.now
     }
 })
 

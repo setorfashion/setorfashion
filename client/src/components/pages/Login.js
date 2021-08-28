@@ -32,10 +32,7 @@ const Login = ()=>{
       if(data.error){
         M.toast({html: data.error,classes:TOAST_ERROR})
       }else{
-        const userData = data.userData;
-        // localStorage.setItem('jwt',data.token)
-        // localStorage.setItem('userData',data.userData._id)
-        // localStorage.setItem('store_id',data.store_id)    
+        const userData = data.userData;  
         setCookie('jwt',data.token, { path: '/' })    
         setCookie('userData',data.userData._id, { path: '/' })    
         setCookie('store_id',data.store_id, { path: '/' })  
