@@ -88,7 +88,7 @@ const Profile = () => {
                 {
                     posts.map((item, key) => {
                         return (
-                            <div style={{width:'33%',margin:'0px 1px 0px 0px'}}>
+                            <div key={key} style={{width:'33%',margin:'0px 1px 0px 0px'}}>
                                 <LazyLoadImage effect="blur" key={key} className='item' alt={item.title} src={item.photo != 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
                             </div>
                         )
