@@ -115,11 +115,13 @@ module.exports = {
                 //atualizar a referencia do token na loja
                 Store.findByIdAndUpdate(storeData._id,{
                   token:tokensaved._id,
-                  dataFromInstagram: false
+                  dataFromInstagram: false,
+                  lastCheck: new Date()
                 },
                 {new:true}
                 ).then((storeUpdated)=>{
                   //apagar todas as imagens (caso aja de um vinculo anterior) sincronizadas do instagram
+                  console.log(`Loja atualizada no token ${storeUpdated}`)
                   Post.deleteMany({postedBy:storeData._id,from:'instagram'})   
                   return res.status(201).json({msg: 'Token atualizado com suceso'})
                 }).catch(err=>{

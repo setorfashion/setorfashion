@@ -56,6 +56,9 @@ module.exports = {
                 },
             });
             const postsInstagram = responseMediaData['data']['data']
+            if(postsInstagram){
+                Post.deleteMany({postedBy:storeData._id,from:'instagram'}) 
+            }
             const promises = postsInstagram.map( async (item,key) => {  
                 let childrens = []
                     if(item.media_type==='CAROUSEL_ALBUM'){
