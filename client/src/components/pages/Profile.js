@@ -54,7 +54,7 @@ const Profile = () => {
             }),
             method: "Post"
         }).then(res => res.json()).then((result) => {
-            // console.log(result)
+            console.log(result)
             setLoad(false)
             setPosts(result)
         }).catch(err => {
