@@ -6,6 +6,7 @@ import Loading from '../loader'
 import { useCookies } from 'react-cookie';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { getIdFromTrigger } from 'materialize-css'
 const API = require('../../Api')
 
 
@@ -22,9 +23,33 @@ const Profile = () => {
     const history = useHistory()
 
     if (state === 'USER') {
-        if(cookies.storeId===storeId){
+        if (cookies.storeId === storeId) {
             history.push('/config')
-        }        
+        }
+    }
+    const verifyImage = (image_url) => {
+        let img = new Image();
+        img.src= image_url
+        img.onerror = function () {
+            if (this.width === 0) {
+                return true
+            } else {
+                return false
+            }
+        }
+        img.onload = function () {
+            if (this.width > 0) {
+                return true
+            } else {
+                return false
+            }
+        }
+        
+        if(img.onerror()) {            
+            return false
+        }else{
+            return img.onload()
+        }
     }
     useEffect(() => {
         // fetch(API.AMBIENTE + '/token/getInstagramData', {
@@ -68,7 +93,7 @@ const Profile = () => {
                 <h6>Você não possui nenhuma publicação, deseja vincular sua loja a um perfil do instagram e acessar todas as publicações?</h6>
                 <div style={{ margin: '0px 0px 50px 0px' }}>
                     <a style={{ marginTop: '20px' }} className='btn instagram' href={'https://api.instagram.com/oauth/authorize?' + API.INSTACONFIG}>
-                        <img src={insta_logo} style={{ width: '25px', float: 'left', marginRight: '10px', marginTop: '6px' }}/>
+                        <img src={insta_logo} style={{ width: '25px', float: 'left', marginRight: '10px', marginTop: '6px' }} />
                         Vincular Instagram
                     </a>
                 </div>
@@ -87,11 +112,13 @@ const Profile = () => {
             <div className="galery">
                 {
                     posts.map((item, key) => {
-                        return (
-                            <div key={key} style={{width:'33%',margin:'0px 1px 0px 0px'}}>
-                                <LazyLoadImage effect="blur" key={key} className='item' alt={item.title} src={item.photo != 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
-                            </div>
-                        )
+                        if ((item.media_url !== undefined && verifyImage(item.media_url)) || item.photo !== 'no image') {
+                            return (
+                                <div key={key} style={{ width: '33%', margin: '0px 1px 0px 0px' }}>
+                                    <LazyLoadImage effect="blur" key={key} className='item' alt={item.title} src={item.photo != 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
+                                </div>
+                            )
+                        }
                     })
 
                 }

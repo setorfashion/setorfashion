@@ -2,6 +2,7 @@ const { json } = require('express')
 const mongoose = require('mongoose')
 const Token = mongoose.model('Token')
 const Store = mongoose.model('Store')
+const Post = mongoose.model('Post')
 const { get } = require("axios").default;
 const { post } = require("request");
 const { promisify } = require("util");
@@ -113,10 +114,13 @@ module.exports = {
             novoToken.save().then((tokensaved)=>{
                 //atualizar a referencia do token na loja
                 Store.findByIdAndUpdate(storeData._id,{
-                  token:tokensaved._id
+                  token:tokensaved._id,
+                  dataFromInstagram: false
                 },
                 {new:true}
                 ).then((storeUpdated)=>{
+                  //apagar todas as imagens (caso aja de um vinculo anterior) sincronizadas do instagram
+                  Post.deleteMany({postedBy:storeData._id,from:'instagram'})   
                   return res.status(201).json({msg: 'Token atualizado com suceso'})
                 }).catch(err=>{
                   console.log(err)
