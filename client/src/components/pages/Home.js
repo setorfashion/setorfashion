@@ -80,24 +80,10 @@ const Home = () => {
         let instances = M.Carousel.init(elems, options);
     }, 300);
 
-    const verifyImage = (image_url) => {
-        // if(image_url===undefined) return true
-        // const xhr = new XMLHttpRequest();
-
-        // // listen for `onload` event
-        // xhr.onload = () => {
-        //     if (xhr.status == 200) {
-        //         return true
-        //     } else {
-        //         return false
-        //     }
-        // };
-
-        // // create a `HEAD` request
-        // xhr.open('HEAD', image_url);
-
-        // // send request
-        // xhr.send();
+    const hideImage = (id) => {        
+        const element = document.getElementById(id)
+        console.log(id)
+        element.setAttribute('hidden',true)
 
     }
 
@@ -119,31 +105,24 @@ const Home = () => {
 
     const simpleImage = (item, key) => {
         return (
-            <LazyLoadImage effect="blur" id={item._id} key={key} className='item' alt={item.title} src={item.photo !== 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
+            <LazyLoadImage effect="blur" onError={()=>hideImage('hc_'+key)} id={item._id} key={key} className='item' alt={item.title} src={item.photo !== 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
         )
     }
-    const caroulselImage = (item) => {
+    const caroulselImage = (item,father) => {
         return (
-
             <div className="carousel carousel-slider center a-CardView-media a-CardView-media--body  a-CardView-media--cover pz-Media">
-
                 {
-
                     item.map((child, key) => {
-
                         return (
                             <div key={key} className="carousel-item ">
-                                <LazyLoadImage id={child.id} effect="blur" className='item ' src={child.media_url} alt={item.title} />
+                                <LazyLoadImage id={child.id} onError={()=>hideImage(father)} effect="blur" className='item ' src={child.media_url} alt={item.title} />
                             </div>
                         )
-
-
                     })
                 }
             </div>
         )
     }
-
     return (
 
         <div className="home a-CardView-media a-CardView-media--body  a-CardView-media--cover pz-Media">
@@ -152,8 +131,7 @@ const Home = () => {
 
                 data.map((item, key) => {
                         return (
-
-                            <div key={key} className="card home-card ">
+                            <div key={key} className="card home-card " id={'hc_'+key}>
                                 <div className='header-post' style={{ backgroundImage: 'linear-gradient(to top, white 90%, ' + item.postedBy.setor.color + ' 80%)' }}>
                                     <div className='circle-g' style={{ background: "linear-gradient(white, white) padding-box, linear-gradient(to right, " + item.postedBy.setor.color + " 0%, " + item.postedBy.setor.color + " 100%) border-box" }}>
                                         <LazyLoadImage className='img-circle' style={{ width: '32.5px', height: '32.5px', borderRadius: '45%', margin: '2px 2px 2px 2px' }} src={item.media_url} />
@@ -174,8 +152,8 @@ const Home = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div onLoad={(e) => pinchZoom(e)} id={key} className="card-image ">
-                                    {item.childrens.length > 0 ? caroulselImage(item.childrens) : simpleImage(item, key)}
+                                <div onLoad={(e) => pinchZoom(e)} className="card-image home-images">
+                                    {item.childrens.length > 0 ? caroulselImage(item.childrens,'hc_'+key) : simpleImage(item, key)}
                                 </div>
 
 

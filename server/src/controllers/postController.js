@@ -10,12 +10,13 @@ module.exports = {
     async getAllPosts(req, res, next) {
         Post.find().sort({ createdAt: -1 })
             .populate(
-                        {path:"postedBy",
-                            populate: {
-                                path: 'setor' 
-                            }
-                        }
-                    ) //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
+                {
+                    path: "postedBy",
+                    populate: {
+                        path: 'setor'
+                    }
+                }
+            ) //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
             .then((result) => {
                 if (result) {
                     return res.status(201).json(result);
@@ -44,7 +45,7 @@ module.exports = {
             //     console.log(err)
             // });
             // const profData = responseProfileData['data']
-            
+
             const responseMediaData = await get("https://graph.instagram.com/me/media", {
                 params: {
                     fields:
@@ -56,49 +57,61 @@ module.exports = {
                 },
             });
             const postsInstagram = responseMediaData['data']['data']
-            if(postsInstagram){
-                Post.deleteMany({postedBy:storeData._id,from:'instagram'}) 
+            if (postsInstagram) {
+                Post.deleteMany({ postedBy: storeData._id, from: 'instagram' })
             }
-            const promises = postsInstagram.map( async (item,key) => {  
-                let childrens = []
-                    if(item.media_type==='CAROUSEL_ALBUM'){
-                        const childMediaData = await get("https://graph.instagram.com/"+item.id+"/children", {
-                            params: {
-                                access_token: tokenData.longToken,
-                                fields:"id,media_url",
-                                
-                            },
-                            method: 'get',
-                            headers: {
-                                host: "graph.instagram.com",
-                            },
-                        }).catch(err=>{
-                            console.log(err)
-                        });  
-                        childrens = childMediaData['data']['data']
-                    }           
-                    let newPost = new Post({
-                        caption: item.caption,
-                        id: item.id,
-                        postedBy: storeData,
-                        media_url: item.media_url,
-                        permalink: item.permalink,
-                        from: 'instagram',
-                        createdAt: item.timestamp,
-                        childrens:childrens
-                    })                
-                await newPost.save()
+            const newPosts = new Promise((resolve, reject) => {
+                postsInstagram.map(
+                    async (item, key) => {
+                        let childrens = []
+                        if (item.media_type === 'CAROUSEL_ALBUM') {
+                            const childMediaData = await get("https://graph.instagram.com/" + item.id + "/children", {
+                                params: {
+                                    access_token: tokenData.longToken,
+                                    fields: "id,media_url",
+
+                                },
+                                method: 'get',
+                                headers: {
+                                    host: "graph.instagram.com",
+                                },
+                            }).catch(err => {
+                                reject(err)
+                                return
+                            });
+                            childrens = childMediaData['data']['data']
+                        }
+                        let newPost = new Post({
+                            caption: item.caption,
+                            id: item.id,
+                            postedBy: storeData,
+                            media_url: item.media_url,
+                            permalink: item.permalink,
+                            from: 'instagram',
+                            createdAt: item.timestamp,
+                            childrens: childrens
+                        })
+                        newPost.save().then(rs => resolve(rs))
+                            .catch(err => {
+                                reject(err)
+                                return
+                            })
+                    })
             })
-            await Promise.all(promises);            
+            Promise.all(newPosts).then(rs => console.log('Novas Publicacoes inseridas'))
+                .catch(err => {
+                    return res.status(402).json({ msg: err })
+                })
+
             Store.findByIdAndUpdate(storeData._id,
-                    {
-                    dataFromInstagram:true
-                    },
-                    {new:true}
-                ).then((updatedStore)=>{
-                console.log('loja atualizada '+updatedStore)
-            }).catch(err=>{
-                console.log('erro update store '+err)
+                {
+                    dataFromInstagram: true
+                },
+                { new: true }
+            ).then((updatedStore) => {
+                console.log('loja atualizada ' + updatedStore)
+            }).catch(err => {
+                console.log('erro update store ' + err)
             })
             Post.find({ postedBy: storeData._id })
                 .sort({ createdAt: -1 })
@@ -113,16 +126,16 @@ module.exports = {
 
 
         } else {
-            Post.find({postedBy:storeData._id})
-            .sort({createdAt: -1})
-            .populate("postedBy") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
-            .then((result)=>{
-                if(result){
-                    return res.status(201).json(result);
-                }
-            }).catch(err=>{
-                console.log(err);
-            });
+            Post.find({ postedBy: storeData._id })
+                .sort({ createdAt: -1 })
+                .populate("postedBy") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
+                .then((result) => {
+                    if (result) {
+                        return res.status(201).json(result);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
         }
 
     },

@@ -3,6 +3,7 @@ import {useHistory } from 'react-router-dom'
 import M from 'materialize-css'
 import {UserContext} from '../../App'
 import { useCookies } from 'react-cookie';
+import Loading from '../loader'
 
 const COLORS = require('../../classes')
 const API = require('../../Api')
@@ -11,6 +12,7 @@ const API = require('../../Api')
 
 const ConfigStore = () => {
     const [cookies, setCookie] = useCookies(['user']);
+    const [load, setLoad] = useState(true)
     const {state,dispatch} = useContext(UserContext)
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
@@ -54,6 +56,7 @@ const ConfigStore = () => {
                 setEmail(storedt.email)
                 setInstagram(storedt.instagram)
                 setWhatsApp(storedt.whatsapp)
+                setLoad(false)
             }).catch(err=>{
                 console.log(err)
             })
@@ -281,9 +284,8 @@ const ConfigStore = () => {
         })
 
     }
-
     return (
-        <div className="input-filed-config settings">
+        <div className="input-filed-config settings" style={{paddingTop: '50px'}}>
             <h4>
                 Configurações
             </h4>

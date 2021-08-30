@@ -100,7 +100,7 @@ const Token = () => {
     }
     const renderConteudo = () =>{
         return (
-            <div>
+            <div >
                 <div style={{ textAlign: 'center', padding: '50px 10px 20px 10px' }}>
                     <h5>Status: {statusToken ? '  Vinculado' : 'Não Vinculado'}</h5>
                 </div>
@@ -112,7 +112,7 @@ const Token = () => {
     }
     return (
         
-        <div>
+        <div style={{ paddingTop: '30px' }}>
             {load?<Loading/>:renderConteudo()}
         </div>
     )

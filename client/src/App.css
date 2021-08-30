@@ -2,25 +2,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Karla:wght@300&family=Source+Serif+Pro:ital,wght@1,300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
 a{
     color: black ;
 }
 .font-black{
     color: black !important;
 }
-.brand-logo,h2{
+.logo-font {
+    font-family: 'Righteous', cursive;
+    /* background: linear-gradient(to right, #d03030 0%,#d030a8 10%,#3088d0 20%,#0ce2e2 40%,#0ce265 60%,#fffb00 80%, #ffffff 100%); */
+	color:#ffeb3b !important;
+    margin-top: 11px;
+    font-size: 2.1rem;
+    left: 10px;
+    position: absolute;
+    /* -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent; */
+  }
+/* .brand-logo,h2{
     font-family: 'Grand Hotel', cursive;
-}
+} */
 .myLoginCard{
     margin: 0px auto;
     padding-top: 50px;
 }
 .footer{
     color: #fff;
-    background-color: black;
+    background-color: black ;
     position: fixed;
     width: 100%;
-    bottom: 0px;
+    bottom: -2px;
     height: 36px;
     z-index: 50;
 }
@@ -45,7 +57,7 @@ nav ul a{
     margin: 0px auto;
 }
 .home {
-    padding-top: 30px;
+    padding-top: 46px;
     padding-bottom: 30px;
     background-color: rgb(245, 245, 245);
     overflow-x: hidden;
@@ -54,15 +66,19 @@ nav ul a{
     margin-top: 0px;
     z-index: 50;
     position: fixed;
-    height: 36px;
+    height: 56px;
     line-height: 36px;
-    background-color: rgb(26, 26, 26);
+    /* background-color: rgb(26, 26, 26); */
+    background: black ;
     color: white;
 
 }
+.nav li{
+    margin-top: 25px;
+}
 #toast-container {
     right: auto !important;
-    top: 26px !important;
+    top: 56px !important;
   }
 .white-logo{
     color: white !important;
@@ -71,7 +87,7 @@ nav ul a{
     color: white;
 }
 .home-card{
-    max-width: 500px;
+    max-width: 614px;
     margin: 20px auto;
 }
 .card{
@@ -117,16 +133,26 @@ nav ul a{
     text-align: center;
 }
 .card .card-image img{   
-    
-    height: 60vh;
+    /* max-width: 614px; */
+    height: 100%;
     object-fit: fill;
 }
 .icons{
     justify-content: left;
 }
-.js-resize-sensor, .t-CardsRegion, .a-CardView-media, .a-TMV-w-scroll {
+.home-images .lazy-load-image-background.blur.lazy-load-image-loaded {
+    width: 100vw;
+    max-width: 614px;
+}
+.profile-image-container .lazy-load-image-background.blur.lazy-load-image-loaded {
+    max-width: calc(550px/3);
+      height: 33vw;
+      max-height: calc(550px/3);
+      width: 33vw;
+}
+/* .js-resize-sensor, .t-CardsRegion, .a-CardView-media, .a-TMV-w-scroll {
     overflow: visible!important;
- }
+ } */
   /* label underline focus color */
   .input-field input[type=text]:focus {
     border-bottom: 1px solid rgb(8, 93, 252) !important;
@@ -143,6 +169,23 @@ nav ul a{
       height: 145px;
       margin: 3px 0px 0px 0px;
       object-fit: cover;
+  }
+ .item-galery{
+      max-width: calc(550px/3);
+      height: 33vw;
+      max-height: calc(550px/3);
+      width: 33vw;
+      margin: 3px 0px 0px 0px;
+      object-fit: cover;
+  }
+  .profile-image-container.lazy-load-image-background.blur.lazy-load-image-loaded{
+    width: '33% !important';
+    margin: '0px 1px 0px 0px';
+  }
+  .carousel.carousel-slider{
+    /* max-width:100% !important;  */
+    height: 100vw;
+    max-height: 614px;
   }
   .input-filed{
       padding: 20px;
@@ -191,4 +234,8 @@ nav ul a{
 }
 .settings{
     padding-top: 30px;
+}
+.profile-store-bar{
+    width: 100%;
+    font-weight: bold;
 }
