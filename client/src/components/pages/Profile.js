@@ -37,11 +37,14 @@ const Profile = () => {
         }
     }
 
-    function openBlank(url){
-        console.log(url)
-        window.open(url,'_blank')
+    function openBlank(url) {
+        window.open(url, '_blank')
     }
-   
+
+    function loadStoreFeed(postId) {
+        history.push(`/storefeed?postId=${postId}&storeId=${storeId}`)
+    }
+
     useEffect(() => {
         fetch(API.AMBIENTE + "/store/getstorebyid", {
             headers: {
@@ -52,8 +55,8 @@ const Profile = () => {
             }),
             method: "Post"
         }).then(res => res.json()).then((result) => {
-            console.log(result);
             setStoreData(result)
+
         }).catch(err => {
             M.toast({ html: "Loja Indiponível no momento, por favor tente mais tarde ", classes: TOAST_ERROR })
             console.log(err);
@@ -87,9 +90,13 @@ const Profile = () => {
             }),
             method: "Post"
         }).then(res => res.json()).then((result) => {
+                sessionStorage.setItem(storeId,JSON.stringify(result))        
             console.log(result)
-            setLoad(false)
             setPosts(result)
+
+            setTimeout(() => {
+                setLoad(false)
+            }, 300);
         }).catch(err => {
             console.log(err);
         })
@@ -129,8 +136,8 @@ const Profile = () => {
                     posts.map((item, key) => {
 
                         return (
-                            <div key={key} className='profile-image-container'>
-                                <LazyLoadImage onError={(e)=>e.target.setAttribute('hidden',true)} effect="blur" id={key} key={key} className='item-galery' alt={item.title} src={item.photo != 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
+                            <div key={key} onClick={() => loadStoreFeed(item.id)} className='profile-image-container'>
+                                <LazyLoadImage onError={(e) => e.target.setAttribute('hidden', true)} effect="blur" id={key} key={key} className='item-galery' alt={item.title} src={item.photo != 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
                             </div>
                         )
                     })
@@ -148,23 +155,23 @@ const Profile = () => {
                             style={{ width: '30vw', height: "30vw", borderRadius: "50%", marginLeft: '20px', maxWidth: "160px", maxHeight: "160px", justifyContent: "space-around" }}
                             src="https://cdn.pixabay.com/photo/2015/12/19/21/03/person-1100286_960_720.jpg" />
                     </div>
-                    <div style={{ width: '70vw', textAlign: 'center'}}>
+                    <div style={{ width: '70vw', textAlign: 'center' }}>
                         <h3>{storeData ? storeData.dados.storeName : 'Nenhum loja cadastrada'}</h3>
                         <h6>Descrição da loja</h6>
                     </div>
 
                 </div>
-                <div style={{ width: '100%', textAlign:'center', justifyContent: 'space-between'}}>
+                <div style={{ width: '100%', textAlign: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'inline-block' }} >
-                        <div style={{ display: 'flex'}}>
+                        <div style={{ display: 'flex' }}>
                             <img src={insta_logo_color} style={{ width: '40px', height: '40px', display: 'flex' }} />
                             <h6 style={{ marginTop: '10px' }}>{storeData ? storeData.dados.instagram : '...'}</h6>
                         </div>
                     </div>
-                    <div style={{ display: 'inline-block'}}>
-                        <div onClick={()=>openBlank(`https://wa.me/55${storeData ? storeData.dados.whatsapp : '...'}`)} style={{ display: 'flex'}}>
+                    <div style={{ display: 'inline-block' }}>
+                        <div onClick={() => openBlank(`https://wa.me/55${storeData ? storeData.dados.whatsapp : '...'}`)} style={{ display: 'flex' }}>
                             <img src={whats_logo} style={{ width: '40px', height: '40px', display: 'flex' }} />
-                            <h6 style={{ marginTop: '10px',display: 'flex' }}>{storeData ? storeData.dados.whatsapp : '...'}</h6>
+                            <h6 style={{ marginTop: '10px', display: 'flex' }}>{storeData ? storeData.dados.whatsapp : '...'}</h6>
                         </div>
                     </div>
                 </div>
@@ -178,7 +185,7 @@ const Profile = () => {
         )
     }
     return (
-        <div style={{ maxWidth: "550px", margin: "0px auto", paddingTop: "30px" }}>
+        <div style={{ maxWidth: "550px", margin: "0px auto", paddingTop: "30px", paddingBottom: '40px' }}>
             {load ? <Loading /> : renderConteudo()}
         </div>
     )

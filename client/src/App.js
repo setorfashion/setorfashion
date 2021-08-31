@@ -3,6 +3,7 @@ import NavBar from './components/Navbar'
 import BottomBar from './components/footer'
 import Home from './components/pages/Home'
 import Token from './components/pages/Token'
+import StoreFeed from './components/pages/StoreFeed'
 import Login from './components/pages/Login'
 import Signup from './components/pages/Signup'
 import Profile from './components/pages/Profile'
@@ -62,6 +63,9 @@ const Routing = () =>{
       </Route>
       <Route  path='/token'  component={Token}>
         <Token></Token>
+      </Route>
+      <Route  path='/storefeed'  component={StoreFeed}>
+        <StoreFeed></StoreFeed>
       </Route>
     </Switch>
   )

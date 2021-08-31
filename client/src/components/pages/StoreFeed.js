@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from "react-router-dom"
+import { useParams,useLocation } from "react-router-dom"
 import M from 'materialize-css/dist/js/materialize'
 import Loading from '../loader'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ShowMoreText from "react-show-more-text";
+import { useCookies } from 'react-cookie';
 
 const API = require('../../Api')
 
 
-const Home = () => {
+const StoreFeed = () => {
+    function useQuery() {
+        return new URLSearchParams(useLocation().search);
+    }
+    let query = useQuery();
+    const postId = query.get("postId");
+    const storeId = query.get("storeId");
     const [data, setData] = useState([])
     const params = useParams()
+    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
     const pinchZoom = (evt) => {
         const { id } = evt.target
@@ -66,9 +74,9 @@ const Home = () => {
                 const transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${imageElementScale})`;
                 imageElement.style.transform = transform;
                 imageElement.style.WebkitTransform = transform;
-                imageElement.style.zIndex = "102";         
-                nav.style.zIndex = '101'
-                footer.style.zIndex = '0'
+                imageElement.style.zIndex = 102        
+                nav.style.zIndex = 102
+                footer.style.zIndex = 101
             }
         });
 
@@ -77,10 +85,12 @@ const Home = () => {
             imageElement.style.WebkitTransform = "";
             imageElement.style.zIndex = "0";
             imageElement.style.position = "";
-            nav.style.zIndex = '102'
-            footer.style.zIndex = 1
+            nav.style.zIndex = 102
+            footer.style.zIndex = 102
         });
     }
+
+  
 
     let instaCod = '';
     if (params) {
@@ -99,24 +109,31 @@ const Home = () => {
     }, 300);
 
     const hideImage = (id) => {        
+        console.log(id)
         const element = document.getElementById(id)
         element.setAttribute('hidden',true)
 
     }
 
     useEffect(() => {
-        fetch(API.AMBIENTE + "/post/getallposts", {
-            headers: {
-                "Content-Type": "application/json"
-            },
-            method: "Get"
-        }).then(res => res.json()).then((result) => {
-            setData(result)
+        window.location.hash=''
+        const posts = JSON.parse(sessionStorage.getItem(storeId))
+        setData(posts)
+        setTimeout(() => {
+            window.location.hash=`hc_${postId}`
+        }, 150);
+        // fetch(API.AMBIENTE + "/post/getallposts", {
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     method: "Get"
+        // }).then(res => res.json()).then((result) => {
+        //     setData(result)
 
-        }).catch(err => {
-            console.log('erro')
-            console.log(JSON.stringify(err))
-        })
+        // }).catch(err => {
+        //     console.log('erro')
+        //     console.log(JSON.stringify(err))
+        // })
 
     }, [])
 
@@ -131,7 +148,7 @@ const Home = () => {
                 {
                     item.map((child, key) => {
                         return (
-                            <div key={key} className="carousel-item ">
+                            <div key={key}  className="carousel-item ">
                                 <LazyLoadImage id={child.id} onError={()=>hideImage(father)} effect="blur" className='item ' src={child.media_url} alt={item.title} />
                             </div>
                         )
@@ -148,7 +165,7 @@ const Home = () => {
 
                 data.map((item, key) => {
                         return (
-                            <div key={key} className="card home-card " id={'hc_'+key}>
+                            <div key={key} className="card home-card "  id={'hc_'+item.id}>
                                 <div className='header-post' style={{ backgroundImage: 'linear-gradient(to top, white 90%, ' + item.postedBy.setor.color + ' 80%)' }}>
                                     <div className='circle-g' style={{ background: "linear-gradient(white, white) padding-box, linear-gradient(to right, " + item.postedBy.setor.color + " 0%, " + item.postedBy.setor.color + " 100%) border-box" }}>
                                         <LazyLoadImage className='img-circle' style={{ width: '32.5px', height: '32.5px', borderRadius: '45%', margin: '2px 2px 2px 2px' }} src={item.media_url} />
@@ -170,7 +187,7 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div onLoad={(e) => pinchZoom(e)} className="card-image home-images">
-                                    {item.childrens.length > 0 ? caroulselImage(item.childrens,'hc_'+key) : simpleImage(item, key)}
+                                    {item.childrens.length > 0 ? caroulselImage(item.childrens,'hc_'+item.id) : simpleImage(item, item.id)}
                                 </div>
 
 
@@ -201,10 +218,7 @@ const Home = () => {
             }
 
         </div>
-
     )
-
-
 }
 
-export default Home
+export default StoreFeed
