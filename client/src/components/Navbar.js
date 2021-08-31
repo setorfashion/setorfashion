@@ -24,6 +24,7 @@ const NavBar = ()=>{
         ]
       }
       if(state==='STORE'){
+        // console.log(cookies.store_id)
         const storeId = cookies.store_id
         
         return [

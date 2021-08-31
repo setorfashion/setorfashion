@@ -28,7 +28,8 @@ const Profile = () => {
     const [load, setLoad] = useState(true)
     const [storeData, setStoreData] = useState()
     const history = useHistory()
-    if (!storeId || storeId === undefined) {
+    if (!storeId || storeId === undefined || storeId === 'undefined') {
+        M.toast({ html: "Loja Indiponível no momento, por favor tente mais tarde ", classes: TOAST_ERROR })
         history.push('/');
     }
     if (state === 'USER') {
@@ -90,8 +91,7 @@ const Profile = () => {
             }),
             method: "Post"
         }).then(res => res.json()).then((result) => {
-                sessionStorage.setItem(storeId,JSON.stringify(result))        
-            console.log(result)
+            sessionStorage.setItem(storeId,JSON.stringify(result))
             setPosts(result)
 
             setTimeout(() => {
