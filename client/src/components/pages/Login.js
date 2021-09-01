@@ -61,8 +61,8 @@ const Login = ()=>{
       <div className="myLoginCard">
         <div className="card auth-card center input-field">
             <h2 className="center">Login</h2>                         
-            <input type="text" onChange={(e)=>setEmail(e.target.value)}  placeholder="Email" />     
-            <input type="password" onChange={(e)=>setpassword(e.target.value)} placeholder='Senha'/>
+            <input type="text" name="email" id="email" onChange={(e)=>setEmail(e.target.value)}  placeholder="Email" />     
+            <input type="password" name="password" id="password" onChange={(e)=>setpassword(e.target.value)} placeholder='Senha'/>
             <button onClick={()=>logar()} className="btn waves-effect waves-light #64b5f6 blue lighten-2">
                 Entrar
             </button>

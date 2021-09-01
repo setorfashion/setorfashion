@@ -62,6 +62,11 @@ nav ul a{
     background-color: rgb(245, 245, 245);
     overflow-x: hidden;
 }
+.yes{
+    color: red !important;
+    font-weight: bold;
+    font-size: 18px;
+}
 .nav{
     margin-top: 0px;
     z-index: 101;
@@ -78,7 +83,7 @@ nav ul a{
 }
 #toast-container {
     right: auto !important;
-    top: 50px !important;
+    top: 45px !important;
   }
 .white-logo{
     color: white !important;

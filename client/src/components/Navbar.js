@@ -59,8 +59,9 @@ const NavBar = ()=>{
     return (        
         <nav className="nav">
         <div className="nav-wrapper " style={{color:'white'}}>
-          <img src={imgFeed} style={{width:'156px', marginTop:'-7px'}}></img>
-          <Link to="/" className="logo-font" >Ruma d' Feed</Link>
+          {/* <img src={imgFeed} style={{width:'156px', marginTop:'-7px'}}></img> */}
+          {/* <Link to="/" className="logo-font" >Ruma d' Feed</Link> */}
+          <Link to="/" className="logo-font" >BuscaFeed</Link>
           <ul id="nav-mobile" className="right" style={{marginTop:"-10px"}}>
             {renderList()}
           </ul>

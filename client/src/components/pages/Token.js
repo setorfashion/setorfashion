@@ -3,7 +3,12 @@ import { useLocation, useHistory } from "react-router-dom"
 import insta_logo from "../images/insta_icon_white.png"
 import Loading from '../loader'
 import { useCookies } from 'react-cookie';
+import M from 'materialize-css'
+const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes')
 const API = require('../../Api')
+
+
+
 
 
 const Token = () => {
@@ -18,9 +23,54 @@ const Token = () => {
     const storeId = cookies.store_id
     const history = useHistory();
     const [statusToken, setStatusToken] = useState()
+
+    function desvincular() {
+        console.log('clicou desvincular')
     
+        var toastHTML = '<span>Você tem certeza que deseja desvincular o instagram do perfil da sua loja? Todas as publicações vinculadas serão excluidas!</span><button class="btn-flat toast-action yes" id="desvincular" style={{color:"black"}}>Sim</button><button id="cancelar" class="btn-flat toast-action">Não</button>';
+        let alert = M.toast({ html: toastHTML, displayLength: 30000,inDuration:600, outDuration:0 });
+    
+        document.getElementById('cancelar').addEventListener(('click'), () => {
+            alert.dismiss()
+        })
+        document.getElementById('desvincular').addEventListener(('click'), () => {
+            alert.dismiss()
+            
+            fetch(API.AMBIENTE + '/token/canceltoken', {
+                method: 'post',
+                headers: {
+                    "authorization": "Bearer " + jwt,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "storeId": storeId
+                })
+            }).then((result) => {
+                console.log(result)
+                const status = result.status
+                result.json().then(rs=>{
+                    if(status===200){
+                        M.toast({ html: rs.msg,classes:TOAST_SUCCESS});
+                        setTimeout(() => {
+                            history.push('/profile?storeId='+storeId)
+                        }, 3000);
+                    }else{                        
+                        M.toast({ html: rs.msg,classes:TOAST_ERROR});
+                    }
+                })
+                
+                
+                
+            }).catch(err => {
+                console.log('erro: '+err)
+            })
+        })
+    
+    
+    }
+
     useEffect(() => {
-        async function vincular (){
+        async function vincular() {
             await fetch(API.AMBIENTE + '/token', {
                 method: 'post',
                 headers: {
@@ -33,14 +83,12 @@ const Token = () => {
             }).then(res => res.json()).then((result) => {
                 // console.log('result vinculacao ' + result)
                 setTimeout(() => {
-                    history.push('/profile?storeId='+storeId);
+                    history.push('/profile?storeId=' + storeId);
                 }, 50);
             }).catch(err => {
                 console.log(err)
             })
         }
-        console.log('authCode ' + authCode)
-
         if (authCode) {
             // console.log('chamar vinculacao')
             vincular()
@@ -58,7 +106,7 @@ const Token = () => {
             .then((result) => {
                 setLoad(false)
                 if (result.data) {
-                    
+
                     if (!authCode) {
                         setStatusToken(result)
                     }
@@ -70,14 +118,16 @@ const Token = () => {
                 console.log(err)
             })
     }, [])
-    
+
+
+
     const content = () => {
         if (statusToken) {
             return (
                 <div style={{ textAlign: 'center', padding: '10px 10px 10px 10px' }}>
                     <h5>Desvincular Instagram</h5>
                     <h6 style={{ color: 'red' }}>Lembrete: Todas as postagens da sua loja vinculadas ao Intagram serão apagadas.</h6>
-                    <button className="btn black" style={{ marginTop: '20px' }}>
+                    <button className="btn black" onClick={() => desvincular()} style={{ marginTop: '20px' }}>
                         <img src={insta_logo} style={{ width: '25px', float: 'left', marginRight: '10px', marginTop: '6px' }}></img>
                         Desvindular Instagram</button>
 
@@ -98,7 +148,7 @@ const Token = () => {
             )
         }
     }
-    const renderConteudo = () =>{
+    const renderConteudo = () => {
         return (
             <div >
                 <div style={{ textAlign: 'center', padding: '50px 10px 20px 10px' }}>
@@ -111,9 +161,9 @@ const Token = () => {
         )
     }
     return (
-        
+
         <div style={{ paddingTop: '30px' }}>
-            {load?<Loading/>:renderConteudo()}
+            {load ? <Loading /> : renderConteudo()}
         </div>
     )
 }

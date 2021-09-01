@@ -13,42 +13,31 @@ const postAsync = promisify(post);
 
 
 module.exports = {
-    async receiveToken_old(req,res){
-        const user = req.user
-        console.log(user)
-        console.log(req)
-        const shortToken = req.body.shortToken
-        console.log(req.body)
-        console.log('linha 19 shortToken: '+shortToken)
-        const options ={
-          url: `https://api.instagram.com/oauth/access_token `,
-          formData: {
-            client_id: 261340495802382,
-            client_secret: '76eb60ab926342457302b9441cc38ebd',
-            redirect_uri: 'https://sf.fortaldelivery.com.br/token',
-            code: shortToken,
-            grant_type: "authorization_code",
-          },
-          headers: {
-            "content-type": "multipart/form-data",
-            host: "api.instagram.com",
-          },
+    async cancelToken(req,res){
+      const user = req.user
+      const store_id =req.body.storeId
+      Store.find({_id:store_id,createdBy:user._id}).then((store)=>{
+        if(store.length>0){
+          //excluir todas as publicacoes dos instagram
+          Post.deleteMany({postedBy:store_id,from:'instagram'}).then(post=>{
+            //excluir o token
+            Token.findOneAndDelete({storeId:store_id}).then(token=>{
+              return res.status(200).json({msg: 'Sua conta do instagram foi desvinculada com sucesso!'})
+            }).catch(err=>{
+              console.log(err)
+            })
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          return res.status(406).json({msg:'Os dados da sua loja não foram localizados, faça seu login novamente e tente mais uma vez.'})
+          
         }
-        var reqst = http.request(options, function(res) {
-          console.log('STATUS: ' + res.statusCode);
-          console.log('HEADERS: ' + JSON.stringify(res.headers));
-          res.setEncoding('utf8');
-          res.on('data', function (chunk) {
-            console.log('BODY: ' + chunk);
-          });
-        });
-        reqst.on('error', function(e) {
-          console.log('problem with request: ' + e.message);
-        });
-        reqst.end();
+      }).catch(err=>{
+        console.log(err)
+      })
 
-        
-    },
+    }, 
     async receiveToken(req,res) {
         // sending the request.
         const authCode = req.body.authCode
