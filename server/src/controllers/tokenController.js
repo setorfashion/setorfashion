@@ -22,7 +22,17 @@ module.exports = {
           Post.deleteMany({postedBy:store_id,from:'instagram'}).then(post=>{
             //excluir o token
             Token.findOneAndDelete({storeId:store_id}).then(token=>{
-              return res.status(200).json({msg: 'Sua conta do instagram foi desvinculada com sucesso!'})
+              //atualizar status do instagram na loja               
+              Store.findByIdAndUpdate(store_id,
+                {
+                  dataFromInstagram: true
+                },
+                {new: true}
+                ).then((updatedStore)=>{
+                  return res.status(200).json({msg: 'Sua conta do instagram foi desvinculada com sucesso!'})
+                }).catch(err=>{
+                  console.log(err)
+                })     
             }).catch(err=>{
               console.log(err)
             })
