@@ -66,7 +66,7 @@ const NavBar = ()=>{
         <div className="nav-wrapper " style={{color:'white'}}>
           {/* <img src={imgFeed} style={{width:'156px', marginTop:'-7px'}}></img> */}
           {/* <Link to="/" className="logo-font" >Ruma d' Feed</Link> */}
-          <Link to="/" className="logo-font-bk" ><span style={{fontSize:'3rem'}}>B</span>usca<span style={{fontSize:'3rem'}}>F</span>eed</Link>
+          {/* <Link to="/" className="logo-font-bk" ><span style={{fontSize:'3rem'}}>B</span>usca<span style={{fontSize:'3rem'}}>F</span>eed</Link> */}
           <Link to="/" className="logo-font" ><span style={{fontSize:'1.8rem'}}>B</span>usca<span style={{fontSize:'1.8rem'}}>F</span>eed</Link>
           <ul id="nav-mobile" className="right" style={{marginTop:"-10px"}}>
             {renderList()}
