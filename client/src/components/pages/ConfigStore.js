@@ -3,7 +3,6 @@ import {useHistory } from 'react-router-dom'
 import M from 'materialize-css'
 import {UserContext} from '../../App'
 import { useCookies } from 'react-cookie';
-import Loading from '../loader'
 
 const COLORS = require('../../classes')
 const API = require('../../Api')

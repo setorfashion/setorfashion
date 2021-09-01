@@ -114,7 +114,6 @@ const Home = () => {
             setData(result)
 
         }).catch(err => {
-            console.log('erro')
             console.log(JSON.stringify(err))
         })
 

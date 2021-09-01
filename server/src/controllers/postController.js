@@ -184,7 +184,12 @@ module.exports = {
         }
         Post.find({ postedBy: storeData._id })
             .sort({ createdAt: -1 })
-            .populate("postedBy") //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
+            .populate({
+                path : "postedBy",
+                populate: {
+                    path: 'setor'
+                }
+            }) //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
             .then((result) => {
                 if (result) {
                     return res.status(201).json(result);

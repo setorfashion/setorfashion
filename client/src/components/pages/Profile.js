@@ -19,24 +19,43 @@ const Profile = () => {
     function useQuery() {
         return new URLSearchParams(useLocation().search);
     }
+
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     let query = useQuery();
     const storeId = query.get("storeId");
-
+    
     const { state, dispatch } = useContext(UserContext)
     const [posts, setPosts] = useState([])
     const [load, setLoad] = useState(true)
     const [storeData, setStoreData] = useState()
+    let isAdmin = false
     const history = useHistory()
+    
     if (!storeId || storeId === undefined || storeId === 'undefined') {
         M.toast({ html: "Loja Indiponível no momento, por favor tente mais tarde ", classes: TOAST_ERROR })
         history.push('/');
     }
     if (state === 'USER') {
-        if (cookies.storeId === storeId) {
+        if (cookies.store_id === storeId) {
             history.push('/config')
         }
     }
+
+    if(state === 'USER' || state === 'STORE'){
+        if (cookies.store_id === storeId) {   
+            if(posts.length>0){
+                if(posts[0].postedBy._id!==storeId){
+                    console.log(posts[0].postedBy._id,storeId);
+                    window.location.reload()
+                }
+            }
+            console.log(posts)
+            isAdmin = true
+        }
+    }
+
+
+
 
     function openBlank(url) {
         window.open(url, '_blank')
@@ -47,6 +66,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
+        
         fetch(API.AMBIENTE + "/store/getstorebyid", {
             headers: {
                 "Content-Type": "application/json"
@@ -91,9 +111,10 @@ const Profile = () => {
             }),
             method: "Post"
         }).then(res => res.json()).then((result) => {
-            sessionStorage.setItem(storeId,JSON.stringify(result))
+            if (result.length>0) {
+                sessionStorage.setItem(storeId,JSON.stringify(result))
+            }            
             setPosts(result)
-
             setTimeout(() => {
                 setLoad(false)
             }, 300);
@@ -101,6 +122,7 @@ const Profile = () => {
             console.log(err);
         })
     }, [])
+
     const renderStoreBar = () => {
         return (
             <div className='profile-store-bar' style={{ backgroundColor: `${storeData.dados.setor.color}`, padding: '5px', color: `${storeData.dados.setor.fontColor}` }}>
@@ -108,7 +130,7 @@ const Profile = () => {
             </div>
         )
     }
-    const renderMsg = () => {
+    const renderMsg = () => {        
         return (
             <div style={{ textAlign: 'center', padding: '30px 10px 10px 10px' }}>
                 <h3>Ops!</h3>
@@ -128,6 +150,15 @@ const Profile = () => {
             </div>
         )
     }
+    
+    const renderMsgUser = () => {        
+        return (
+            <div style={{ textAlign: 'center', padding: '30px 10px 10px 10px' }}>
+                <h3>Ops!</h3>
+                <h6>Essa loja ainda não tem nenhuma publicação!</h6>
+            </div>
+        )
+    }
 
     const renderGalery = () => {
         return (
@@ -136,7 +167,7 @@ const Profile = () => {
                     posts.map((item, key) => {
 
                         return (
-                            <div key={key} onClick={() => loadStoreFeed(item.id)} className='profile-image-container'>
+                            <div key={key}  onClick={() => loadStoreFeed(item._id)} className='profile-image-container'>
                                 <LazyLoadImage onError={(e) => e.target.setAttribute('hidden', true)} effect="blur" id={key} key={key} className='item-galery' alt={item.title} src={item.photo != 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
                             </div>
                         )
@@ -179,7 +210,7 @@ const Profile = () => {
                     {storeData ? renderStoreBar() : ''}
                 </div>
                 <div>
-                    {posts.length === 0 ? renderMsg() : renderGalery()}
+                    {posts.length === 0 ? isAdmin?renderMsg():renderMsgUser() : renderGalery()}
                 </div>
             </div>
         )

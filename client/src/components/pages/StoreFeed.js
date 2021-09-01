@@ -108,8 +108,7 @@ const StoreFeed = () => {
         let instances = M.Carousel.init(elems, options);
     }, 300);
 
-    const hideImage = (id) => {        
-        console.log(id)
+    const hideImage = (id) => {   
         const element = document.getElementById(id)
         element.setAttribute('hidden',true)
 
@@ -165,7 +164,7 @@ const StoreFeed = () => {
 
                 data.map((item, key) => {
                         return (
-                            <div key={key} className="card home-card "  id={'hc_'+item.id}>
+                            <div key={key} className="card home-card "  id={'hc_'+item._id}>
                                 <div className='header-post' style={{ backgroundImage: 'linear-gradient(to top, white 90%, ' + item.postedBy.setor.color + ' 80%)' }}>
                                     <div className='circle-g' style={{ background: "linear-gradient(white, white) padding-box, linear-gradient(to right, " + item.postedBy.setor.color + " 0%, " + item.postedBy.setor.color + " 100%) border-box" }}>
                                         <LazyLoadImage className='img-circle' style={{ width: '32.5px', height: '32.5px', borderRadius: '45%', margin: '2px 2px 2px 2px' }} src={item.media_url} />
@@ -187,7 +186,7 @@ const StoreFeed = () => {
                                     </div>
                                 </div>
                                 <div onLoad={(e) => pinchZoom(e)} className="card-image home-images">
-                                    {item.childrens.length > 0 ? caroulselImage(item.childrens,'hc_'+item.id) : simpleImage(item, item.id)}
+                                    {item.childrens.length > 0 ? caroulselImage(item.childrens,'hc_'+item._id) : simpleImage(item, item._id)}
                                 </div>
 
 

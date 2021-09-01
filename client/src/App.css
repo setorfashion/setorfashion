@@ -51,6 +51,37 @@ a{
     height: 36px;
     z-index: 1;
 }
+.footer-search{
+    columns: white !important;
+}
+.footer-search .input-search{
+    width: 100% !important;
+}
+#modalSearch{
+    bottom: 33px !important;
+    background-color: #323232;
+    height: 50vh;
+    padding-top: 20px;
+}
+#modalSearch .input-field>label{
+    color: white !important;
+    top: -10px
+}
+#modalSearch .input-field input[type=text]:focus{
+    border-bottom: 1px solid white;
+    box-shadow: 0 1px 0 0 white !important;
+}
+#search{
+    color: white !important;
+    font-size: 18px;
+}
+.modal-footer {
+    background-color: #323232 !important;
+}
+.btn-search{
+    color: orange !important;
+    margin-right: 0px;
+}
 .instagram{ 
     background: #f09433; 
     background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 

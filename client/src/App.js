@@ -14,6 +14,7 @@ import { useCookies } from "react-cookie";
 import {BrowserRouter, Route, Switch, useHistory} from 'react-router-dom'
 import './App.css'
 
+
 // alteração de ambiente no arquivo CLASSES.JS alterar variavel AMBIENTE para o valor /api/, homologação fica vazio
 
 export const UserContext = createContext()
