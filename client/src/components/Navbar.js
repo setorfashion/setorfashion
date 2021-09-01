@@ -4,7 +4,12 @@ import {UserContext} from '../App'
 import insta_logo from "./images/insta_icon_white.png"
 import { useCookies } from 'react-cookie';
 import imgFeed from "./images/teste2.png"
+import M from 'materialize-css'
 const NavBar = ()=>{
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems);
+  });
   const {state,dispatch} = useContext(UserContext)
   const history = useHistory()
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -12,9 +17,9 @@ const NavBar = ()=>{
     if(state){
       if(state==='USER'){
         return [
-          <li key="config"><Link to="/config"><i className="material-icons icons" style={{fontSize:"18px"}}>settings</i></Link></li>,
+          <li key="config"><Link to="/config"><i className="material-icons icons nav-icons">settings</i></Link></li>,
           <li key="instagram"><Link to="/token"><img src={insta_logo} style={{width:'18px', float: 'left',marginTop: '19px'}}></img> </Link></li>,
-          <button  key='logout' className='waves-effect waves-teal btn-flat' style={{marginTop:'15px'}} onClick={()=>{
+          <button  key='logout' className='waves-effect waves-teal btn-flat' style={{marginTop:'13px'}} onClick={()=>{
             removeCookie('jwt')
             removeCookie('userData')
             removeCookie('store_id')
@@ -28,17 +33,17 @@ const NavBar = ()=>{
         const storeId = cookies.store_id
         
         return [
-          <li key="profile" ><Link to={'/profile?storeId='+storeId}><i className="material-icons icons " style={{fontSize:"18px"}}>person</i></Link></li>,
-          <li key="config"><Link to='/config'><i className="material-icons icons" style={{fontSize:"18px"}}>settings</i></Link></li>,
+          <li key="profile" ><Link to={'/profile?storeId='+storeId}><i className="material-icons icons nav-icons" >person</i></Link></li>,
+          <li key="config"><Link to='/config'><i className="material-icons icons nav-icons">settings</i></Link></li>,
           <li key="instagram"><Link to="/token"><img src={insta_logo} style={{width:'18px', float: 'left',marginTop: '19px'}}></img> </Link></li>,
-          <li key="createpost"><Link to="/createpost"><i  className="material-icons icons" style={{fontSize:"18px"}}>add</i></Link></li>,
-          <button key='logout' className='waves-effect waves-teal btn-flat' style={{marginTop:'24px'}} onClick={()=>{
+          <li key="createpost"><Link to="/createpost"><i  className="material-icons icons nav-icons">add</i></Link></li>,
+          <button key='logout' className='waves-effect waves-teal btn-flat' style={{marginTop:'13px'}} onClick={()=>{
             removeCookie('jwt')
             removeCookie('userData')
             removeCookie('store_id')
             dispatch({type:"CLEAR"})
             history.push('/')
-          }}><i  className="material-icons icons" style={{fontSize:"18px", color: 'red'}}>power_settings_new</i></button>
+          }}><i  className="material-icons icons  nav-icons" style={{ color: 'red'}}>power_settings_new</i></button>
         ]
       }else if (state==='CLEAR' || !state) {
         <li key="profile" ><Link to={'/profile?storeId='} hidden><i className="material-icons icons " style={{fontSize:"18px"}}>person</i></Link></li>
@@ -61,7 +66,8 @@ const NavBar = ()=>{
         <div className="nav-wrapper " style={{color:'white'}}>
           {/* <img src={imgFeed} style={{width:'156px', marginTop:'-7px'}}></img> */}
           {/* <Link to="/" className="logo-font" >Ruma d' Feed</Link> */}
-          <Link to="/" className="logo-font" >BuscaFeed</Link>
+          <Link to="/" className="logo-font-bk" ><span style={{fontSize:'3rem'}}>B</span>usca<span style={{fontSize:'3rem'}}>F</span>eed</Link>
+          <Link to="/" className="logo-font" ><span style={{fontSize:'1.8rem'}}>B</span>usca<span style={{fontSize:'1.8rem'}}>F</span>eed</Link>
           <ul id="nav-mobile" className="right" style={{marginTop:"-10px"}}>
             {renderList()}
           </ul>

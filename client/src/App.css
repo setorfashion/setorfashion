@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla:wght@300&family=Source+Serif+Pro:ital,wght@1,300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
 a{
     color: black ;
 }
@@ -10,15 +11,29 @@ a{
     color: black !important;
 }
 .logo-font {
-    font-family: 'Righteous', cursive;
-    /* background: linear-gradient(to right, #d03030 0%,#d030a8 10%,#3088d0 20%,#0ce2e2 40%,#0ce265 60%,#fffb00 80%, #ffffff 100%); */
-	color:#ffeb3b !important;
+    font-family: 'Major Mono Display', monospace;
+    /* background: linear-gradient(to right, #d03030 0%,#d030a8 10%,#3088d0 20%,#0ce2e2 40%,#0ce265 60%,#fffb00 80%, #ffffff 100%);  */
+	color: white !important;
     margin-top: 11px;
-    font-size: 2.1rem;
+    font-size: 1.4rem;
+    font-weight: bold;
     left: 10px;
     position: absolute;
     /* -webkit-background-clip: text;
 	-webkit-text-fill-color: transparent; */
+  }
+.logo-font-bk {
+    font-family: 'Major Mono Display', monospace;
+    background: linear-gradient(to right, #d03030 0%,#d030a8 10%,#3088d0 20%,#0ce2e2 40%,#0ce265 60%,#fffb00 80%, #ffffff 100%); 
+	/* color: white !important; */
+    margin-top: 11px;
+    font-size: 2rem;
+    font-weight: bold;
+    left: 8px;
+    position: absolute;
+    -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+    opacity: 0.2;
   }
 /* .brand-logo,h2{
     font-family: 'Grand Hotel', cursive;
@@ -67,6 +82,21 @@ nav ul a{
     font-weight: bold;
     font-size: 18px;
 }
+.nav-icons{
+    font-size: 1.5rem !important;
+}
+.sidenav-overlay{
+    z-index: 2 !important;
+}
+.sidenav li{
+    width: 100%;
+    border-bottom: 1px solid #323232;
+
+}
+.sidenav{
+    background-color: white;
+    z-index: 5000;
+}
 .nav{
     margin-top: 0px;
     z-index: 101;
@@ -74,12 +104,12 @@ nav ul a{
     height: 56px;
     line-height: 36px;
     /* background-color: rgb(26, 26, 26); */
-    background: black ;
+    background: #323232 ;
     color: white;
 
 }
 .nav li{
-    margin-top: 25px;
+    margin-top: 14px;
 }
 #toast-container {
     right: auto !important;
