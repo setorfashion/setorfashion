@@ -19,8 +19,7 @@ const postSchema = new mongoose.Schema({
         required: true
     },
     caption: {
-        type: String,
-        required: true
+        type: String
     },
     id:{
         type: Number
