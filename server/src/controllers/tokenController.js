@@ -25,7 +25,7 @@ module.exports = {
               //atualizar status do instagram na loja               
               Store.findByIdAndUpdate(store_id,
                 {
-                  dataFromInstagram: true
+                  dataFromInstagram: false
                 },
                 {new: true}
                 ).then((updatedStore)=>{
