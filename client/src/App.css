@@ -128,7 +128,9 @@ nav ul a{
     max-width: 614px;
     background-color: white;
     min-height: calc(100vh - 126px) !important;    
-    margin: 20px auto;
+    margin: 10px auto; 
+    position: fixed;
+    width: 100%;
 }
 .search-content .s12{
     padding: 0px;
@@ -155,7 +157,6 @@ nav ul a{
 .tabs .tab a:focus, .tabs .tab a:focus.active {
     background-color: rgba(182, 182, 182, 0);
     outline: none;
-    
 }
 .tabs .indicator {
     background-color: #323232;
@@ -278,8 +279,8 @@ nav ul a{
  } */
   /* label underline focus color */
   .input-field input[type=text]:focus {
-    border-bottom: 1px solid rgb(8, 93, 252) !important;
-    box-shadow: 0 1px 0 0 rgb(8, 93, 252) !important;
+    border-bottom: 1px solid #323232 !important;
+    box-shadow: 0 1px 0 0 #323232 !important;
   }
 
   .galery{

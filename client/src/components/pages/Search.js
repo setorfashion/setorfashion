@@ -7,8 +7,11 @@ const axios = require('axios').default
 const API = require('../../Api')
 
 const SearchPage = () => {
-    let el = document.querySelectorAll('.tabs');
-    let tab = M.Tabs.init(el);
+    useEffect(() => {        
+        let el = document.querySelectorAll('.tabs');
+        let tab = M.Tabs.init(el);
+    }, [])
+    
 
     async function search(evt){
 
@@ -21,15 +24,15 @@ const SearchPage = () => {
                     <div className="input-container">
                         <div className="input-field">
                         <i className="material-icons prefix" style={{color:'gray', marginTop:'5px', marginLeft: '5px'}}>search</i>
-                            <input autoComplete="off" autoFocus="on" onKeyUp={(e) => search(e)} placeholder='Pesquisar' id='search-input' type="text" />
+                            <input autoComplete="off" onKeyUp={(e) => search(e)} placeholder='Pesquisar' id='search-input' type="text" />
                         </div>
                     </div>
                     <hr></hr>
                     <div className="col s12" style={{ position: 'fixed', marginBottom: '20px', maxWidth:'614px' }}>
                         <ul className="tabs">
-                            <li className="tab col s3 tab-item"><a className="active" href="#lojas">Lojas</a></li>
+                            <li className="tab col s3 tab-item"><a href="#lojas">Lojas</a></li>
                             <li className="tab col s3 tab-item"><a  href="#produtos">Produtos</a></li>
-                            {/* <li className="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li> */}
+
                         </ul>
                     </div>
                     <div style={{ position: 'fixed', marginTop: '60px', width: '100%', minHeight: '100%' }}>
