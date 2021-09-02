@@ -8,9 +8,8 @@ import Loading from '../loader'
 import { useCookies } from 'react-cookie';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { getIdFromTrigger } from 'materialize-css'
 import M from 'materialize-css'
-
+const axios = require(`axios`).default
 
 const API = require('../../Api')
 const { TOAST_ERROR, TOAST_SUCCESS } = require('../../classes')
@@ -54,9 +53,6 @@ const Profile = () => {
         }
     }
 
-
-
-
     function openBlank(url) {
         window.open(url, '_blank')
     }
@@ -65,56 +61,25 @@ const Profile = () => {
         history.push(`/storefeed?postId=${postId}&storeId=${storeId}`)
     }
 
-    useEffect(() => {
-        
-        fetch(API.AMBIENTE + "/store/getstorebyid", {
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                id: storeId
-            }),
-            method: "Post"
-        }).then(res => res.json()).then((result) => {
-            setStoreData(result)
-
+    useEffect(() => {        
+        axios.post(API.AMBIENTE + "/store/getstorebyid", 
+            {   id: storeId }
+            ).then((result) => {
+            console.log(result.data)
+            setStoreData(result.data)
         }).catch(err => {
             M.toast({ html: "Loja Indiponível no momento, por favor tente mais tarde ", classes: TOAST_ERROR })
             console.log(err);
             history.push('/')
 
         })
-        // fetch(API.AMBIENTE + '/token/getInstagramData', {
-        //     method: 'get',
-        //     headers: {
-        //         'Content-Type':'application/json',
-        //         "authorization": "Bearer " + jwt,
-        //     }
-        // }).then(res => res.json())
-        // .then((result) => {
-        //     if(result.data){
-        //         console.log('retorno')
-        //         setPosts(result.data.data)
-        //     }else{
-
-        //     }
-
-        // }).catch(err => {
-        //     console.log(JSON.stringify(err))
-        // })
-        fetch(API.AMBIENTE + "/post/getstoreposts", {
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                storeId: storeId
-            }),
-            method: "Post"
-        }).then(res => res.json()).then((result) => {
-            if (result.length>0) {
-                sessionStorage.setItem(storeId,JSON.stringify(result))
+        axios.post(API.AMBIENTE + "/post/getstoreposts", 
+            {storeId: storeId}
+            ).then((result) => {
+            if (result.data.length>0) {
+                sessionStorage.setItem(storeId,JSON.stringify(result.data))
             }            
-            setPosts(result)
+            setPosts(result.data)
             setTimeout(() => {
                 setLoad(false)
             }, 300);

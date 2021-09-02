@@ -40,7 +40,7 @@
   }
 }
 .content-loader{
-  height: 100vh;
+  height: calc(100vh - 60px);
   position: absolute;
   z-index: 100;
   background-color: rgba(255, 255, 255, 0.795);

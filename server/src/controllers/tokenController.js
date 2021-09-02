@@ -173,9 +173,9 @@ module.exports = {
         const storeData = await Store.findOne({createdBy:userId})
         Token.findOne({storeId:storeData._id}).then((resultToken)=>{
           if(resultToken){
-            return res.status(201).json({data:resultToken})
+            return res.status(200).json()
           }else{
-            return res.status(200).json({data:''})
+            return res.status(203).json()
           }
           
         }).catch(err=>{

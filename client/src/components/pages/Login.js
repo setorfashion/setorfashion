@@ -4,6 +4,7 @@ import M from 'materialize-css'
 import {UserContext} from '../../App'
 import { useCookies } from 'react-cookie';
 
+const axios = require(`axios`).default
 const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes')
 const API = require('../../Api')
 
@@ -18,25 +19,20 @@ const Login = ()=>{
       M.toast({html: "Informe um email válido", classes:TOAST_ERROR})
       return false;
     }
-    fetch(API.AMBIENTE+'/auth/signin',{
-      method: "post",
+    axios.post(API.AMBIENTE+'/auth/signin',{email,password},{
       headers:{
         "Content-Type":"application/json"
       },
-      body:JSON.stringify({
-        email,
-        password
-      })
-    }).then(res=>res.json())
-    .then(data=>{
-      if(data.error){
+    }).then(result=>{
+      const status = result.status
+      const data = result.data
+      if(status===422){
         M.toast({html: data.error,classes:TOAST_ERROR})
       }else{
         const userData = data.userData;  
         setCookie('jwt',data.token, { path: '/' })    
         setCookie('userData',data.userData._id, { path: '/' })    
         setCookie('store_id',data.store_id, { path: '/' })  
-
         if(data.store_id!==''){
           dispatch({type:"STORE",payload:"STORE"})
         }else{
@@ -56,7 +52,6 @@ const Login = ()=>{
       console.log(err);
     })
   }
-
     return(
       <div className="myLoginCard">
         <div className="card auth-card center input-field">

@@ -49,13 +49,9 @@ module.exports = {
                                             store_id:''
                                         })
                                 }
-
                             }).catch(err=>{
                                 console.log(err);
                             })
-
-                            
-                            
                         }else{
                             return res.status(422).json({ error: "Email ou Password inválido!" });
                         }

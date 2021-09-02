@@ -4,7 +4,8 @@ import insta_logo from "../images/insta_icon_white.png"
 import Loading from '../loader'
 import { useCookies } from 'react-cookie';
 import M from 'materialize-css'
-const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes')
+const axios = require(`axios`).default
+const { TOAST_ERROR, TOAST_SUCCESS } = require('../../classes')
 const API = require('../../Api')
 
 
@@ -22,66 +23,50 @@ const Token = () => {
     const jwt = cookies.jwt
     const storeId = cookies.store_id
     const history = useHistory();
-    const [statusToken, setStatusToken] = useState()
+    const [statusToken, setStatusToken] = useState(false)
 
     function desvincular() {
-        console.log('clicou desvincular')
-    
         var toastHTML = '<span>Você tem certeza que deseja desvincular o instagram do perfil da sua loja? Todas as publicações vinculadas serão excluidas!</span><button class="btn-flat toast-action yes" id="desvincular" style={{color:"black"}}>Sim</button><button id="cancelar" class="btn-flat toast-action">Não</button>';
-        let alert = M.toast({ html: toastHTML, displayLength: 30000,inDuration:600, outDuration:0 });
-    
+        let alert = M.toast({ html: toastHTML, displayLength: 30000, inDuration: 600, outDuration: 0 });
+
         document.getElementById('cancelar').addEventListener(('click'), () => {
             alert.dismiss()
         })
         document.getElementById('desvincular').addEventListener(('click'), () => {
             alert.dismiss()
-            
-            fetch(API.AMBIENTE + '/token/canceltoken', {
-                method: 'post',
-                headers: {
-                    "authorization": "Bearer " + jwt,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "storeId": storeId
-                })
-            }).then((result) => {
-                console.log(result)
-                const status = result.status
-                result.json().then(rs=>{
-                    if(status===200){
-                        M.toast({ html: rs.msg,classes:TOAST_SUCCESS});
+
+            axios.post(API.AMBIENTE + '/token/canceltoken', { storeId: storeId },
+                {
+                    headers: {
+                        "authorization": "Bearer " + jwt,
+                        "Content-Type": "application/json"
+                    },
+                }).then((result) => {
+                    const status = result.status
+                    if (status === 200) {
+                        M.toast({ html: result.data.msg, classes: TOAST_SUCCESS });
                         setTimeout(() => {
-                            history.push('/profile?storeId='+storeId)
+                            history.push('/profile?storeId=' + storeId)
                         }, 3000);
-                    }else{                        
-                        M.toast({ html: rs.msg,classes:TOAST_ERROR});
+                    } else {
+                        M.toast({ html: result.data.msg, classes: TOAST_ERROR });
                     }
+                }).catch(err => {
+                    console.log('erro: ' + err)
                 })
-                
-                
-                
-            }).catch(err => {
-                console.log('erro: '+err)
-            })
         })
-    
-    
+
+
     }
 
     useEffect(() => {
         async function vincular() {
-            await fetch(API.AMBIENTE + '/token', {
-                method: 'post',
+            await axios.post(API.AMBIENTE + '/token', {authCode: authCode} ,{                
                 headers: {
                     "authorization": "Bearer " + jwt,
                     "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "authCode": authCode
-                })
-            }).then(res => res.json()).then((result) => {
-                // console.log('result vinculacao ' + result)
+                }
+            }).then((result) => {
                 setTimeout(() => {
                     history.push('/profile?storeId=' + storeId);
                 }, 50);
@@ -90,36 +75,27 @@ const Token = () => {
             })
         }
         if (authCode) {
-            // console.log('chamar vinculacao')
             vincular()
         }
     }, [])
 
     useEffect(() => {
-        fetch(API.AMBIENTE + '/token/checktoken', {
-            method: 'get',
+        axios.get(API.AMBIENTE + '/token/checktoken', {
             headers: {
-                "authorization": "Bearer " + jwt,
+                "authorization": "Bearer " + jwt
             }
-        })
-            .then(res => res.json())
-            .then((result) => {
+        }).then((result) => {
                 setLoad(false)
-                if (result.data) {
-
+                const status =  result.status
+                if (status===200) {
                     if (!authCode) {
-                        setStatusToken(result)
+                        setStatusToken(true)
                     }
                 }
-                // if (!result.data && authCode) {
-                //     vincular()
-                // }
             }).catch(err => {
                 console.log(err)
             })
     }, [])
-
-
 
     const content = () => {
         if (statusToken) {

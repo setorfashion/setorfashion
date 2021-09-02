@@ -1,25 +1,31 @@
-import React, { useState, useEffect,useContext} from 'react'
-import {useHistory } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import M from 'materialize-css'
-import {UserContext} from '../../App'
+import { UserContext } from '../../App'
 import { useCookies } from 'react-cookie';
 
+const axios = require(`axios`).default
 const COLORS = require('../../classes')
 const API = require('../../Api')
 
+class Dx extends React.Component {
+    componentDidMount() {
+        this.nameInput.focus();
+    }
+}
 
 
 const ConfigStore = () => {
     const [cookies, setCookie] = useCookies(['user']);
     const [load, setLoad] = useState(true)
-    const {state,dispatch} = useContext(UserContext)
+    const { state, dispatch } = useContext(UserContext)
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
     const [listSetor, setListSetor] = useState([])
     const [setorColor, setSetorColor] = useState('')
-    const [prevSetor,setprevSetor]=useState('')
-    const [prevCategories,setPrevCategories]=useState([])    
-    const [prevSubCategories,setSubPrevCategories]=useState([])
+    const [prevSetor, setprevSetor] = useState('')
+    const [prevCategories, setPrevCategories] = useState([])
+    const [prevSubCategories, setSubPrevCategories] = useState([])
     const [storeName, setStoreName] = useState("")
     const [storeAddress, setStoreAddress] = useState("")
     const [storeNumber, setStoreNumber] = useState("")
@@ -30,19 +36,16 @@ const ConfigStore = () => {
 
     const token = cookies.jwt
     const store_id = cookies.store_id
-    
+
+
     useEffect(() => {
-        async function fetchStore(){
-            return await fetch(API.AMBIENTE+'/store/getstorebyid',{
-                method: "Post",
+        async function fetchStore() {
+            return await axios.post(API.AMBIENTE + '/store/getstorebyid', { id: store_id }, {
                 headers: {
-                    "Content-Type":"application/json",
-                  },
-                body:JSON.stringify({
-                    id:store_id
-                  })
-            }).then(resp=>resp.json())
-            .then((data)=>{
+                    "Content-Type": "application/json",
+                },
+            }).then((dados) => {
+                const data = dados.data
                 setPrevCategories(data.categories)
                 setSubPrevCategories(data.subcategories)
                 const storedt = JSON.parse(JSON.stringify(data.dados))
@@ -56,140 +59,130 @@ const ConfigStore = () => {
                 setInstagram(storedt.instagram)
                 setWhatsApp(storedt.whatsapp)
                 setLoad(false)
-            }).catch(err=>{
+
+            }).catch(err => {
                 console.log(err)
             })
         }
-        if(store_id){
+        if (store_id) {
             fetchStore()
         }
-        
-    },[])
+
+    }, [])
     useEffect(() => {
-        async function getSetors(){
-            await fetch(API.AMBIENTE+'/config/getallsetor', {
-                headers:{
-                    "authorization":"Bearer "+token
+        async function getSetors() {
+            await axios.get(API.AMBIENTE + '/config/getallsetor', {
+                headers: {
+                    "authorization": "Bearer " + token
                 },
-                method: "Get"
+            }).then((result) => {
+                setListSetor(result.data)
             })
-                .then(rs => rs.json())
-                .then((result) => {
-                    setListSetor(result)
-                })
                 .catch(err => {
                     console.log(err)
                 })
         }
-        
-        async function getAllCategories(){
-            await fetch(API.AMBIENTE+'/config/getallcategories', {
-                headers:{
-                    "authorization":"Bearer "+token
-                },
-                method: "Get"
+
+        async function getAllCategories() {
+            await axios.get(API.AMBIENTE + '/config/getallcategories', {
+                headers: {
+                    "authorization": "Bearer " + token
+                }
+            }).then((result) => {
+                const listCategories = new Array();
+                const dados = result.data
+                dados.map(item => {
+                    let nc = {
+                        _id: item._id,
+                        description: item.description,
+                        checked: prevCategories.includes(item._id)
+                    }
+                    listCategories.push(nc)
                 })
-                .then(rs => rs.json())
-                .then((result) => {
-                    const listCategories = new Array();
-                    result.map(item => {
-                        let nc = {
-                            _id:item._id,
-                            description:item.description,
-                            checked:prevCategories.includes(item._id)
-                            }
-                        
-                        listCategories.push(nc)
-                    })
-                    setCategories(listCategories) 
-                })
+                setCategories(listCategories)
+            })
                 .catch(err => {
                     console.log(err)
                 })
-    
+
         }
-        async function getAllSubCategories(){
-            fetch(API.AMBIENTE+'/config/getallsubcategories', {
-                headers:{
-                    "authorization":"Bearer "+token
-                },
-                method: "Get"
-            }).then(rs => rs.json()).then((result) => {
-                    const listSubCategories = new Array();
-                    result.map(item => {
-                        let nc = {
-                            _id:item._id,
-                            description:item.description,
-                            checked:prevSubCategories.includes(item._id)
-                        }
-                        listSubCategories.push(nc)
-                    })
-                    setSubCategories(listSubCategories)
+        async function getAllSubCategories() {
+            axios.get(API.AMBIENTE + '/config/getallsubcategories', {
+                headers: {
+                    "authorization": "Bearer " + token
+                }
+            }).then((result) => {
+                const listSubCategories = new Array();
+                const dados = result.data
+                dados.map(item => {
+                    let nc = {
+                        _id: item._id,
+                        description: item.description,
+                        checked: prevSubCategories.includes(item._id)
+                    }
+                    listSubCategories.push(nc)
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+                setSubCategories(listSubCategories)
+            }).catch(err => {
+                console.log(err)
+            })
         }
-        
         getSetors()
         getAllCategories()
         getAllSubCategories()
-        
-    },[prevCategories && prevSubCategories])
+
+    }, [prevCategories && prevSubCategories])
 
     const history = useHistory()
 
     const handleCategories = (e) => {
-        let {checked: ischecked, id} = e.target
-        categories.map((item,key)=>{
-            if(item._id===id){
-                    item.checked = ischecked
-                    categories[key]=item                
+        let { checked: ischecked, id } = e.target
+        categories.map((item, key) => {
+            if (item._id === id) {
+                item.checked = ischecked
+                categories[key] = item
             }
-        })        
+        })
         var newcategories = categories
-        setCategories(newcategories)             
+        setCategories(newcategories)
     }
 
     const handleSubCategories = (e) => {
-        let {checked: ischecked, id}=e.target
-        subCategories.map((item,key)=>{
-            if(item._id===id){
-                    item.checked = ischecked
-                    subCategories[key]=item                
+        let { checked: ischecked, id } = e.target
+        subCategories.map((item, key) => {
+            if (item._id === id) {
+                item.checked = ischecked
+                subCategories[key] = item
             }
-        })        
+        })
         var newsubcategories = subCategories
-        setSubCategories(newsubcategories)  
+        setSubCategories(newsubcategories)
     }
 
-    const defaultCategoryChecked=(id)=>{
-        var it = categories.find(i=>i._id===id)
-        if(it){
-            if(it.checked)
+    const defaultCategoryChecked = (id) => {
+        var it = categories.find(i => i._id === id)
+        if (it) {
+            if (it.checked)
                 return 'checked'
-        }        
+        }
     }
-    const defaultSubCategoryChecked=(id)=>{
-        var it = subCategories.find(i=>i._id===id)
-        if(it){
-            if(it.checked)
+    const defaultSubCategoryChecked = (id) => {
+        var it = subCategories.find(i => i._id === id)
+        if (it) {
+            if (it.checked)
                 return 'checked'
-        }        
+        }
     }
-    const defaultSetor=(id)=>{
-        var it = prevSetor===id
-        if(it){
+    const defaultSetor = (id) => {
+        var it = prevSetor === id
+        if (it) {
             return 'checked'
-        }        
+        }
     }
 
     const setSettings = () => {
         let checkedCategories = [];
         let checkedSubCategories = [];
-
-              
-
         categories.map(item => {
             if (item.checked) {
                 checkedCategories.push(item._id)
@@ -209,20 +202,20 @@ const ConfigStore = () => {
             return false
         }
 
-        if(!setorColor){
+        if (!setorColor) {
             M.toast({ html: "Você deve selecionar o setor da sua loja", classes: COLORS.TOAST_ERROR });
             return false
         }
 
-        if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
-            M.toast({html: "Informe um email válido", classes:COLORS.TOAST_ERROR})
+        if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+            M.toast({ html: "Informe um email válido", classes: COLORS.TOAST_ERROR })
             return false
-          }
+        }
 
-        if(!storeName || !storeNumber || !email ||  !whatsapp || !storeAddress){
+        if (!storeName || !storeNumber || !email || !whatsapp || !storeAddress) {
             M.toast({ html: "Por favor, preencha todos os campos do formulário", classes: COLORS.TOAST_ERROR });
             return false
-        } 
+        }
         console.log({
             storeName,
             street: storeAddress,
@@ -230,61 +223,58 @@ const ConfigStore = () => {
             whatsapp,
             instagram,
             email,
-            setorId:setorColor,
+            setorId: setorColor,
             checkedSubCategories,
             checkedCategories
         })
 
         let url = ''
-        let method =''
-        if(store_id!==''){
-            url = API.AMBIENTE+'/store/updatestore'
-            method="PUT"
-        }else{
-            url = API.AMBIENTE+'/store/createstore'
-            method="POST"
+        let method = ''
+        if (store_id !== '') {
+            url = API.AMBIENTE + '/store/updatestore'
+            method = "PUT"
+        } else {
+            url = API.AMBIENTE + '/store/createstore'
+            method = "POST"
         }
-
-
-        console.log(url+" "+method+ " "+token);
-
-        fetch(url,{
-            headers:{
-                "authorization":"Bearer "+token,
-                "Content-Type":"application/json",
+        console.log(url + " " + method + " " + token);
+        fetch(url, {
+            headers: {
+                "authorization": "Bearer " + token,
+                "Content-Type": "application/json",
             },
-            method:method,
-            body:JSON.stringify({
+            method: method,
+            body: JSON.stringify({
                 storeName,
                 street: storeAddress,
                 number: storeNumber,
                 whatsapp,
                 instagram,
                 email,
-                setorId:setorColor,
+                setorId: setorColor,
                 checkedSubCategories,
                 checkedCategories,
-                store_id:store_id
+                store_id: store_id
             })
-        }).then(res=>res.json())
-        .then((resp)=>{
-            console.log(resp);
-            if(!store_id){
-                setCookie('store_id',resp.store_id,{ path: '/' })
-                dispatch({type:"STORE",payload:"STORE"})
-            }            
-            M.toast({html:"Configurações Atualizadas!",classes:COLORS.TOAST_SUCCESS});
-            setTimeout(() => {
-                history.push('/profile?storeId='+resp.store_id);
-              }, 100);
-            
-        }).catch(err=>{
-            M.toast({html:"Tivemos uma falha por favor entre em contato com o suporte!",classes:COLORS.TOAST_ERROR});
-        })
+        }).then(res => res.json())
+            .then((resp) => {
+                console.log(resp);
+                if (!store_id) {
+                    setCookie('store_id', resp.store_id, { path: '/' })
+                    dispatch({ type: "STORE", payload: "STORE" })
+                }
+                M.toast({ html: "Configurações Atualizadas!", classes: COLORS.TOAST_SUCCESS });
+                setTimeout(() => {
+                    history.push('/profile?storeId=' + resp.store_id);
+                }, 100);
+
+            }).catch(err => {
+                M.toast({ html: "Tivemos uma falha por favor entre em contato com o suporte!", classes: COLORS.TOAST_ERROR });
+            })
 
     }
     return (
-        <div className="input-filed-config settings" style={{paddingTop: '50px'}}>
+        <div className="input-filed-config settings" style={{ paddingTop: '50px' }}>
             <h4>
                 Configurações
             </h4>
@@ -292,11 +282,12 @@ const ConfigStore = () => {
                 (LOJA)
             </h5>
             <div className="input-field">
-                <input id='nome'  onChange={(e) => setStoreName(e.target.value)} type="text" value={storeName}/>
+                
+                <input id='nome' onChange={(e) => setStoreName(e.target.value)} type="text" value={storeName} />
                 <label htmlFor="nome" >Nome da Loja</label>
             </div>
             <div className="input-field">
-                <input id='endereco' onChange={(e) => setStoreAddress(e.target.value)} type="text" value={storeAddress}/>
+                <input id='endereco' onChange={(e) => setStoreAddress(e.target.value)} type="text" value={storeAddress} />
                 <label htmlFor="endereco">Endereço (Endereço no Setor)</label>
             </div>
             <div className="input-field">
@@ -308,7 +299,7 @@ const ConfigStore = () => {
                 <label htmlFor="email">Email</label>
             </div>
             <div className="input-field">
-                <input id='instagram'  onChange={(e) => setInstagram(e.target.value.replace(/[^\w\s]/gi, ''))} type="text" value={instagram} />
+                <input id='instagram' onChange={(e) => setInstagram(e.target.value.replace(/[^\w\s]/gi, ''))} type="text" value={instagram} />
                 <label htmlFor="instagram">Instagram (Sem @)</label>
             </div>
             <div className="input-field">
@@ -320,11 +311,11 @@ const ConfigStore = () => {
             </h5>
             <div style={{ textAlign: "left" }}>
                 {
-                    listSetor.map((item,key) => {
+                    listSetor.map((item, key) => {
                         return (
-                            <div key={key} className="settings-setor" style={{ backgroundImage: "linear-gradient(to right, white, "+item.color+")" }}>
+                            <div key={key} className="settings-setor" style={{ backgroundImage: "linear-gradient(to right, white, " + item.color + ")" }}>
                                 <label>
-                                    <input  name="group1" defaultChecked={defaultSetor(item._id)}  onChange={(e) => setSetorColor(item._id)} id={item._id}  type="radio" />
+                                    <input name="group1" defaultChecked={defaultSetor(item._id)} onChange={(e) => setSetorColor(item._id)} id={item._id} type="radio" />
                                     <span style={{ color: "black", fontWeight: "bold", fontSize: '20px' }}>{item.description}</span>
                                 </label>
                             </div>
@@ -343,7 +334,7 @@ const ConfigStore = () => {
                             return (
                                 <div key={key} className="col s6">
                                     <label>
-                                        <input  type="checkbox"  id={item._id} onClick={(e) => handleCategories(e)}  defaultChecked={defaultCategoryChecked(item._id)} />
+                                        <input type="checkbox" id={item._id} onClick={(e) => handleCategories(e)} defaultChecked={defaultCategoryChecked(item._id)} />
                                         <span>{item.description}</span>
                                     </label>
                                 </div>
@@ -358,7 +349,7 @@ const ConfigStore = () => {
                 </h5>
                 <div className="row" style={{ textAlign: "left" }}>
                     {
-                        subCategories.map((item,key) => {
+                        subCategories.map((item, key) => {
                             return (
                                 <div key={key} className="col s6">
                                     <label>
