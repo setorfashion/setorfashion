@@ -32,6 +32,7 @@ app.use('/store', require('./src/routes/storeRoutes'));
 app.use('/token', require('./src/routes/tokenRoutes'));
 app.use('/hook', require('./src/routes/instaHookRoutes'));
 app.use('/cron', require('./src/routes/cronRoutes'));
+app.use('/search', require('./src/routes/searchRoutes'));
 
 
 

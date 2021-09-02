@@ -9,6 +9,7 @@ import Signup from './components/pages/Signup'
 import Profile from './components/pages/Profile'
 import CreatePost from './components/pages/CreatePost'
 import ConfigStore from './components/pages/ConfigStore'
+import Search from './components/pages/Search'
 import {reducer,initialState} from './reducers/userReducer'
 import { useCookies } from "react-cookie";
 import {BrowserRouter, Route, Switch, useHistory} from 'react-router-dom'
@@ -67,6 +68,9 @@ const Routing = () =>{
       </Route>
       <Route  path='/storefeed'  component={StoreFeed}>
         <StoreFeed></StoreFeed>
+      </Route>
+      <Route  path='/search'>
+        <Search></Search>
       </Route>
     </Switch>
   )

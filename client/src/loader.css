@@ -40,11 +40,11 @@
   }
 }
 .content-loader{
-  height: calc(100vh - 60px);
+  height: calc(100vh - 79px);
   position: absolute;
   z-index: 100;
   background-color: rgba(255, 255, 255, 0.795);
   overflow-y: hidden;
   width: 100%;
-  margin-top: 30px;
+  /* margin-top: 30px; */
 }

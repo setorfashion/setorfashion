@@ -58,10 +58,19 @@ a{
     width: 100% !important;
 }
 #modalSearch{
-    bottom: 33px !important;
+    top: 56px !important;
     background-color: #323232;
     height: 50vh;
-    padding-top: 20px;
+}
+.showAuto{
+    display: block;
+    width: 100%;
+    left: 0;
+    top: 43px;
+    height: 150px;
+    transform-origin: 0px 0px;
+    opacity: 1;
+    transform: scaleX(1) scaleY(1);
 }
 #modalSearch .input-field>label{
     color: white !important;
@@ -107,6 +116,52 @@ nav ul a{
     padding-bottom: 30px;
     background-color: rgb(245, 245, 245);
     overflow-x: hidden;
+}
+.search{
+    padding-top: 46px;
+    padding-bottom: 30px;
+    background-color: rgb(245, 245, 245);
+    overflow-x: hidden;
+    
+}
+.search-content{
+    max-width: 614px;
+    background-color: white;
+    min-height: calc(100vh - 126px) !important;    
+    margin: 20px auto;
+}
+.search-content .s12{
+    padding: 0px;
+}
+.input-container{
+    padding: 5px 10px 0px 10px;
+}
+#search-input{
+    padding: 3px 3px 3px 35px;
+    margin-left: 2px;
+    background-color: rgb(245, 245, 245);
+    border-radius: 5px;
+    
+}
+.tabs .tab a:hover, .tabs .tab a.active {
+    background-color: transparent;
+    color: #323232;
+    font-weight: bold;
+}
+.tabs .tab a {
+    color: #323232;
+    text-transform: none;
+}
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background-color: rgba(182, 182, 182, 0);
+    outline: none;
+    
+}
+.tabs .indicator {
+    background-color: #323232;
+}
+.tab-item{
+    border-bottom: 1px solid #303030;
 }
 .yes{
     color: red !important;
