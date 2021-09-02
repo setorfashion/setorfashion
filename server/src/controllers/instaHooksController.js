@@ -3,11 +3,11 @@ const { json } = require('express')
 module.exports={
     // 23dffa$##125Poams897
     async gettxHooks(req,res){
-        console.log('chamnou get')
+        console.log('chamou get')
         var key = JSON.parse(JSON.stringify(req.query))
         var key = JSON.parse(JSON.stringify(key))
         console.log(key)
-        return res.send(challenge)
+        return res.send(key['hub.challenge'])
     },
     async posttxHooks(req,res){
         console.log(req.body)
