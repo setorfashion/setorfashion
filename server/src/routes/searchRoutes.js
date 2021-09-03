@@ -2,6 +2,7 @@ const express = require('express')
 const routes = express.Router()
 const searchController = require('../controllers/searchController')
 
-routes.post('/autocomplete',searchController.autocomplete)
+routes.post('/autocompletestores',searchController.autoCompleteStores)
+routes.post('/autocompleteposts',searchController.autoCompletePosts)
 
 module.exports =routes

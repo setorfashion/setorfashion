@@ -4,39 +4,8 @@ const Post = mongoose.model('Post')
 const Setor = mongoose.model("Setor")
 
 module.exports = {
-    async autocomplete(req, res) {
+    async autoCompletePosts(req,res){
         const infor = req.body.value
-        console.log(infor)
-        //buscar primeiro setor com o nome
-        let results = {}
-        await Setor.find(
-            {
-                "description": {
-                    $regex: '.*' + infor + '.*', $options: 'i'
-                }
-            }).sort({ description: 1 })
-            .then((rs) => {
-                if (rs.length > 0) {
-                    rs.map(item => {
-                        let v = item.description
-                        results[`${v}`] = null
-                    })
-                }
-            })
-        await Store.find(
-            {
-                "setoreName": {
-                    $regex: '.*' + infor + '.*', $options: 'i'
-                }
-            }).sort({ setoreName: 1 })
-            .then((rs) => {
-                if (rs.length > 0) {
-                    rs.map(item => {
-                        let v = item.setoreName
-                        results[`${v}`] = null
-                    })
-                }
-            })
         await Post.find(
             {
                 "caption": {
@@ -44,14 +13,28 @@ module.exports = {
                 }
             }).sort({ caption: 1 })
             .then((rs) => {
-                if (rs.length > 0) {
-                    rs.map(item => {
-                        let v = item.caption
-                        results[`${v}`] = null
-                    })
+                return res.status(200).json(rs)
+            }).catch(err=>{
+                console.log(err)
+            })
+            
+    },
+    async autoCompleteStores(req, res) {
+        const infor = req.body.value        
+        await Store.find(
+            {
+                "storeName": {
+                    $regex: '.*' + infor + '.*', $options: 'i'
                 }
             })
-            console.log(results)
-        return res.status(200).json(results)
+            .populate("setor")
+            .sort({ storeName: 1 })
+            .then((rs) => {
+                return res.status(200).json(rs)
+            }).catch(err=>{
+                console.log(err)
+            })
+
+        
     }
 }

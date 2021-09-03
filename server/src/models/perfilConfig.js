@@ -44,6 +44,10 @@ const perfilConfigSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    storePicture:{
+        type: String,
+        default: 'no-image'
+    },
     lastCheck:{
         type: Date,
         default: Date.now
