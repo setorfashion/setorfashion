@@ -29,7 +29,6 @@ const Profile = () => {
     const [storeData, setStoreData] = useState()
     let isAdmin = false
     const history = useHistory()
-    
     if (!storeId || storeId === undefined || storeId === 'undefined') {
         M.toast({ html: "Loja Indiponível no momento, por favor tente mais tarde ", classes: TOAST_ERROR })
         history.push('/');
