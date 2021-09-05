@@ -12,7 +12,7 @@ app.use(express.json());
 requireDir('./src/models'); 
 
 
-mongoose.connect(MONGOURI,{ //conexao com o mongodb
+mongoose.connect(process.env.MONGOURI,{ //conexao com o mongodb
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
