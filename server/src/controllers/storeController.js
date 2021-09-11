@@ -9,7 +9,6 @@ const Setor = mongoose.model ("Setor")
 
 module.exports = {
     async getStoreData(req,res){
-        console.log(req.body)
         Store.findById(req.body.id)
         .populate("setor")
         .then((store)=>{ 
@@ -46,8 +45,6 @@ module.exports = {
     async createStore(req,res){
         const setorId = req.body.setorId
         const setor = await Setor.findById(setorId)
-        
-
         const {storeName,street,number,whatsapp,instagram,email,checkedSubCategories,checkedCategories} = req.body
         
 

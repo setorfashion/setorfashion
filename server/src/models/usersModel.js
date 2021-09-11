@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const UserSchema = new mongoose.Schema({
     name:{
         type: String,
@@ -17,4 +18,17 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
+class ClassUsuario {
+    constructor(body){
+        this.body=body
+        this.errors = []
+    }
+    checkBodyData(){
+        if (!this.body.email || !this.body.password) {
+            this.errors.push("Informe todos os campos");
+        }
+    }
+
+}
+module.exports = ClassUsuario
 mongoose.model('Usuario',UserSchema);

@@ -1,20 +1,19 @@
-require('dotenv').config()
 const S3 = require('aws-sdk/clients/s3')
-const {AWS_BUCKET_NAME,AWS_REGION,AWS_ACCESS_KEY,AWS_SECRET_ACCESS_KEY} = require('./keys');
+require("dotenv").config();
 const fs = require('fs')
 
 // Uploads a file to S3
 const s3 = new S3({
-    region: AWS_REGION,
-    accessKeyId: AWS_ACCESS_KEY,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY
+    region: process.env.AWS_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 
 module.exports = {
     async uploadFileS3(req,res) {
         const fileStream = fs.createReadStream(req.path)    
         const uploadParams = {
-            Bucket: AWS_BUCKET_NAME+"/Posts",
+            Bucket: process.env.AWS_BUCKET_NAME+"/Posts",
             Body: fileStream,
             Key: req.filename
         }
@@ -28,7 +27,7 @@ module.exports = {
         const filePath = req.params.path
         const downloadParams = {
             Key: fileKey,
-            Bucket: AWS_BUCKET_NAME+'/'+filePath
+            Bucket: process.env.AWS_BUCKET_NAME+'/'+filePath
         }
         return s3.getObject(downloadParams).createReadStream()
     }

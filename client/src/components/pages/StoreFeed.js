@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useParams,useLocation } from "react-router-dom"
+import { useParams,useLocation} from "react-router-dom"
 import M from 'materialize-css/dist/js/materialize'
 import Loading from '../loader'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ShowMoreText from "react-show-more-text";
-import { useCookies } from 'react-cookie';
 import {pinchZoom} from '../scripts/pinchZoom'
 const API = require('../../Api')
 
@@ -19,7 +18,6 @@ const StoreFeed = () => {
     const storeId = query.get("storeId");
     const [data, setData] = useState([])
     const params = useParams()
-    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
     let instaCod = '';
     if (params) {
@@ -37,12 +35,11 @@ const StoreFeed = () => {
         let instances = M.Carousel.init(elems, options);
     }, 300);
 
-    const hideImage = (id) => {   
+    const hideImage = (id) => {
         const element = document.getElementById(id)
         element.setAttribute('hidden',true)
 
     }
-
     useEffect(() => {
         window.location.hash=''
         const posts = JSON.parse(sessionStorage.getItem(storeId))

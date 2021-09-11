@@ -2,9 +2,14 @@ const mongoose = require('mongoose')
 const Post = mongoose.model('Post')
 const Store = mongoose.model('Store')
 const Token = mongoose.model('Token')
+const ClassPost = require('../models/postModel')
+const ClassStore = require('../models/perfilConfig')
+const ClassToken = require('../models/tokenModel')
+const ClassInstagram = require('../models/instagramModel')
 const { uploadFileS3, downloadFileS3 } = require("../../s3")
 const { get } = require("axios").default;
 const fs = require("fs")
+
 function getPostsFromInstagram(longToken) {
     return new Promise((resolve, reject) => {
         try {
@@ -23,9 +28,6 @@ function getPostsFromInstagram(longToken) {
             reject(error)
             return
         }
-
-
-
     })
 }
 function getPostsNextPageFromInstagram(url) {
@@ -61,14 +63,14 @@ function checkChildrens(tokenData, id) {
     })
 }
 
-function newPost(item, storeData, tokenData) {
-    return new Promise(async(resolve, reject) => {
+function newPost(item, storeData, tokenData,instagram,post) {
+    return new Promise(async (resolve, reject) => {
         let childrens = []
         if (item.media_type === 'CAROUSEL_ALBUM') {
             const nc = [
-                checkChildrens(tokenData, item.id)
+                instagram.checkChildrens(tokenData, item.id)
             ]
-            await Promise.all(nc).then((rs) =>{ 
+            await Promise.all(nc).then((rs) => {
                 childrens = rs[0]
             })
         }
@@ -82,131 +84,110 @@ function newPost(item, storeData, tokenData) {
             createdAt: item.timestamp,
             childrens: childrens
         })
-        await newPost.save()
-            .then((rs) => {
-                resolve(true)
-            }).catch(err => {
-                console.log('erro salvar post' + err)
-                reject(err)
-                return
-            })
+        await post.createPost(newPost).then(rs=>{
+            resolve(true)
+        }).catch(err=>{
+            reject(err)
+        })
+
     })
 }
 
- function updateStorePosts(storeData, tokenData) {
-    return new Promise(async(resolve,reject)=>{
-        const responseMediaData = await getPostsFromInstagram(tokenData.longToken)
-        let postsInstagram = responseMediaData['data']['data']
-        let paging = responseMediaData['data'].paging
-        async function checkNext(url) {
-            let nextPage = await getPostsNextPageFromInstagram(url)
-            let pageData = nextPage['data']['data']
-            pageData.map(item => {
-                postsInstagram.push(item)
-            })
-            if (nextPage['data'].paging.next) {
-                await checkNext(nextPage['data'].paging.next)
-            }
-        }
-        if (paging.next) {
-            await checkNext(paging.next)
-        }
-        if (postsInstagram) {
-            await Post.deleteMany({ postedBy: storeData._id, from: 'instagram' })
-        }
-        let promises = []
-        postsInstagram.map((item, key) => {
-            promises.push(newPost(item, storeData, tokenData))
-        })
-        await Promise.all(promises).then((rs)=>{
-        }).catch(err=>{
-            console.log('erro updatestore '+err)
-            reject(err)
-        })
-    
-        Store.findByIdAndUpdate(storeData._id,
-            {
-                dataFromInstagram: true
-            },
-            { new: true }
-        ).then((updatedStore) => {
-            console.log('loja atualizada ')
-            resolve(true)
-        }).catch(err => {
-            console.log('erro update store ' + err)
-            reject(err)
-        })
-    })
-}
+// function updateStorePosts(storeData, tokenData) {
+//     return new Promise(async (resolve, reject) => {
+//         const responseMediaData = await getPostsFromInstagram(tokenData.longToken)
+//         let postsInstagram = responseMediaData['data']['data']
+//         let paging = responseMediaData['data'].paging
+//         async function checkNext(url) {
+//             let nextPage = await getPostsNextPageFromInstagram(url)
+//             let pageData = nextPage['data']['data']
+//             pageData.map(item => {
+//                 postsInstagram.push(item)
+//             })
+//             if (nextPage['data'].paging.next) {
+//                 await checkNext(nextPage['data'].paging.next)
+//             }
+//         }
+//         if (paging.next) {
+//             await checkNext(paging.next)
+//         }
+//         if (postsInstagram) {
+//             await Post.deleteMany({ postedBy: storeData._id, from: 'instagram' })
+//         }
+//         let promises = []
+//         postsInstagram.map((item, key) => {
+//             promises.push(newPost(item, storeData, tokenData))
+//         })
+//         await Promise.all(promises).then((rs) => {
+//         }).catch(err => {
+//             console.log('erro updatestore ' + err)
+//             reject(err)
+//         })
+
+//         Store.findByIdAndUpdate(storeData._id,
+//             {
+//                 dataFromInstagram: true
+//             },
+//             { new: true }
+//         ).then((updatedStore) => {
+//             console.log('loja atualizada ')
+//             resolve(true)
+//         }).catch(err => {
+//             console.log('erro update store ' + err)
+//             reject(err)
+//         })
+//     })
+// }
 
 module.exports = {
 
     async getAllPosts(req, res, next) {
-        Post.find().sort({ createdAt: -1 })
-            .populate(
-                {
-                    path: "postedBy",
-                    populate: {
-                        path: 'setor'
-                    }
-                }
-            ) //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
-            .then((result) => {
-                if (result) {
-                    return res.status(201).json(result);
-                }
-            }).catch(err => {
-                console.log(err);
-            });
+        const posts = new ClassPost()
+        await posts.getAllPosts()
+        if(posts.errors.length>0) return res.status(402).json({msg:posts.errors})
+        return res.status(200).json(posts.posts)
     },
+
     async getStorePosts(req, res, next) {
-        const storeId = req.body.storeId
-        const storeData = await Store.findById(storeId)
-        if (!storeData) {
+        const store = new ClassStore(req.body)
+        await store.getStoreById()
+        if (store.storeData.length===0) {
             return res.status(402).json({ message: 'Você precisa criar sua loja antes de vincular sua conta do instagram!' })
         }
-        const tokenData = await Token.findOne({ storeId: storeData._id })
-        if (!storeData.dataFromInstagram && tokenData) {
-            await updateStorePosts(storeData, tokenData)
-            // const responseProfileData = await get("https://graph.instagram.com/me", {
-            // params: {
-            //     fields: "id,username,media_count,account_type",
-            //     access_token:tokenData.longToken
-            // },
-            // headers: {
-            //     host: "graph.instagram.com",
-            // },
-            // }).catch(err=>{
-            //     console.log(err)
-            // });
-            // const profData = responseProfileData['data']
+        
+        const token = new ClassToken()
+        await token.findTokenByStore(store.storeData._id)
 
-        }
-        Post.find({ postedBy: storeData._id })
-            .sort({ createdAt: -1 })
-            .populate({
-                path : "postedBy",
-                populate: {
-                    path: 'setor'
-                }
-            }) //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
-            .then((result) => {
-                if (result) {
-                    return res.status(201).json(result);
-                }
+        const post = new ClassPost()
+
+        if (!store.storeData.dataFromInstagram && token.tokenData) {
+            const instagram = new ClassInstagram()
+            await instagram.updateStorePosts(store.storeData, token.tokenData)
+            console.log(`qtd de posts instagram ${instagram.postsInstagram.length}`)
+            if(instagram.postsInstagram.length>0) post.deletePostsByStoreFromInstagram(store.storeData._id)
+
+            let promises = []
+            instagram.postsInstagram.map((item, key) => {
+                promises.push(newPost(item, store.storeData, token.tokenData, instagram,post))
+            })
+            await Promise.all(promises).then((rs) => {
             }).catch(err => {
-                console.log(err);
-            });
-
-
+                console.log('erro updatestore ' + err)
+                reject(err)
+            })
+            await store.updateStore({dataFromInstagram: true})
+        }
+        await post.getStorePosts(store.storeData._id)
+        if(post.errors.length>0){
+            return res.status(401).json({msg:post.errors})
+        }
+        return res.status(200).json(post.posts)
     },
 
     async createPost(req, res, next) {
 
         const file = req.file;
-
         //buscar loja e só permitir criação de post caso aja loja criada
-
         const storeData = await Store.findOne({ createdBy: req.user._id })
         if (!storeData) {
             return res.status(402).json({ message: 'Você precisa criar sua loja antes de criar postagens!' })
@@ -241,6 +222,7 @@ module.exports = {
         });
 
     },
+
     async getPostImage(req, res) {
         const readStream = await downloadFileS3(req)
         readStream.pipe(res)

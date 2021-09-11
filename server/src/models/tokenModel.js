@@ -32,4 +32,20 @@ const tokenSchema = new mongoose.Schema({
     }
 }) 
 
-mongoose.model('Token',tokenSchema);
+const tokenModel = mongoose.model('Token',tokenSchema);
+
+class ClassToken{
+    constructor(){
+        this.errors= []
+        this.tokenData = []
+    }
+    async findTokenByStore(storeId){
+        await tokenModel.findOne({ storeId: storeId }).then((result)=>{
+            this.tokenData = result
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+}
+
+module.exports = ClassToken

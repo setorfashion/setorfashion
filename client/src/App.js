@@ -4,6 +4,7 @@ import BottomBar from './components/footer'
 import Home from './components/pages/Home'
 import Token from './components/pages/Token'
 import StoreFeed from './components/pages/StoreFeed'
+import StorePosts from './components/pages/StorePosts'
 import Login from './components/pages/Login'
 import Signup from './components/pages/Signup'
 import Profile from './components/pages/Profile'
@@ -22,7 +23,7 @@ export const UserContext = createContext()
 
 const Routing = () =>{
 
-  
+
   const history = useHistory();
   const {dispatch} = useContext(UserContext);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -30,7 +31,7 @@ const Routing = () =>{
   useEffect(()=>{
     const user = cookies.userData
     const store = cookies.store_id
-    if(store && store!==''){     
+    if(store && store!==''){
       dispatch({type:"STORE",payload:"STORE"})
       // history.push('/')
     }else if(user){
@@ -56,7 +57,7 @@ const Routing = () =>{
       </Route>
       <Route path='/profile' component={Profile}>
         <Profile></Profile>
-      </Route>      
+      </Route>
       <Route path='/createpost'>
         <CreatePost></CreatePost>
       </Route>
@@ -69,6 +70,9 @@ const Routing = () =>{
       <Route  path='/storefeed'  component={StoreFeed}>
         <StoreFeed></StoreFeed>
       </Route>
+      <Route  path='/storeposts'  component={StorePosts}>
+        <StorePosts></StorePosts>
+      </Route>
       <Route  path='/search'>
         <Search></Search>
       </Route>
@@ -79,10 +83,10 @@ const Routing = () =>{
 
 function App() {
   const [state,dispatch] = useReducer(reducer,initialState)
-  
+
   return (
     <UserContext.Provider value={{state,dispatch}}>
-      <BrowserRouter>        
+      <BrowserRouter>
           <NavBar />
           <Routing />
           <BottomBar/>

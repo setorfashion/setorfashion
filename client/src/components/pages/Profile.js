@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useHistory, useLocation } from "react-router-dom"
-import insta_logo from "../images/insta_icon_white.png"
 import insta_logo_color from "../images/insta_icon_color.png"
 import whats_logo from "../images/logo_whatsapp.png"
 import { UserContext } from '../../App'
@@ -9,6 +8,10 @@ import { useCookies } from 'react-cookie';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import M from 'materialize-css'
+import Galery from '../profile/Galery'
+import MessageUser from '../profile/MessageUser'
+import MessageAdmin from '../profile/MessageAdmin'
+import StoreBar from '../profile/StoreBar'
 const axios = require(`axios`).default
 
 const API = require('../../Api')
@@ -21,8 +24,9 @@ const Profile = () => {
 
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     let query = useQuery();
+
     const storeId = query.get("storeId");
-    
+    console.log(storeId)
     const { state, dispatch } = useContext(UserContext)
     const [posts, setPosts] = useState([])
     const [load, setLoad] = useState(true)
@@ -40,31 +44,22 @@ const Profile = () => {
     }
 
     if(state === 'USER' || state === 'STORE'){
-        if (cookies.store_id === storeId) {   
+        if (cookies.store_id === storeId) {
             if(posts.length>0){
                 if(posts[0].postedBy._id!==storeId){
-                    console.log(posts[0].postedBy._id,storeId);
                     window.location.reload()
                 }
             }
-            console.log(posts)
             isAdmin = true
         }
     }
-
     function openBlank(url) {
         window.open(url, '_blank')
     }
-
-    function loadStoreFeed(postId) {
-        history.push(`/storefeed?postId=${postId}&storeId=${storeId}`)
-    }
-
-    useEffect(() => {        
-        axios.post(API.AMBIENTE + "/store/getstorebyid", 
+    useEffect(() => {
+        axios.post(API.AMBIENTE + "/store/getstorebyid",
             {   id: storeId }
             ).then((result) => {
-            console.log(result.data)
             setStoreData(result.data)
         }).catch(err => {
             M.toast({ html: "Loja Indiponível no momento, por favor tente mais tarde ", classes: TOAST_ERROR })
@@ -72,12 +67,12 @@ const Profile = () => {
             history.push('/')
 
         })
-        axios.post(API.AMBIENTE + "/post/getstoreposts", 
+        axios.post(API.AMBIENTE + "/post/getstoreposts",
             {storeId: storeId}
             ).then((result) => {
             if (result.data.length>0) {
                 sessionStorage.setItem(storeId,JSON.stringify(result.data))
-            }            
+            }
             setPosts(result.data)
             setTimeout(() => {
                 setLoad(false)
@@ -86,64 +81,9 @@ const Profile = () => {
             console.log(err);
         })
     }, [])
-
-    const renderStoreBar = () => {
-        return (
-            <div className='profile-store-bar' style={{ backgroundColor: `${storeData.dados.setor.color}`, padding: '5px', color: `${storeData.dados.setor.fontColor}` }}>
-                <span>{`${storeData.dados.setor.description} - ${storeData.dados.address.street}, ${storeData.dados.address.number}`}</span>
-            </div>
-        )
-    }
-    const renderMsg = () => {        
-        return (
-            <div style={{ textAlign: 'center', padding: '30px 10px 10px 10px' }}>
-                <h3>Ops!</h3>
-                <h6>Você não possui nenhuma publicação, deseja vincular sua loja a um perfil do instagram e acessar todas as publicações?</h6>
-                <div style={{ margin: '0px 0px 50px 0px' }}>
-                    <a style={{ marginTop: '20px' }} className='btn instagram' href={'https://api.instagram.com/oauth/authorize?' + API.INSTACONFIG}>
-                        <img src={insta_logo} style={{ width: '25px', float: 'left', marginRight: '10px', marginTop: '6px' }} />
-                        Vincular Instagram
-                    </a>
-                </div>
-                <h5>Ou</h5>
-                <div>
-                    <a style={{ marginTop: '20px' }} className='btn black' href='/createpost'>
-                        Criar Nova Publicação
-                    </a>
-                </div>
-            </div>
-        )
-    }
-    
-    const renderMsgUser = () => {        
-        return (
-            <div style={{ textAlign: 'center', padding: '30px 10px 10px 10px' }}>
-                <h3>Ops!</h3>
-                <h6>Essa loja ainda não tem nenhuma publicação!</h6>
-            </div>
-        )
-    }
-
-    const renderGalery = () => {
-        return (
-            <div className="galery">
-                {
-                    posts.map((item, key) => {
-
-                        return (
-                            <div key={key}  onClick={() => loadStoreFeed(item._id)} className='profile-image-container'>
-                                <LazyLoadImage onError={(e) => e.target.setAttribute('hidden', true)} effect="blur" id={key} key={key} className='item-galery' alt={item.title} src={item.photo != 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
-                            </div>
-                        )
-                    })
-
-                }
-            </div>
-        )
-    }
     const renderConteudo = () => {
         return (
-            <div>
+            <>
                 <div style={{ display: "flex", width: '100vw', paddingBottom: '0px', maxWidth: '500px', paddingTop: '40px' }}>
                     <div style={{ width: '40vw', display: 'inline-block' }}>
                         <LazyLoadImage effect="blur" className="imagemPerfil"
@@ -171,12 +111,12 @@ const Profile = () => {
                     </div>
                 </div>
                 <div >
-                    {storeData ? renderStoreBar() : ''}
+                    {storeData ? <StoreBar storeData={storeData}/> : ''}
                 </div>
                 <div>
-                    {posts.length === 0 ? isAdmin?renderMsg():renderMsgUser() : renderGalery()}
+                    {posts.length === 0 ? isAdmin?<MessageAdmin/>: <MessageUser/> : <Galery posts={posts} storeId={storeId}/>}
                 </div>
-            </div>
+            </>
         )
     }
     return (

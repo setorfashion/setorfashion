@@ -7,17 +7,32 @@ export function getAutoCompleteStores (inputValue){
         if(value!==''){
             await axios.post(API.AMBIENTE + "/search/autocompletestores",{value})
             .then((result)=>{
+                console.log(result.data)
                 resolve(result.data)
             }).catch(err=>{
                 console.log(err)
                 return reject ()
             })
         }
-        return reject(false)
-        
-    })
-    
+        return reject(false)        
+    })    
 }
+export function getAutoCompleteStuff (inputValue){
+    return new Promise(async (resolve,reject)=>{
+        let value  = inputValue.toLowerCase()
+        if(value!==''){
+            await axios.post(API.AMBIENTE + "/search/autocompletestuff",{value})
+            .then((result)=>{
+                resolve(result.data)
+            }).catch(err=>{
+                console.log(err)
+                return reject ()
+            })
+        }
+        return reject(false)        
+    })    
+}
+
 export function getAutoCompletePosts (evt){
     return new Promise(async (resolve,reject)=>{
         let value = evt.target.value

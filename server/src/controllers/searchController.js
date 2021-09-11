@@ -11,7 +11,8 @@ module.exports = {
                 "caption": {
                     $regex: '.*' + infor + '.*', $options: 'i'
                 }
-            }).sort({ caption: 1 })
+            })
+            .sort({ caption: 1 })
             .then((rs) => {
                 return res.status(200).json(rs)
             }).catch(err=>{
@@ -33,8 +34,26 @@ module.exports = {
                 return res.status(200).json(rs)
             }).catch(err=>{
                 console.log(err)
+            })       
+    },
+    async autoCompleteStuff(req, res) {
+        const infor = req.body.value        
+        await Post.find(
+            {
+                "caption": {
+                    $regex: '.*' + infor + '.*', $options: 'i'
+                }
             })
-
-        
+            .populate({
+                path: "postedBy",
+                populate: {
+                    path: 'setor'
+                }
+            }).sort({ caption: 1 })
+            .then((rs) => {
+                return res.status(200).json(rs)
+            }).catch(err=>{
+                console.log(err)
+            })       
     }
 }
