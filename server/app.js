@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require("cors");
+const helmet = require("helmet");
 require("dotenv").config();
 const PORT = 5000;
 const mongoose = require('mongoose');
@@ -8,7 +9,23 @@ const requireDir = require('require-dir');
 
 app.use(express.json());
 
-requireDir('./src/models'); 
+const whiteList = [
+    'https://sf.fortaldelivery.com',
+    'http://sf.fortaldelivery.com',
+    'http://localhost:3000',
+]
+const corsOptions = {
+    origin: function (origin, callback) {
+      console.log(`origin ${origin}`)
+        if(whiteList.indexOf(origin)!== -1 || !origin){
+            callback(null,true)
+        }else{
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+
+requireDir('./src/models');
 
 
 mongoose.connect(process.env.MONGOURI,{ //conexao com o mongodb
@@ -22,6 +39,8 @@ mongoose.connection.on('connected',()=>{
 mongoose.connection.on('error',(err)=>{
     console.log('mongo não conectado', err);
 });
+app.use(cors(corsOptions))
+app.use(helmet())
 
 app.use('/', require('./src/routes/appRoutes'));
 app.use('/auth', require('./src/routes/authRoutes'));

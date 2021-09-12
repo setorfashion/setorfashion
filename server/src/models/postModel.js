@@ -49,7 +49,6 @@ class ClassPosts {
         this.posts = []
     }
     async getAllPosts() {
-      console.log('getallposts')
         await PostModel.find().sort({ createdAt: -1 })
             .populate(
                 {
@@ -61,11 +60,9 @@ class ClassPosts {
             ) //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
             .then((result) => {
                 if (result) {
-                  console.log(result)
                     this.posts = result
                 }
             }).catch(err => {
-              console.log('erro getallposts '+err)
                 this.errors.push(err)
             });
     }
