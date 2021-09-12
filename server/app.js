@@ -9,15 +9,9 @@ const requireDir = require('require-dir');
 
 app.use(express.json());
 
-const whiteList = [
-    // 'https://fortaldelivery.com.br',
-    // 'http://fortaldelivery.com.br',
-    'http://localhost:3000',
-]
 const corsOptions = {
     origin: function (origin, callback) {
-      console.log(`origin ${origin}`)
-        if(whiteList.indexOf(origin)!== -1 || !origin){
+        if(process.env.CORS_WHITE_LIST.indexOf(origin)!== -1 || !origin){ //só irá permitir da propria aplicação ou PRESENTE NA WHITELIST
             callback(null,true)
         }else{
             callback(new Error('Not allowed by CORS'))
@@ -39,7 +33,7 @@ mongoose.connection.on('connected',()=>{
 mongoose.connection.on('error',(err)=>{
     console.log('mongo não conectado', err);
 });
-app.use(cors(corsOptions))
+app.use(cors(corsOptions)) //bloqueado acesso para quem nao está na white list
 app.use(helmet())
 
 app.use('/', require('./src/routes/appRoutes'));
