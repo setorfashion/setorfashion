@@ -10,8 +10,8 @@ const requireDir = require('require-dir');
 app.use(express.json());
 
 const whiteList = [
-    'https://sf.fortaldelivery.com',
-    'http://sf.fortaldelivery.com',
+    'https://fortaldelivery.com.br',
+    'http://fortaldelivery.com.br',
     'http://localhost:3000',
 ]
 const corsOptions = {

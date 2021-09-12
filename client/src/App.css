@@ -24,7 +24,7 @@ a{
   }
 .logo-font-bk {
     font-family: 'Major Mono Display', monospace;
-    background: linear-gradient(to right, #d03030 0%,#d030a8 10%,#3088d0 20%,#0ce2e2 40%,#0ce265 60%,#fffb00 80%, #ffffff 100%); 
+    background: linear-gradient(to right, #d03030 0%,#d030a8 10%,#3088d0 20%,#0ce2e2 40%,#0ce265 60%,#fffb00 80%, #ffffff 100%);
 	/* color: white !important; */
     margin-top: 11px;
     font-size: 2rem;
@@ -67,7 +67,7 @@ a{
     position: absolute;
     margin-top: 60px;
     width: 100%;
-    height: 100%; 
+    height: 100%;
     max-width: 614px;
     overflow-y: auto;
     padding-bottom: 300px;
@@ -101,11 +101,11 @@ a{
     color: orange !important;
     margin-right: 0px;
 }
-.instagram{ 
-    background: #f09433; 
-    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
-    background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
-    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+.instagram{
+    background: #f09433;
+    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
 
 }
@@ -137,7 +137,7 @@ nav ul a{
     min-height: 100vh;
     max-width: 614px;
     margin: 0px auto;
-    
+
 }
 .search-content hr{
     opacity: .1;
@@ -160,7 +160,7 @@ nav ul a{
     margin-left: 2px;
     background-color: rgb(245, 245, 245);
     border-radius: 5px;
-    
+
 }
 .tabs .tab a:hover, .tabs .tab a.active {
     background-color: transparent;
@@ -208,7 +208,7 @@ nav ul a{
     height: 56px;
     line-height: 36px;
     /* background-color: rgb(26, 26, 26); */
-    background: rgb(0, 0, 0) ;
+    background: rgb(129, 88, 88) ;
     color: white;
 
 }
@@ -241,7 +241,7 @@ nav ul a{
     vertical-align: middle;
     text-align:center;
     position:relative; /*makes left effective*/
-    display:table-cell;    
+    display:table-cell;
 }
 .div-store{
     display: flex;
@@ -263,13 +263,13 @@ nav ul a{
     margin-right: 16px;
     display: flex;
     justify-content: center;
-    z-index: 2;    
+    z-index: 2;
 }
 .card_search_post{
     max-width: calc(550px/2.8);
     width: 33vw;
     height: 33vw;
-    max-height: calc(550px/2.8);  
+    max-height: calc(550px/2.8);
     margin: 1px 0px 0px 0px;
     display: inline-block;
 }
@@ -297,7 +297,7 @@ nav ul a{
     margin-right: 16px;
     display: flex;
     justify-content: center;
-    z-index: 2;    
+    z-index: 2;
 }
 .transform-component-module_wrapper__1_Fgj{
     overflow: none;
@@ -311,13 +311,13 @@ nav ul a{
 }
 .card .card-content {
     padding: 15px 15px 15px 15px;
-    
+
     border-radius: 0 0 2px 2px;
 }
 .card .card-image{
     text-align: center;
 }
-.card .card-image img{   
+.card .card-image img{
     /* max-width: 614px; */
     height: 100%;
     object-fit: fill;
