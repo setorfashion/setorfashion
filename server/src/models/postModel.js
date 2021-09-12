@@ -41,7 +41,6 @@ const postSchema = new mongoose.Schema({
 })
 
 const PostModel = mongoose.model("Post", postSchema);
-
 class ClassPosts {
     constructor(body) {
         this.body = body
@@ -57,7 +56,7 @@ class ClassPosts {
                         path: 'setor'
                     }
                 }
-            ) //funciona com um join, ira buscar dentro do campo postedby o id e de la buscar os dados selecionado
+            )
             .then((result) => {
                 if (result) {
                     this.posts = result
