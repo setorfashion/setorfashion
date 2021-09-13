@@ -9,9 +9,16 @@ const requireDir = require('require-dir');
 
 app.use(express.json());
 
+const CORS_WHITE_LIST= [
+  'http://localhost:3000',
+  'http://localhost:5000/',
+]
+
 const corsOptions = {
     origin: function (origin, callback) {
-        if(process.env.CORS_WHITE_LIST.indexOf(origin)!== -1 || !origin){ //só irá permitir da propria aplicação ou PRESENTE NA WHITELIST
+      console.log(origin)
+      console.log(CORS_WHITE_LIST.indexOf(origin))
+        if(CORS_WHITE_LIST.indexOf(origin)!== -1 || !origin){ //só irá permitir da propria aplicação ou PRESENTE NA WHITELIST
             callback(null,true)
         }else{
             callback(new Error('Not allowed by CORS'))
