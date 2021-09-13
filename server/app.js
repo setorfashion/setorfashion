@@ -12,6 +12,8 @@ app.use(express.json());
 const CORS_WHITE_LIST= [
   'http://localhost:3000',
   'http://localhost:5000/',
+  'https://sf.fortaldelivery.com.br',
+  'http://sf.fortaldelivery.com.br',
 ]
 
 const corsOptions = {
