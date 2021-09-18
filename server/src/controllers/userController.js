@@ -4,6 +4,7 @@ const sha1 = require('sha1');
 
 module.exports = {
     async hello(req,res){
+      
         console.log('hellow');
         return res.send('teste hello');
     },

@@ -1,19 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback, useRef } from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ShowMoreText from "react-show-more-text";
 import { pinchZoom } from '../scripts/pinchZoom'
 import { CarouselPost, SimpleImage } from './LoadImages'
 
-export function CardPost({ data, _ref, postRef }) {
-
-
+export function CardPost({ data, _ref, postRef, scrollToPost, setPage,hasMore}) {
+  // const [load,setLoading]= useState(true)
+  const observer = useRef()
+  const lastPostElementRef = useCallback(node=>{
+    if(observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver(entries=>{
+      if(entries[0].isIntersecting && hasMore){
+        setPage()
+        observer.current.disconnect()
+      }
+    })
+    if(node) observer.current.observe(node)
+  })
   useEffect(() => {
-    if (postRef) {
+    if (postRef && scrollToPost) {
       setTimeout(() => {
         postRef.current.scrollIntoView(
           { behavior: 'smooth', block: 'start' })
-      }, 500);
+      }, 400);
     }
 
   }, [])
@@ -21,7 +31,7 @@ export function CardPost({ data, _ref, postRef }) {
   return (
     data.map((item, key) => {
       return (
-        <div key={key} ref={(_ref === item._id) ? postRef : null} className="card home-card " id={'hc_' + key}>
+        <div key={key} ref={(_ref === item._id ) ? postRef : (data.length===key+1)?lastPostElementRef : null} className="card home-card " id={'hc_' + key}>
           <div className='header-post' style={{ backgroundImage: 'linear-gradient(to top, white 90%, ' + item.postedBy.setor.color + ' 80%)' }}>
             <div className='circle-g' style={{ background: "linear-gradient(white, white) padding-box, linear-gradient(to right, " + item.postedBy.setor.color + " 0%, " + item.postedBy.setor.color + " 100%) border-box" }}>
               <LazyLoadImage className='img-circle' style={{ width: '33px', height: '33px', borderRadius: '50%' }} src={item.media_url} />
@@ -68,6 +78,8 @@ export function CardPost({ data, _ref, postRef }) {
         </div>
       )
 
-    })
+    }
+
+    )
   )
 }

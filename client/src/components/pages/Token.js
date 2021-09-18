@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useHistory } from "react-router-dom"
+import { useLocation} from "react-router-dom"
+import { useSelector } from 'react-redux'
+import history  from  '../../services/history'
 import insta_logo from "../images/insta_icon_white.png"
 import Loading from '../loader'
-import { useCookies } from 'react-cookie';
 import M from 'materialize-css'
 const axios = require(`axios`).default
 const { TOAST_ERROR, TOAST_SUCCESS } = require('../../classes')
@@ -13,16 +14,15 @@ const API = require('../../Api')
 
 
 const Token = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+    const state = useSelector(state =>state.auth)
     function useQuery() {
         return new URLSearchParams(useLocation().search);
     }
     let query = useQuery();
     const [load, setLoad] = useState(true)
     const authCode = query.get("code");
-    const jwt = cookies.jwt
-    const storeId = cookies.store_id
-    const history = useHistory();
+    const jwt = state.token
+    const storeId = state.storeId
     const [statusToken, setStatusToken] = useState(false)
 
     function desvincular() {
@@ -61,7 +61,7 @@ const Token = () => {
 
     useEffect(() => {
         async function vincular() {
-            await axios.post(API.AMBIENTE + '/token', {authCode: authCode} ,{                
+            await axios.post(API.AMBIENTE + '/token', {authCode: authCode} ,{
                 headers: {
                     "authorization": "Bearer " + jwt,
                     "Content-Type": "application/json"

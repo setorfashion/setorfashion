@@ -142,7 +142,9 @@ function newPost(item, storeData, tokenData,instagram,post) {
 module.exports = {
 
     async getAllPosts(req, res, next) {
-        const posts = new ClassPost()
+      console.log(req.params)
+        const posts = new ClassPost(req.params)
+
         await posts.getAllPosts()
         if(posts.errors.length>0) return res.status(402).json({msg:posts.errors})
         return res.status(200).json(posts.posts)
@@ -154,7 +156,7 @@ module.exports = {
         if (store.storeData.length===0) {
             return res.status(402).json({ message: 'Você precisa criar sua loja antes de vincular sua conta do instagram!' })
         }
-        
+
         const token = new ClassToken()
         await token.findTokenByStore(store.storeData._id)
 
@@ -163,7 +165,7 @@ module.exports = {
         if (!store.storeData.dataFromInstagram && token.tokenData) {
             const instagram = new ClassInstagram()
             await instagram.updateStorePosts(store.storeData, token.tokenData)
-            console.log(`qtd de posts instagram ${instagram.postsInstagram.length}`)
+            // console.log(`qtd de posts instagram ${instagram.postsInstagram.length}`)
             if(instagram.postsInstagram.length>0) post.deletePostsByStoreFromInstagram(store.storeData._id)
 
             let promises = []

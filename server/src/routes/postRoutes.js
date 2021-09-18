@@ -6,7 +6,7 @@ const multer = require("multer")
 const upload = multer({dest:'uploads/'})
 
 routes.post('/createpost',requireLogin,upload.single('image'),postController.createPost);
-routes.get('/getallposts', postController.getAllPosts);
+routes.get('/getallposts/:page', postController.getAllPosts);
 routes.post('/getstoreposts', postController.getStorePosts);
 routes.get('/getpostimage/:path/:key',postController.getPostImage);
 

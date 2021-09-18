@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useHistory, useLocation } from "react-router-dom"
 import insta_logo_color from "../images/insta_icon_color.png"
 import whats_logo from "../images/logo_whatsapp.png"
-import { UserContext } from '../../App'
+// import { UserContext } from '../../App'
 import Loading from '../loader'
 import { useCookies } from 'react-cookie';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -27,7 +27,7 @@ const Profile = () => {
 
     const storeId = query.get("storeId");
     console.log(storeId)
-    const { state, dispatch } = useContext(UserContext)
+    // const { state, dispatch } = useContext(UserContext)
     const [posts, setPosts] = useState([])
     const [load, setLoad] = useState(true)
     const [storeData, setStoreData] = useState()
@@ -37,22 +37,22 @@ const Profile = () => {
         M.toast({ html: "Loja Indiponível no momento, por favor tente mais tarde ", classes: TOAST_ERROR })
         history.push('/');
     }
-    if (state === 'USER') {
-        if (cookies.store_id === storeId) {
-            history.push('/config')
-        }
-    }
+    // if (state === 'USER') {
+    //     if (cookies.store_id === storeId) {
+    //         history.push('/config')
+    //     }
+    // }
 
-    if(state === 'USER' || state === 'STORE'){
-        if (cookies.store_id === storeId) {
-            if(posts.length>0){
-                if(posts[0].postedBy._id!==storeId){
-                    window.location.reload()
-                }
-            }
-            isAdmin = true
-        }
-    }
+    // if(state === 'USER' || state === 'STORE'){
+    //     if (cookies.store_id === storeId) {
+    //         if(posts.length>0){
+    //             if(posts[0].postedBy._id!==storeId){
+    //                 window.location.reload()
+    //             }
+    //         }
+    //         isAdmin = true
+    //     }
+    // }
     function openBlank(url) {
         window.open(url, '_blank')
     }

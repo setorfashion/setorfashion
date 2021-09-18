@@ -33,7 +33,7 @@ export default function Storeposts() {
 
   return (
     <div className="home a-CardView-media a-CardView-media--body  a-CardView-media--cover pz-Media">
-      {data.length === 0 ? <Loading /> : <CardPost data={data} _ref={postId} postRef={postRef} />}
+      {data.length === 0 ? <Loading /> : <CardPost data={data} _ref={postId} postRef={postRef} scrollToPost={true} />}
     </div>
   )
 }

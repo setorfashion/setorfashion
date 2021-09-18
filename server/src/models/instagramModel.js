@@ -56,6 +56,7 @@ class Instagram {
         })
     }
     async updateStorePosts(storeData, tokenData) {
+      console.log('updateStorePosts')
         //  new Promise(async (resolve, reject) => {
         const responseMediaData = await this.getPostsFromInstagram(tokenData.longToken)
         let postsInstagram = responseMediaData['data']['data']

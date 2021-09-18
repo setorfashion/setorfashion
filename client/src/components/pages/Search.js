@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import M from 'materialize-css/dist/js/materialize'
-import { useHistory } from 'react-router-dom'
 import { getAutoCompleteStuff, getAutoCompleteStores } from '../scripts/autocomplete'
 import { MainSearch } from '../search/Main'
 

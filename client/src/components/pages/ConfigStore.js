@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import history from '../../services/history'
+import { useSelector, useDispatch } from 'react-redux';
 import M from 'materialize-css'
-import { UserContext } from '../../App'
-import { useCookies } from 'react-cookie';
+import * as actions from '../../store/module/auth/actions'
 
 const axios = require(`axios`).default
 const COLORS = require('../../classes')
 const API = require('../../Api')
+const validator = require('validator')
+
 
 class Dx extends React.Component {
     componentDidMount() {
@@ -16,9 +18,9 @@ class Dx extends React.Component {
 
 
 const ConfigStore = () => {
-    const [cookies, setCookie] = useCookies(['user']);
     const [load, setLoad] = useState(true)
-    const { state, dispatch } = useContext(UserContext)
+    const dispatch = useDispatch() //disparador de açoes
+    // const { state, dispatch } = useContext(UserContext)
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
     const [listSetor, setListSetor] = useState([])
@@ -32,15 +34,11 @@ const ConfigStore = () => {
     const [email, setEmail] = useState("")
     const [instagram, setInstagram] = useState("")
     const [whatsapp, setWhatsApp] = useState("")
-
-
-    const token = cookies.jwt
-    const store_id = cookies.store_id
-
+    const state = useSelector(state =>state.auth)
 
     useEffect(() => {
         async function fetchStore() {
-            return await axios.post(API.AMBIENTE + '/store/getstorebyid', { id: store_id }, {
+            return await axios.post(API.AMBIENTE + '/store/getstorebyid', { id: state.storeId }, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -59,21 +57,21 @@ const ConfigStore = () => {
                 setInstagram(storedt.instagram)
                 setWhatsApp(storedt.whatsapp)
                 setLoad(false)
-
             }).catch(err => {
                 console.log(err)
             })
         }
-        if (store_id) {
+        if (state.storeId) {
             fetchStore()
         }
 
     }, [])
     useEffect(() => {
+      console.log(axios.defaults.Authorization)
         async function getSetors() {
             await axios.get(API.AMBIENTE + '/config/getallsetor', {
                 headers: {
-                    "authorization": "Bearer " + token
+                    "authorization": "Bearer " + state.token
                 },
             }).then((result) => {
                 setListSetor(result.data)
@@ -86,7 +84,7 @@ const ConfigStore = () => {
         async function getAllCategories() {
             await axios.get(API.AMBIENTE + '/config/getallcategories', {
                 headers: {
-                    "authorization": "Bearer " + token
+                    "authorization": "Bearer " + state.token
                 }
             }).then((result) => {
                 const listCategories = new Array();
@@ -101,15 +99,14 @@ const ConfigStore = () => {
                 })
                 setCategories(listCategories)
             })
-                .catch(err => {
-                    console.log(err)
-                })
-
+            .catch(err => {
+              console.log(err)
+            })
         }
         async function getAllSubCategories() {
             axios.get(API.AMBIENTE + '/config/getallsubcategories', {
                 headers: {
-                    "authorization": "Bearer " + token
+                    "authorization": "Bearer " + state.token
                 }
             }).then((result) => {
                 const listSubCategories = new Array();
@@ -132,8 +129,6 @@ const ConfigStore = () => {
         getAllSubCategories()
 
     }, [prevCategories && prevSubCategories])
-
-    const history = useHistory()
 
     const handleCategories = (e) => {
         let { checked: ischecked, id } = e.target
@@ -207,7 +202,11 @@ const ConfigStore = () => {
             return false
         }
 
-        if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+        // if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+        //     M.toast({ html: "Informe um email válido", classes: COLORS.TOAST_ERROR })
+        //     return false
+        // }
+        if (!validator.isEmail(email)) {
             M.toast({ html: "Informe um email válido", classes: COLORS.TOAST_ERROR })
             return false
         }
@@ -230,17 +229,16 @@ const ConfigStore = () => {
 
         let url = ''
         let method = ''
-        if (store_id !== '') {
+        if (state.store_id !== '') {
             url = API.AMBIENTE + '/store/updatestore'
             method = "PUT"
         } else {
             url = API.AMBIENTE + '/store/createstore'
             method = "POST"
         }
-        console.log(url + " " + method + " " + token);
         fetch(url, {
             headers: {
-                "authorization": "Bearer " + token,
+                "authorization": "Bearer " + state.token,
                 "Content-Type": "application/json",
             },
             method: method,
@@ -254,14 +252,15 @@ const ConfigStore = () => {
                 setorId: setorColor,
                 checkedSubCategories,
                 checkedCategories,
-                store_id: store_id
+                store_id: state.store_id
             })
         }).then(res => res.json())
             .then((resp) => {
-                console.log(resp);
-                if (!store_id) {
-                    setCookie('store_id', resp.store_id, { path: '/' })
-                    dispatch({ type: "STORE", payload: "STORE" })
+                if (!state.store_id) {
+                    dispatch(actions.updateState({
+                      storeId: resp.store_id,
+                      type: 'STORE'
+                    }))
                 }
                 M.toast({ html: "Configurações Atualizadas!", classes: COLORS.TOAST_SUCCESS });
                 setTimeout(() => {
@@ -274,7 +273,7 @@ const ConfigStore = () => {
 
     }
     return (
-        <div className="input-filed-config settings" style={{ paddingTop: '50px' }}>
+        <div className="input-filed-config settings" style={{ paddingTop: '50px' , paddingBottom: '50px'}}>
             <h4>
                 Configurações
             </h4>
@@ -282,7 +281,7 @@ const ConfigStore = () => {
                 (LOJA)
             </h5>
             <div className="input-field">
-                
+
                 <input id='nome' onChange={(e) => setStoreName(e.target.value)} type="text" value={storeName} />
                 <label htmlFor="nome" >Nome da Loja</label>
             </div>

@@ -12,8 +12,7 @@ app.use(express.json());
 const CORS_WHITE_LIST= [
   'http://localhost:3000',
   'http://localhost:5000/',
-  'https://sf.fortaldelivery.com.br',
-  'http://sf.fortaldelivery.com.br',
+  'https://sf.fortaldelivery.com.br'
 ]
 
 const corsOptions = {
@@ -27,10 +26,7 @@ const corsOptions = {
         }
     }
 }
-
 requireDir('./src/models');
-
-
 mongoose.connect(process.env.MONGOURI,{ //conexao com o mongodb
     useNewUrlParser: true,
     useUnifiedTopology: true

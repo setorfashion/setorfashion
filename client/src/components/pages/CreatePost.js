@@ -1,25 +1,24 @@
 import React,{useState} from 'react'
-import {useHistory} from 'react-router-dom'
+import history from '../../services/history'
+import { useSelector } from 'react-redux';
 import M from 'materialize-css'
-import { useCookies } from 'react-cookie';
 const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes')
 const API = require('../../Api')
 
 const CreatePost = () => {
 
-    var imagePathBucket="";
+    const state = useSelector(state=>state.auth)
     const [title,setTitle] = useState("")
     const [content,setContent] = useState("")
     const [image,setImage] = useState("")
-    const history = useHistory()
-    const [cookies, setCookie] = useCookies(['user']);
     const criarPostagem = ()=>{
         const data = new FormData()
         data.append('image',image)
         data.append('title',title)
         data.append('body',content)
 
-        const token = cookies.jwt
+        const token = state.token
+        const storeId = state.storeId
         fetch(API.AMBIENTE+"/post/createpost",{
             method: "Post",
             headers:{
@@ -30,7 +29,7 @@ const CreatePost = () => {
         .then((result)=>{
             M.toast({html:"Post Criado com sucesso",classes:TOAST_SUCCESS})
             setTimeout(() => {
-                history.push('/');
+                history.push('/profile?storeId=' + storeId);
             }, 1000);
         }).catch(err=>{
             M.toast({html:"Falha ao criar sua postagem",classes:TOAST_ERROR})
@@ -48,7 +47,7 @@ const CreatePost = () => {
                 <input id='content' onChange={(e)=>setContent(e.target.value)} type="text"/>
                 <label htmlFor="content" >Descrição</label>
             </div>
-            
+
 
             <div className="file-field input-field">
                 <div className="btn waves-effect waves-light #64b5f6 blue dark-1">
