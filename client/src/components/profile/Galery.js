@@ -1,6 +1,6 @@
 import React from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { useHistory, useLocation } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 const API = require('../../Api')
 
 export default function Galery({posts,storeId}) {
