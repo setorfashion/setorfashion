@@ -9,7 +9,7 @@ import Signup from '../components/pages/Signup'
 import Profile from '../components/pages/Profile'
 import CreatePost from '../components/pages/CreatePost'
 import ConfigStore from '../components/pages/ConfigStore'
-import Search from '../components/pages/Search'
+import Search from '../components/search/Search'
 import MyRoute from './myRoute'
 
 export default function Routes() {

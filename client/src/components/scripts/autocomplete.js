@@ -14,8 +14,8 @@ export function getAutoCompleteStores (inputValue){
                 return reject ()
             })
         }
-        return reject(false)        
-    })    
+        return reject(false)
+    })
 }
 export function getAutoCompleteStuff (inputValue){
     return new Promise(async (resolve,reject)=>{
@@ -29,8 +29,8 @@ export function getAutoCompleteStuff (inputValue){
                 return reject ()
             })
         }
-        return reject(false)        
-    })    
+        return reject(false)
+    })
 }
 
 export function getAutoCompletePosts (evt){
@@ -45,5 +45,15 @@ export function getAutoCompletePosts (evt){
             reject ()
         })
     })
-    
+}
+export function getCategoriesAndSubCategories (){
+    return new Promise(async (resolve,reject)=>{
+        await axios.get(API.AMBIENTE + "/search/getcategoriesandsubcategories")
+        .then((result)=>{
+            console.log(result)
+            resolve(result.data)
+        }).catch(err=>{
+            reject ()
+        })
+    })
 }

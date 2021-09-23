@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory, useLocation } from "react-router-dom"
 import insta_logo_color from "../images/insta_icon_color.png"
 import whats_logo from "../images/logo_whatsapp.png"
-// import { UserContext } from '../../App'
-import Loading from '../loader'
-import { useCookies } from 'react-cookie';
+import Loading from '../loading'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import M from 'materialize-css'
@@ -21,43 +19,25 @@ const Profile = () => {
     function useQuery() {
         return new URLSearchParams(useLocation().search);
     }
-
-    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     let query = useQuery();
-
     const storeId = query.get("storeId");
-    console.log(storeId)
-    // const { state, dispatch } = useContext(UserContext)
     const [posts, setPosts] = useState([])
     const [load, setLoad] = useState(true)
     const [storeData, setStoreData] = useState()
+    const [isLoading, setIsLoading] = useState(false)
+
     let isAdmin = false
     const history = useHistory()
     if (!storeId || storeId === undefined || storeId === 'undefined') {
         M.toast({ html: "Loja Indiponível no momento, por favor tente mais tarde ", classes: TOAST_ERROR })
         history.push('/');
     }
-    // if (state === 'USER') {
-    //     if (cookies.store_id === storeId) {
-    //         history.push('/config')
-    //     }
-    // }
-
-    // if(state === 'USER' || state === 'STORE'){
-    //     if (cookies.store_id === storeId) {
-    //         if(posts.length>0){
-    //             if(posts[0].postedBy._id!==storeId){
-    //                 window.location.reload()
-    //             }
-    //         }
-    //         isAdmin = true
-    //     }
-    // }
     function openBlank(url) {
         window.open(url, '_blank')
     }
-    useEffect(() => {
-        axios.post(API.AMBIENTE + "/store/getstorebyid",
+    useEffect(async () => {
+      setIsLoading(true)
+        await axios.post(API.AMBIENTE + "/store/getstorebyid",
             {   id: storeId }
             ).then((result) => {
             setStoreData(result.data)
@@ -65,21 +45,18 @@ const Profile = () => {
             M.toast({ html: "Loja Indiponível no momento, por favor tente mais tarde ", classes: TOAST_ERROR })
             console.log(err);
             history.push('/')
-
         })
-        axios.post(API.AMBIENTE + "/post/getstoreposts",
+        await axios.post(API.AMBIENTE + "/post/getstoreposts",
             {storeId: storeId}
             ).then((result) => {
             if (result.data.length>0) {
                 sessionStorage.setItem(storeId,JSON.stringify(result.data))
             }
             setPosts(result.data)
-            setTimeout(() => {
-                setLoad(false)
-            }, 300);
         }).catch(err => {
             console.log(err);
         })
+        setIsLoading(false)
     }, [])
     const renderConteudo = () => {
         return (
@@ -121,7 +98,8 @@ const Profile = () => {
     }
     return (
         <div style={{ maxWidth: "550px", margin: "0px auto", paddingTop: "30px", paddingBottom: '40px' }}>
-            {load ? <Loading /> : renderConteudo()}
+          <Loading isLoading={isLoading} />
+            {renderConteudo()}
         </div>
     )
 

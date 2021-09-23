@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import Loading from '../loader'
+import Loading from '../loadingHome'
 import { CardPost } from '../posts/CardPost'
 
 const axios = require('axios').default
@@ -10,6 +10,8 @@ const Home = () => {
   const [data, setData] = useState([])
   const [nextPage, setNextPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
+
   const lastRef = useRef(null)
   function setPage() {
     let prev = parseInt(nextPage)
@@ -17,6 +19,7 @@ const Home = () => {
     setNextPage(nextPage + 1)
   }
   useEffect(() => {
+    setIsLoading(true)
     axios.get(API.AMBIENTE + `/post/getallposts/${nextPage}`)
       .then((result) => {
         if (result.data.totalPages === result.data.page) {
@@ -26,11 +29,12 @@ const Home = () => {
         setData(prev)
       }).catch(err => {
         console.log(JSON.stringify(err))
-      })
+      }).finally(i=>setIsLoading(false))
   }, [nextPage])
   return (
     <div className="home a-CardView-media a-CardView-media--body  a-CardView-media--cover pz-Media">
-      {data.length === 0 ? <Loading /> : <CardPost data={data} postRef={lastRef} scrollToPost={false} setPage={setPage} hasMore={hasMore} />}
+      <Loading isLoading={isLoading} />
+      <CardPost data={data} postRef={lastRef} scrollToPost={false} setPage={setPage} hasMore={hasMore} />
     </div>
   )
 }

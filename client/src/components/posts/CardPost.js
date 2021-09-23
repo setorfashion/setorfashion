@@ -23,7 +23,7 @@ export function CardPost({ data, _ref, postRef, scrollToPost, setPage,hasMore}) 
       setTimeout(() => {
         postRef.current.scrollIntoView(
           { behavior: 'smooth', block: 'start' })
-      }, 400);
+      }, 800);
     }
 
   }, [])

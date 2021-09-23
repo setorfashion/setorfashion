@@ -8,7 +8,7 @@ const ClassToken = require('../models/tokenModel')
 const ClassInstagram = require('../models/instagramModel')
 const { uploadFileS3, downloadFileS3 } = require("../../s3")
 const { get } = require("axios").default;
-const fs = require("fs")
+const fs = require("fs");
 
 function getPostsFromInstagram(longToken) {
     return new Promise((resolve, reject) => {
@@ -92,52 +92,6 @@ function newPost(item, storeData, tokenData,instagram,post) {
 
     })
 }
-
-// function updateStorePosts(storeData, tokenData) {
-//     return new Promise(async (resolve, reject) => {
-//         const responseMediaData = await getPostsFromInstagram(tokenData.longToken)
-//         let postsInstagram = responseMediaData['data']['data']
-//         let paging = responseMediaData['data'].paging
-//         async function checkNext(url) {
-//             let nextPage = await getPostsNextPageFromInstagram(url)
-//             let pageData = nextPage['data']['data']
-//             pageData.map(item => {
-//                 postsInstagram.push(item)
-//             })
-//             if (nextPage['data'].paging.next) {
-//                 await checkNext(nextPage['data'].paging.next)
-//             }
-//         }
-//         if (paging.next) {
-//             await checkNext(paging.next)
-//         }
-//         if (postsInstagram) {
-//             await Post.deleteMany({ postedBy: storeData._id, from: 'instagram' })
-//         }
-//         let promises = []
-//         postsInstagram.map((item, key) => {
-//             promises.push(newPost(item, storeData, tokenData))
-//         })
-//         await Promise.all(promises).then((rs) => {
-//         }).catch(err => {
-//             console.log('erro updatestore ' + err)
-//             reject(err)
-//         })
-
-//         Store.findByIdAndUpdate(storeData._id,
-//             {
-//                 dataFromInstagram: true
-//             },
-//             { new: true }
-//         ).then((updatedStore) => {
-//             console.log('loja atualizada ')
-//             resolve(true)
-//         }).catch(err => {
-//             console.log('erro update store ' + err)
-//             reject(err)
-//         })
-//     })
-// }
 
 module.exports = {
 

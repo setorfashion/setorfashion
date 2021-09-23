@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams,useLocation} from "react-router-dom"
 import M from 'materialize-css/dist/js/materialize'
-import Loading from '../loader'
+import Loading from '../loading'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ShowMoreText from "react-show-more-text";
@@ -17,8 +17,8 @@ const StoreFeed = () => {
     const postId = query.get("postId");
     const storeId = query.get("storeId");
     const [data, setData] = useState([])
+    const [isLoading,setIsLoading]= useState(true)
     const params = useParams()
-
     let instaCod = '';
     if (params) {
         instaCod = params.code
@@ -38,7 +38,6 @@ const StoreFeed = () => {
     const hideImage = (id) => {
         const element = document.getElementById(id)
         element.setAttribute('hidden',true)
-
     }
     useEffect(() => {
         window.location.hash=''
@@ -46,20 +45,8 @@ const StoreFeed = () => {
         setData(posts)
         setTimeout(() => {
             window.location.hash=`hc_${postId}`
+            setIsLoading(false)
         }, 150);
-        // fetch(API.AMBIENTE + "/post/getallposts", {
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     method: "Get"
-        // }).then(res => res.json()).then((result) => {
-        //     setData(result)
-
-        // }).catch(err => {
-        //     console.log('erro')
-        //     console.log(JSON.stringify(err))
-        // })
-
     }, [])
 
     const simpleImage = (item, key) => {
@@ -85,8 +72,8 @@ const StoreFeed = () => {
     return (
 
         <div className="home a-CardView-media a-CardView-media--body  a-CardView-media--cover pz-Media">
-
-            {data.length === 0 ? <Loading /> :
+          <Loading isLoading={isLoading} />
+            {
 
                 data.map((item, key) => {
                         return (

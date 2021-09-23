@@ -17,8 +17,6 @@ const CORS_WHITE_LIST= [
 
 const corsOptions = {
     origin: function (origin, callback) {
-      console.log(origin)
-      console.log(CORS_WHITE_LIST.indexOf(origin))
         if(CORS_WHITE_LIST.indexOf(origin)!== -1 || !origin){ //só irá permitir da propria aplicação ou PRESENTE NA WHITELIST
             callback(null,true)
         }else{

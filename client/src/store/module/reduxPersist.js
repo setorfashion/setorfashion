@@ -7,7 +7,8 @@ export default reducers => {
       key: 'BUSCA-FEED',
       storage,
       whitelist:[
-        'auth'
+        'auth',
+        'search'
       ]
     },
     reducers

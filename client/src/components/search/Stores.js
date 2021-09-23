@@ -2,12 +2,14 @@ import React from 'react'
 import noimage from "../images/noimage.png"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useHistory } from "react-router-dom"
+import Loading from '../loading'
 
-export default function Stores({stores}){
- 
+export default function Stores({stores, isLoading}){
   const history = useHistory()
   return (
-    stores.map((item, key) => {
+    <>
+    <Loading isLoading={isLoading} />
+    {stores.map((item, key) => {
         return (
             <div key={key} onClick={()=>history.push(`/profile?storeId=${item._id}`)} className="div-store" style={{ backgroundImage: 'linear-gradient(to top, white 90%, ' + item.setor.color + ' 80%)' }}>
                 <div className='circle-g-new' style={{ background: "linear-gradient(white, white) padding-box, linear-gradient(to right, " + item.setor.color + " 0%, " + item.setor.color + " 100%) border-box" }}>
@@ -26,6 +28,7 @@ export default function Stores({stores}){
                 </div>
             </div>
         )
-    })
+    })}
+  </>
 )
 }

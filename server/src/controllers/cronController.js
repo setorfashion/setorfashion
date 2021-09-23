@@ -145,15 +145,17 @@ module.exports = {
     // return res.send()
     let daysBefore = new Date()
     let today = new Date()
-    daysBefore.setDate(daysBefore.getDate() - 4)
+    daysBefore.setDate(daysBefore.getDate() - 3)
     // $gte: daysBefore,$lte: today ----- de ate (between)
     // $lt --- cutoff retorna abaixo dessa data
+    console.table(daysBefore)
     Store.find({
       lastCheck: { $lt: daysBefore },
       dataFromInstagram: true
     })
       .populate('token')
       .then((result) => {
+        console.log(result)
         result.map(async (item, index) => {
           if (item.token) {
             await renewP(item._id)

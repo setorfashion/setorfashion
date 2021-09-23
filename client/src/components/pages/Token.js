@@ -3,15 +3,11 @@ import { useLocation} from "react-router-dom"
 import { useSelector } from 'react-redux'
 import history  from  '../../services/history'
 import insta_logo from "../images/insta_icon_white.png"
-import Loading from '../loader'
+import Loading from '../loading'
 import M from 'materialize-css'
 const axios = require(`axios`).default
 const { TOAST_ERROR, TOAST_SUCCESS } = require('../../classes')
 const API = require('../../Api')
-
-
-
-
 
 const Token = () => {
     const state = useSelector(state =>state.auth)
@@ -24,6 +20,7 @@ const Token = () => {
     const jwt = state.token
     const storeId = state.storeId
     const [statusToken, setStatusToken] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     function desvincular() {
         var toastHTML = '<span>Você tem certeza que deseja desvincular o instagram do perfil da sua loja? Todas as publicações vinculadas serão excluidas!</span><button class="btn-flat toast-action yes" id="desvincular" style={{color:"black"}}>Sim</button><button id="cancelar" class="btn-flat toast-action">Não</button>';
@@ -137,9 +134,9 @@ const Token = () => {
         )
     }
     return (
-
+        <Loading isLoading={isLoading} />,
         <div style={{ paddingTop: '30px' }}>
-            {load ? <Loading /> : renderConteudo()}
+            {renderConteudo()}
         </div>
     )
 }
