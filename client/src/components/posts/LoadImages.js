@@ -1,6 +1,7 @@
 import React from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import M from 'materialize-css/dist/js/materialize'
+import { Image } from './styled';
 const API = require('../../Api')
 
 function hideImage(id) {
@@ -27,9 +28,7 @@ export function CarouselPost({ item, father }) {
       {
         item.map((child, key) => {
           return (
-            <div key={key} className="carousel-item ">
-              <img id={child.id} onError={() => hideImage(father)} effect="blur" className='item' src={child.media_url} alt={item.title} />
-            </div>
+              <Image id={child.id} key={key} onError={() => hideImage(father)} effect="blur" className="carousel-item " src={child.media_url} alt={item.title} />
           )
         })
       }
@@ -38,7 +37,7 @@ export function CarouselPost({ item, father }) {
 }
 export function SimpleImage({ item, _key }) {
   return (
-    <img effect="blur" onError={() => hideImage('hc_' + _key)} id={item._id} key={_key} className='item' alt={item.title} src={item.photo !== 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
+    <Image effect="blur" onError={() => hideImage('hc_' + _key)} id={item._id} key={_key}  alt={item.title} src={item.photo !== 'no image' ? API.AMBIENTE + '/post/getpostimage/' + item.photo : item.media_url} />
   )
 }
 
