@@ -6,7 +6,6 @@ import { pinchZoom } from '../scripts/pinchZoom'
 import { CarouselPost, SimpleImage } from './LoadImages'
 
 export function CardPost({ data, _ref, postRef, scrollToPost, setPage,hasMore}) {
-  // const [load,setLoading]= useState(true)
   const observer = useRef()
   const lastPostElementRef = useCallback(node=>{
     if(observer.current) observer.current.disconnect()

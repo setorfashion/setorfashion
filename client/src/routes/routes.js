@@ -1,6 +1,6 @@
 import React from "react";
 import {Switch} from 'react-router-dom'
-import Home from '../components/pages/Home'
+import Home from '../components/pages/home'
 import Token from '../components/pages/Token'
 import StoreFeed from '../components/pages/StoreFeed'
 import StorePosts from '../components/pages/StorePosts'

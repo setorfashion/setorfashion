@@ -49,6 +49,7 @@ class ClassPosts {
     this.posts = []
   }
   async getAllPosts() {
+    console.log(this.body)
     const options = {
       page: this.body.page,
       limit: 10,

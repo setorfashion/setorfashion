@@ -95,16 +95,14 @@ function newPost(item, storeData, tokenData,instagram,post) {
 
 module.exports = {
 
-    async getAllPosts(req, res, next) {
-      console.log(req.params)
+    async getAllPosts(req, res) {
         const posts = new ClassPost(req.params)
-
         await posts.getAllPosts()
         if(posts.errors.length>0) return res.status(402).json({msg:posts.errors})
         return res.status(200).json(posts.posts)
     },
 
-    async getStorePosts(req, res, next) {
+    async getStorePosts(req, res) {
         const store = new ClassStore(req.body)
         await store.getStoreById()
         if (store.storeData.length===0) {

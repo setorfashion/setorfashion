@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import Loading from '../loadingHome'
-import { CardPost } from '../posts/CardPost'
+import Loading from '../../loadingHome'
+import { CardPost } from '../../posts/CardPost'
+import { Component } from './styled'
 
 const axios = require('axios').default
-const API = require('../../Api')
+const API = require('../../../Api')
 
 const Home = () => {
   const [data, setData] = useState([])
@@ -31,11 +32,12 @@ const Home = () => {
         console.log(JSON.stringify(err))
       }).finally(i=>setIsLoading(false))
   }, [nextPage])
+
   return (
-    <div className="home a-CardView-media a-CardView-media--body  a-CardView-media--cover pz-Media">
+    <Component className="a-CardView-media a-CardView-media--body  a-CardView-media--cover pz-Media">
       <Loading isLoading={isLoading} />
       <CardPost data={data} postRef={lastRef} scrollToPost={false} setPage={setPage} hasMore={hasMore} />
-    </div>
+    </Component>
   )
 }
 

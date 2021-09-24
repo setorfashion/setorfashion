@@ -20,6 +20,7 @@ const corsOptions = {
         if(CORS_WHITE_LIST.indexOf(origin)!== -1 || !origin){ //só irá permitir da propria aplicação ou PRESENTE NA WHITELIST
             callback(null,true)
         }else{
+          console.log('nao permitido by cors')
             callback(new Error('Not allowed by CORS'))
         }
     }
