@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const Post = mongoose.model('Post')
 const Store = mongoose.model('Store')
-const Token = mongoose.model('Token')
 const ClassPost = require('../models/postModel')
 const ClassStore = require('../models/perfilConfig')
 const ClassToken = require('../models/tokenModel')
@@ -100,6 +99,14 @@ module.exports = {
         await posts.getAllPosts()
         if(posts.errors.length>0) return res.status(402).json({msg:posts.errors})
         return res.status(200).json(posts.posts)
+    },
+    async getStorePostBypostId(req,res){
+      const posts = new ClassPost(req.body)
+      await posts.getStorePostById()
+      if(posts.errors.length>0){
+        return res.status(404).json({msg:posts.errors})
+    }
+      return res.status(200).json({posts: posts.posts})
     },
 
     async getStorePosts(req, res) {

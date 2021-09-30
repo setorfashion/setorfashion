@@ -10,8 +10,6 @@ const axios = require(`axios`).default
 
 function* loginRequest({ payload }){
   const {email, password, prevPath} = payload
-
-  console.log('SAGA', email, password, prevPath)
   try{
     const response = yield call(axios.post,API.AMBIENTE+'/auth/signin',payload)
     yield put (actions.loginSuccess({...response.data}))

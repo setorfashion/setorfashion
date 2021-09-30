@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect} from 'react'
 import history from '../../services/history'
 import { useSelector, useDispatch } from 'react-redux';
 import M from 'materialize-css'
@@ -87,7 +87,7 @@ const ConfigStore = () => {
                     "authorization": "Bearer " + state.token
                 }
             }).then((result) => {
-                const listCategories = new Array();
+                const listCategories = [];
                 const dados = result.data
                 dados.map(item => {
                     let nc = {
@@ -109,7 +109,7 @@ const ConfigStore = () => {
                     "authorization": "Bearer " + state.token
                 }
             }).then((result) => {
-                const listSubCategories = new Array();
+                const listSubCategories =[];
                 const dados = result.data
                 dados.map(item => {
                     let nc = {
@@ -202,10 +202,10 @@ const ConfigStore = () => {
             return false
         }
 
-        // if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
-        //     M.toast({ html: "Informe um email válido", classes: COLORS.TOAST_ERROR })
-        //     return false
-        // }
+        if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+            // M.toast({ html: "Informe um email válido", classes: COLORS.TOAST_ERROR })
+            // return false
+        }
         if (!validator.isEmail(email)) {
             M.toast({ html: "Informe um email válido", classes: COLORS.TOAST_ERROR })
             return false

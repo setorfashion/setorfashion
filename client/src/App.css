@@ -322,7 +322,9 @@ nav ul a{
     height: 100%;
     object-fit: fill;
 } */
-
+.carousel-item{
+  height: auto ;
+}
 .icons{
     justify-content: left;
 }

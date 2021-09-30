@@ -139,10 +139,13 @@ async function renewP(storeId) {
 }
 module.exports = {
   async verifyInstagramCheckedTime(req, res) {
-    // const myvar = "155"
-    // console.log(typeof myvar)
+    // const telefone = "(85) 99811-4093"
+    // console.log(telefone.match(/\(\d{2}\)\s\d{5}-\d{4}/g))
 
-    // return res.send()
+    // const IP = "10.0.0.1"
+    // console.log(IP.match(/^((\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])(\.)){3}(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])/g))
+
+    //  return res.send('ok')
     let daysBefore = new Date()
     let today = new Date()
     daysBefore.setDate(daysBefore.getDate() - 3)

@@ -1,15 +1,11 @@
-import React,{ useState} from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 const BottomBar = () => {
-
   const renderList = () => {
-
     return [
       <div key="modalSearch" id="modalSearch" className="modal bottom-sheet">
-
-
       </div>,
       <div key="home" style={{ display: 'inline-block' }}>
         <Link to={'/'} ><i className="material-icons icons-footer" style={{ fontSize: "30px", color: 'red !important' }}>home</i></Link>
@@ -21,7 +17,6 @@ const BottomBar = () => {
         <Link to={'/'} ><i className="material-icons icons-footer" style={{ fontSize: "30px", color: 'red !important' }}>info</i></Link>
       </div>
     ]
-
   }
   return (
     <footer id="footer" className="footer">

@@ -6,7 +6,7 @@ import { pinchZoom } from '../scripts/pinchZoom'
 import { CarouselPost, SimpleImage } from './LoadImages'
 import { CardContainer,  CardImage, CardDescribeContent, CardHeader, ImageCircle, ImageByCicle, HeaderDescription, HeaderLocalInformation } from './styled';
 
-export function CardPost({ data, _ref, postRef, scrollToPost, setPage, hasMore }) {
+export function CardPost({ data, _ref, postRef, scrollToPost, setPage, hasMore, hasEdit }) {
   const observer = useRef()
   const lastPostElementRef = useCallback(node => {
     if (observer.current) observer.current.disconnect()
@@ -50,17 +50,28 @@ export function CardPost({ data, _ref, postRef, scrollToPost, setPage, hasMore }
             </CardImage>
             <CardDescribeContent>
               <a href={'/profile?storeId=' + item.postedBy._id}>{item.postedBy.storeName}</a>
-              <ShowMoreText
-                /* Default options */
-                lines={1}
-                more="mais"
-                less="menos"
-                className="content-css"
-                anchorClass="my-anchor-css-class"
-                expanded={false}
-                width={0}
-                truncatedEndingComponent={"... "}
-              ><p>{item.caption}</p></ShowMoreText>
+              {hasEdit?
+              <>
+                <div className="input-field">
+                  <i className="material-icons prefix" >edit</i>
+                  <input type="text" value={item.caption}/>
+                </div>
+                <div className="sendPosition">
+                  <i className="material-icons" style={{color:'black !important'}}>send</i>
+                </div>
+              </>
+              :<ShowMoreText
+                        /* Default options */
+                        lines={1}
+                        more="mais"
+                        less="menos"
+                        className="content-css"
+                        anchorClass="my-anchor-css-class"
+                        expanded={false}
+                        width={0}
+                        truncatedEndingComponent={"... "}
+                      ><p>{item.caption}</p></ShowMoreText>
+            }
             </CardDescribeContent>
         </CardContainer>
       )

@@ -64,11 +64,29 @@ class ClassPosts {
     await PostModel.paginate({}, options)
       .then((result) => {
         if (result) {
+
           this.posts = result
         }
       }).catch(err => {
         this.errors.push(err)
       });
+  }
+  async getStorePostById(){
+    await PostModel.find({postedBy: this.body.storeId,_id:this.body.postId})
+    .populate(
+      {
+        path:'postedBy',
+        populate:{
+          path:'setor'
+        }
+      }
+    )
+    .then((result)=>{
+      this.posts=result
+    }).catch(err=>{
+      this.errors.push(err)
+      console.log(err)
+    })
   }
   async getStorePosts(id) {
     await PostModel.find({ postedBy: id })

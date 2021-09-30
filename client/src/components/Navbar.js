@@ -1,19 +1,17 @@
-import React,{useContext} from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom'
 import { useDispatch, useSelector } from  'react-redux'
-// import {UserContext} from '../App'
 import insta_logo from "./images/insta_icon_white.png"
-import { useCookies } from 'react-cookie';
 import history from  '../services/history'
 import * as actions from '../store/module/auth/actions'
 import M from 'materialize-css'
 const NavBar = ()=>{
   document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elems);
+    M.Sidenav.init(elems);
   });
   const state = useSelector(state =>state.auth)
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  
   const dispatch = useDispatch() //disparador de açoes
   const renderList = () =>{
     // if(state){
@@ -28,8 +26,6 @@ const NavBar = ()=>{
         ]
       }
       if(state.type==='STORE'){
-        // console.log(cookies.store_id)
-        const storeId = cookies.store_id
 
         return [
           <li key="profile" ><Link to={'/profile?storeId='+state.storeId}><i className="material-icons icons nav-icons" >person</i></Link></li>,
@@ -54,17 +50,6 @@ const NavBar = ()=>{
           <li key="signin"><Link to="/signin" style={{marginTop:'10px'}}>Entrar</Link></li>,
         ]
       }
-      // return [
-      //   <li key="signin"><Link to="/signin" style={{marginTop:'10px'}}>Entrar</Link></li>,
-      // ]
-    // }
-    // else{
-    //   return [
-    //     // <li key="signup"><Link to="/signup" style={{marginTop:'10px'}}>Sou Lojista</Link></li>,
-    //     <li key="signin"><Link to="/signin" style={{marginTop:'10px'}}>Entrar</Link></li>,
-
-    //   ]
-    // }
   }
     return (
         <nav className="nav">

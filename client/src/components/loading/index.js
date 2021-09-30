@@ -6,8 +6,8 @@ export default function Loading({isLoading}){
     if(!isLoading) return <></>
     return (
         <Container>
-            <div/>
-            <span>Carregando ...</span>
+            <div className='bkd'/>
+            <div className="dot-flashing"></div>
         </Container>
     )
 }

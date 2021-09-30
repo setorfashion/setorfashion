@@ -34,7 +34,7 @@ const SearchPage = () => {
   }, [])
 
   async function Search(value) {
-    setIsLoading(true)
+    // setIsLoading(true)
     const inputValue = value.target.value
     setInputValueState(value.target.value)
     tabActive = document.querySelectorAll('a.active')
@@ -43,7 +43,7 @@ const SearchPage = () => {
       const promise = [getAutoCompleteStores(inputValue)]
       Promise.all(promise).then((rs) => {
         dispatch(actionsStuffs.searchResult({inputValue:inputValue.toLowerCase(), activatedTab: tabActive, stores: rs[0]}))
-        setIsLoading(false)
+        // setIsLoading(false)
         setStores(rs[0])
       })
     } else if (tabActive === 'stuff') {
@@ -51,7 +51,7 @@ const SearchPage = () => {
         const promise = [getAutoCompleteStuff(inputValue)]
         Promise.all(promise).then((rs) => {
           dispatch(actionsStuffs.searchResult({inputValue:inputValue.toLowerCase(), activatedTab: tabActive, posts: rs[0]}))
-          setIsLoading(false)
+          // setIsLoading(false)
           setStuff(rs[0])
         })
       }

@@ -9,5 +9,6 @@ routes.post('/createpost',requireLogin,upload.single('image'),postController.cre
 routes.get('/getallposts/:page', postController.getAllPosts);
 routes.post('/getstoreposts', postController.getStorePosts);
 routes.get('/getpostimage/:path/:key',postController.getPostImage);
+routes.post('/getstorepostbyid', requireLogin,postController.getStorePostBypostId);
 
 module.exports = routes;
