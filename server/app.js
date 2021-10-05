@@ -5,7 +5,7 @@ const helmet = require("helmet");
 if(process.env.NODE_ENV!=='production'){
   require("dotenv").config();
 }
-console.log(process.env.NODE_ENV)
+
 
 const PORT = 5000;
 const mongoose = require('mongoose');
@@ -55,6 +55,7 @@ app.use('/cron', require('./src/routes/cronRoutes'));
 app.use('/search', require('./src/routes/searchRoutes'));
 app.use('/gn', require('./src/routes/gnPixRoutes'));
 
+console.log(process.env)
 
 
 app.listen(PORT);
