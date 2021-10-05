@@ -60,7 +60,12 @@ app.use('/search', require('./src/routes/searchRoutes'));
 app.use('/gn', require('./src/routes/gnPixRoutes'));
 
 setInterval(() => {
-  console.log(process.env)
+  if(process.env.NODE_ENV){
+    console.log(process.env.NODE_ENV)
+  }else{
+    console.log('nao existe process.env.NODE_ENV')
+  }
+  
 }, 10000);
 
 
