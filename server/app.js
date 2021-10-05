@@ -59,6 +59,9 @@ app.use('/cron', require('./src/routes/cronRoutes'));
 app.use('/search', require('./src/routes/searchRoutes'));
 app.use('/gn', require('./src/routes/gnPixRoutes'));
 
+setInterval(() => {
+  console.log(process.env)
+}, 10000);
 
 
 app.listen(PORT);
