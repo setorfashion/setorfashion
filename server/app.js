@@ -59,14 +59,5 @@ app.use('/cron', require('./src/routes/cronRoutes'));
 app.use('/search', require('./src/routes/searchRoutes'));
 app.use('/gn', require('./src/routes/gnPixRoutes'));
 
-setInterval(() => {
-  if(process.env.NODE_ENV){
-    console.log(process.env.NODE_ENV)
-  }else{
-    console.log('nao existe process.env.NODE_ENV')
-  }
-  
-}, 10000);
-
 
 app.listen(PORT);

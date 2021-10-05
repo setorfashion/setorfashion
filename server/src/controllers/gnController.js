@@ -20,7 +20,7 @@ module.exports={
         "expiracao": 30000 //30min
       },
       valor: {
-        "original": '130.00'
+        "original": '1.00'
       },
       chave: `${process.env.CHAVE_PIX}`,
       solicitacaoPagador: `Pagamento impulsionamento postagem 5 dia(s)`
