@@ -48,6 +48,7 @@ mongoose.connection.on('error',(err)=>{
 app.use(cors(corsOptions)) //bloqueado acesso para quem nao está na white list
 app.use(helmet())
 
+
 app.use('/', require('./src/routes/appRoutes'));
 app.use('/auth', require('./src/routes/authRoutes'));
 app.use('/post', require('./src/routes/postRoutes'));
