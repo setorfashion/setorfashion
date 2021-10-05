@@ -36,7 +36,11 @@ mongoose.connect(process.env.MONGOURI,{ //conexao com o mongodb
 });
 
 mongoose.connection.on('connected',()=>{
+  console.log('mongo conectado');
+  setTimeout(() => {
     console.log('mongo conectado');
+  }, 5000);
+
 });
 mongoose.connection.on('error',(err)=>{
     console.log('mongo não conectado', err);
@@ -55,7 +59,6 @@ app.use('/cron', require('./src/routes/cronRoutes'));
 app.use('/search', require('./src/routes/searchRoutes'));
 app.use('/gn', require('./src/routes/gnPixRoutes'));
 
-console.log(process.env)
 
 
 app.listen(PORT);
