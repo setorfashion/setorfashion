@@ -2,7 +2,11 @@ const express = require('express');
 const app = express();
 const cors = require("cors");
 const helmet = require("helmet");
-require("dotenv").config();
+if(process.env.NODE_ENV!=='production'){
+  require("dotenv").config();
+}
+console.log(process.env.NODE_ENV)
+
 const PORT = 5000;
 const mongoose = require('mongoose');
 const requireDir = require('require-dir');
@@ -49,6 +53,7 @@ app.use('/token', require('./src/routes/tokenRoutes'));
 app.use('/hook', require('./src/routes/instaHookRoutes'));
 app.use('/cron', require('./src/routes/cronRoutes'));
 app.use('/search', require('./src/routes/searchRoutes'));
+app.use('/gn', require('./src/routes/gnPixRoutes'));
 
 
 

@@ -5,7 +5,7 @@ export const Container = styled.div`
   padding-bottom: 30px;
   overflow-x: hidden;
   background-color: #f7f7f7;
-  min-height: 100vh;
+  height: 100vh;
 `
 export const ConfigPostContainer = styled.div`
   padding: 5px;
@@ -34,4 +34,68 @@ export const ConfigPostContainer = styled.div`
     border-top: 1px solid #ececec;
     /* color: gray; */
   }
+`
+export const PaymentContainer = styled.div`
+  position: absolute;
+  height: calc(100vh - 93px);
+  width: 100vw;
+  margin: auto;
+  top: 25px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 550px;
+  background-color: white;
+  text-align: center;
+  padding: 10px;
+  overflow: hidden;
+  .qrImageCont{
+    padding: 10px;
+    border: 2px solid #32bcad;
+    border-radius: 10px;
+  }
+  .servicoInfor{
+    display: flex;
+    justify-content: space-between;
+    h6{
+      color: gray;
+    }
+  }
+  .valor{
+    color: #32bcad !important;
+    font-weight: bold;
+  }
+  .servicoDesc{
+    font-weight: bold;
+  }
+  .close{
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+    right: 10px;
+    top: 0;
+    position: absolute;
+  }
+`
+export const QrContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  margin-top: 20px;
+`
+export const BackDrop = styled.div`
+  position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: black;
+    opacity: 0.5;
+    overflow: hidden;
+`
+
+export const QrCode = styled.img`
+  width: 200px;
+  height: 200px;
 `

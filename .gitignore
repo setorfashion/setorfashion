@@ -2,3 +2,4 @@ client/node_modules/
 server/node_modules/
 server/keys.js
 server/.env
+server/certificados

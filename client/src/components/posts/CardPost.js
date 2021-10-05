@@ -54,7 +54,7 @@ export function CardPost({ data, _ref, postRef, scrollToPost, setPage, hasMore, 
               <>
                 <div className="input-field">
                   <i className="material-icons prefix" >edit</i>
-                  <input type="text" value={item.caption}/>
+                  <input type="text" defaultValue={item.caption}/>
                 </div>
                 <div className="sendPosition">
                   <i className="material-icons" style={{color:'black !important'}}>send</i>
