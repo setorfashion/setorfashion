@@ -99,6 +99,7 @@ function newPost(item, storeData, tokenData, instagram, post) {
     if (post.postInstagramId !== '') { //atualizar o post
       await post.updatePost({_id: post.postInstagramId },{media_url:item.media_url,permalink: item.permalink,childrens: childrens})
       console.log(`${item.id} Atualizado`)
+      resolve(true)
     } else {
       await post.createPost(newPost).then(rs => {
         resolve(true)
@@ -129,6 +130,7 @@ async function renewP(storeId) {
     console.log('erro updatestore ' + err)
     reject(err)
   })
+  console.log("LOJA ID "+store.storeData._id)
   Store.findByIdAndUpdate(store.storeData._id,
     {
       dataFromInstagram: true,
@@ -136,7 +138,7 @@ async function renewP(storeId) {
     },
     { new: true }
   ).then((updatedStore) => {
-    // console.log(`Loja Atualizada : ${updatedStore}`)
+    console.log(`Loja Atualizada ------------------------------------------------ : ${updatedStore}`)
     return true
   }).catch(err => {
     console.log('erro update store ' + err)

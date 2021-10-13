@@ -77,8 +77,8 @@ class ClassPosts {
       });
   }
   async updatePost(filter,data){
-    await PostModel.findOne(filter,data,{new:true}).then(rs=>{
-      console.log(rs)
+    await PostModel.findOneAndUpdate(filter,data,{new:true}).then(rs=>{
+      // console.log(rs)
     }).catch(err=>{
       this.erros.push(err)
     })

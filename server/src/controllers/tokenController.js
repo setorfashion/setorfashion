@@ -57,7 +57,8 @@ module.exports = {
         // sending the request.
         const authCode = req.body.authCode
         const user = req.user
-        let { body, statusCode } = await postAsync({
+        // let { body, statusCode } = await postAsync({
+        const resultToken =  await postAsync({
           url: `https://api.instagram.com/oauth/access_token `,
           formData: {
             client_id: 261340495802382,
@@ -73,9 +74,12 @@ module.exports = {
         }).catch(err=>{
           console.log('erro da consulta do token '+JSON.stringify(err))
         });
-
+        console.log("-------------------------------------------------");
+        let {body, statusCode} = resultToken
+        console.log(respLongToken)
         let response = JSON.parse(body);
         console.log(response)
+        console.log("-------------------------------------------------");
         if (statusCode !== 200) {
           let error_message = response.error_message;
           return res.status(402).json({msg:error_message})
@@ -126,7 +130,6 @@ module.exports = {
                 {new:true}
                 ).then((storeUpdated)=>{
                   //apagar todas as imagens (caso aja de um vinculo anterior) sincronizadas do instagram
-                  console.log(`Loja atualizada no token ${storeUpdated}`)
                   Post.deleteMany({postedBy:storeData._id,from:'instagram'})
                   return res.status(201).json({msg: 'Token atualizado com suceso'})
                 }).catch(err=>{
