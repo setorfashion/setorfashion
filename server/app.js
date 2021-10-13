@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const cors = require("cors");
 const helmet = require("helmet");
+const axios = require('axios')
+
 if(process.env.NODE_ENV!=='production'){
   require("dotenv").config();
 }
@@ -10,7 +12,8 @@ if(process.env.NODE_ENV!=='production'){
 const PORT = 5000;
 const mongoose = require('mongoose');
 const requireDir = require('require-dir');
-
+requireDir('./src/models');
+const initializeDB = require('./src/controllers/initializeController')
 app.use(express.json());
 
 const CORS_WHITE_LIST= [
@@ -29,7 +32,9 @@ const corsOptions = {
         }
     }
 }
-requireDir('./src/models');
+
+
+
 mongoose.connect(process.env.MONGOURI,{ //conexao com o mongodb
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -37,9 +42,7 @@ mongoose.connect(process.env.MONGOURI,{ //conexao com o mongodb
 
 mongoose.connection.on('connected',()=>{
   console.log('mongo conectado');
-  setTimeout(() => {
-    console.log('mongo conectado');
-  }, 5000);
+  initializeDB.checkDB()
 
 });
 mongoose.connection.on('error',(err)=>{
@@ -58,7 +61,8 @@ app.use('/hook', require('./src/routes/instaHookRoutes'));
 app.use('/cron', require('./src/routes/cronRoutes'));
 app.use('/search', require('./src/routes/searchRoutes'));
 app.use('/gn', require('./src/routes/gnPixRoutes'));
+app.use('/planos', require('./src/routes/planoRoutes'));
 
-
+// axios.get('https://api.instagram.com/oauth/authorize/?client_id=261340495802382&response_type=code&redirect_uri=http://localhost:5000/token/teste');
 
 app.listen(PORT);

@@ -1,12 +1,15 @@
 import React,{useState} from 'react'
 import history from '../../services/history'
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import M from 'materialize-css'
+import * as actions from '../../store/module/auth/actions'
 const {TOAST_ERROR,TOAST_SUCCESS} = require('../../classes')
 const API = require('../../Api')
 
 const CreatePost = () => {
-
+    const dispatch = useDispatch()
+    dispatch(actions.menu(false))
     const state = useSelector(state=>state.auth)
     const [title,setTitle] = useState("")
     const [content,setContent] = useState("")

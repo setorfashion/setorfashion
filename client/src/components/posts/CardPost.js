@@ -6,7 +6,8 @@ import { pinchZoom } from '../scripts/pinchZoom'
 import { CarouselPost, SimpleImage } from './LoadImages'
 import { CardContainer,  CardImage, CardDescribeContent, CardHeader, ImageCircle, ImageByCicle, HeaderDescription, HeaderLocalInformation } from './styled';
 
-export function CardPost({ data, _ref, postRef, scrollToPost, setPage, hasMore, hasEdit }) {
+export function CardPost({ data, _ref, postRef, scrollToPost, setPage, hasMore, hasEdit, saveEdit }) {
+  const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul","Ago","Set","Out","Nov","Dez"];
   const observer = useRef()
   const lastPostElementRef = useCallback(node => {
     if (observer.current) observer.current.disconnect()
@@ -28,6 +29,8 @@ export function CardPost({ data, _ref, postRef, scrollToPost, setPage, hasMore, 
   }, [])
   return (
     data.map((item, key) => {
+      const date = new Date(item.createdAt)
+      let dataFormatada = ((date.getDate() + " " + meses[(date.getMonth())] + " " + date.getFullYear()));
       return (
         <CardContainer key={key} ref={(_ref === item._id) ? postRef : (data.length === key + 1) ? lastPostElementRef : null} id={'hc_' + key}>
             <CardHeader style={{ backgroundImage: 'linear-gradient(to top, white 90%, ' + item.postedBy.setor.color + ' 80%)' }}>
@@ -50,14 +53,15 @@ export function CardPost({ data, _ref, postRef, scrollToPost, setPage, hasMore, 
             </CardImage>
             <CardDescribeContent>
               <a href={'/profile?storeId=' + item.postedBy._id}>{item.postedBy.storeName}</a>
+              {item.edited===true?<label style={{float:'right'}}>Editado</label>:''}
               {hasEdit?
               <>
                 <div className="input-field">
                   <i className="material-icons prefix" >edit</i>
-                  <input type="text" defaultValue={item.caption}/>
+                  <input type="text" id="input-caption" defaultValue={item.caption}/>
                 </div>
                 <div className="sendPosition">
-                  <i className="material-icons" style={{color:'black !important'}}>send</i>
+                  <i className="material-icons" onClick={()=>saveEdit()} style={{color:'black !important'}}>send</i>
                 </div>
               </>
               :<ShowMoreText
@@ -72,6 +76,7 @@ export function CardPost({ data, _ref, postRef, scrollToPost, setPage, hasMore, 
                         truncatedEndingComponent={"... "}
                       ><p>{item.caption}</p></ShowMoreText>
             }
+            <div style={{marginTop: '10px'}}><label >{dataFormatada}</label></div>
             </CardDescribeContent>
         </CardContainer>
       )

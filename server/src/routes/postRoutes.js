@@ -10,5 +10,6 @@ routes.get('/getallposts/:page', postController.getAllPosts);
 routes.post('/getstoreposts', postController.getStorePosts);
 routes.get('/getpostimage/:path/:key',postController.getPostImage);
 routes.post('/getstorepostbyid', requireLogin,postController.getStorePostBypostId);
+routes.post('/editpost', requireLogin,postController.editPost);
 
 module.exports = routes;

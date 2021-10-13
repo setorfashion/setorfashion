@@ -1,10 +1,13 @@
 import React from "react";
 import { Route, Redirect} from 'react-router-dom'
 import { useSelector } from 'react-redux';
+import * as actions from  '../store/module/auth/actions'
 import PropTypes from 'prop-types'
 
 export default function MyRoute({component: Component, isClosed, ...rest}) {
   const isLoggedIn = useSelector(state =>state.auth.isLoggedIn)
+
+  // if(menuIsOpen===true)dispatch(actions.menu(false))
   if(isClosed && !isLoggedIn){ //verificar se a rota é fechada e se o user esta logado
     return (
       <Redirect

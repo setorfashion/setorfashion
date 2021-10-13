@@ -49,6 +49,7 @@ export const PaymentContainer = styled.div`
   text-align: center;
   padding: 10px;
   overflow: hidden;
+  z-index: 1;
   .qrImageCont{
     padding: 10px;
     border: 2px solid #32bcad;

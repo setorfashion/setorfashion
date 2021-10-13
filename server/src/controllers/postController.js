@@ -109,6 +109,16 @@ module.exports = {
       return res.status(200).json({posts: posts.posts})
     },
 
+    async editPost(req,res){
+      const posts = new ClassPost(req.body)
+      await posts.editCaption()
+      if(posts.errors.length>0){
+        return res.status(401).json({msg:"Erro ao atualizar a postagem"})
+      }
+      return res.status(200).json({msg:"ok"})
+
+    },
+
     async getStorePosts(req, res) {
         const store = new ClassStore(req.body)
         await store.getStoreById()

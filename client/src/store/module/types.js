@@ -5,3 +5,5 @@ export const LOGOUT= 'LOGOUT'
 export const UPDATE_STATE= 'UPDATE_STATE'
 export const SEARCH_RESULT = 'SEARCH_RESULT'
 export const SEARCH_TAB = "SEARCH_TAB"
+export const MENU = "MENU"
+export const MENU_CHANGE = "MENU_CHANGE"

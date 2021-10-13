@@ -1,3 +1,4 @@
+import { func } from 'prop-types'
 import * as types from '../types'
 
 export function loginRequest(payload) {
@@ -22,6 +23,19 @@ export function loginFailure(payload) {
 export function logout() {
   return {
     type: types.LOGOUT
+  }
+}
+
+export function menu(payload){
+  return {
+    type: types.MENU,
+    payload
+  }
+}
+export function changeMenu(payload){
+  return {
+    type: types.MENU_CHANGE,
+    payload
   }
 }
 

@@ -21,6 +21,11 @@ function* loginRequest({ payload }){
   }
 }
 
+function* menu({payload}) {
+  yield put(actions.changeMenu(payload))
+}
+
 export default all ([
-  takeLatest(types.LOGIN_REQUEST,loginRequest)
+  takeLatest(types.LOGIN_REQUEST,loginRequest),
+  takeLatest(types.MENU,menu)
 ]) //irá processar somente o ultimo click no botao

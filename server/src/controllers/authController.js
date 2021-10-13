@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Usuario = mongoose.model('Usuario');
 const ClassUsuario = require('../models/usersModel')
+const ClassLevel = require('../models/levelModel')
 const Store = mongoose.model('Store');
 const Token = mongoose.model('Token');
 const crypt = require('bcryptjs');
@@ -30,7 +31,7 @@ module.exports = {
             if (usuario) {
                 crypt.compare(password, usuario.password).then(doMatch => {
                     if (doMatch) {
-                        //enviar token de autorização 
+                        //enviar token de autorização
                         const token = jwt.sign({ _id: usuario._id }, process.env.JWT_SECRET);
                         const { _id, name, email } = usuario;
                         Store.findOne({ "createdBy": _id }).then((resultStore) => {
@@ -76,8 +77,10 @@ module.exports = {
                 if (result) {
                     return res.status(422).json({ error: "Email já cadastrado!" });
                 } else {
-                    crypt.hash(password, 12).then(newPass => {
-                        // return res.send(newPass);
+                    crypt.hash(password, 12).then(async newPass => {
+                        const level = new ClassLevel()
+                        await level.getLevelsByFilter({description: process.env.INITIAL_LEVEL})
+                        req.body.level = level.levels[0]._id
                         req.body.password = newPass;
                         Usuario.create(req.body).then((result) => {
                             if (result) {

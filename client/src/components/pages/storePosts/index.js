@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useHistory, useLocation } from "react-router-dom"
+import {  useLocation } from "react-router-dom"
 import Loading from '../../loading'
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { CardPost } from '../../posts/CardPost'
@@ -8,7 +8,6 @@ const axios = require(`axios`).default
 const API = require('../../../Api')
 
 export default function Storeposts() {
-  const history = useHistory()
   function useQuery() {
     return new URLSearchParams(useLocation().search);
   }

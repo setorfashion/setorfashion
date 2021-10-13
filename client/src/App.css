@@ -49,7 +49,7 @@ a{
     width: 100%;
     bottom: -2px;
     height: 36px;
-    z-index: 1;
+    z-index: 101;
 }
 .footer-search{
     columns: white !important;
@@ -205,13 +205,16 @@ nav ul a{
     margin-top: 0px;
     z-index: 101;
     position: fixed;
-    height: 56px;
+    height: 59px;
     line-height: 36px;
     align-items: center;
     /* background-color: rgb(26, 26, 26); */
     background: rgb(0, 0, 0) ;
     color: white;
 
+}
+nav .nav-wrapper {
+  padding-right: 10px;
 }
 .nav li{
     margin-top: 14px;

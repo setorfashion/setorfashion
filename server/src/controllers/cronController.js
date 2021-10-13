@@ -74,40 +74,47 @@ async function renewPosts(longToken, storeData) {
     return false
   }
 }
-function newPost(item, storeData, tokenData,instagram,post) {
+function newPost(item, storeData, tokenData, instagram, post) {
   return new Promise(async (resolve, reject) => {
-      let childrens = []
-      if (item.media_type === 'CAROUSEL_ALBUM') {
-          const nc = [
-              instagram.checkChildrens(tokenData, item.id)
-          ]
-          await Promise.all(nc).then((rs) => {
-              childrens = rs[0]
-          })
-      }
-      let newPost = new Post({
-          caption: item.caption,
-          id: item.id,
-          postedBy: storeData,
-          media_url: item.media_url,
-          permalink: item.permalink,
-          from: 'instagram',
-          createdAt: item.timestamp,
-          childrens: childrens
+    let childrens = []
+    if (item.media_type === 'CAROUSEL_ALBUM') {
+      const nc = [
+        instagram.checkChildrens(tokenData, item.id)
+      ]
+      await Promise.all(nc).then((rs) => {
+        childrens = rs[0]
       })
-      await post.createPost(newPost).then(rs=>{
-          resolve(true)
-      }).catch(err=>{
-          reject(err)
+    }
+    let newPost = new Post({
+      caption: item.caption,
+      id: item.id,
+      postedBy: storeData,
+      media_url: item.media_url,
+      permalink: item.permalink,
+      from: 'instagram',
+      createdAt: item.timestamp,
+      childrens: childrens
+    })
+    await post.getPostByInstagramId(item.id)
+    if (post.postInstagramId !== '') { //atualizar o post
+      await post.updatePost({_id: post.postInstagramId },{media_url:item.media_url,permalink: item.permalink,childrens: childrens})
+      console.log(`${item.id} Atualizado`)
+    } else {
+      await post.createPost(newPost).then(rs => {
+        resolve(true)
+      }).catch(err => {
+        reject(err)
       })
+    }
+
 
   })
 }
 async function renewP(storeId) {
-  const store = new ClassStore({"storeId":storeId})
+  const store = new ClassStore({ "storeId": storeId })
   await store.getStoreById()
   const post = new ClassPost()
-  await post.deletePostsByStoreFromInstagram(store.storeData._id)
+  // await post.deletePostsByStoreFromInstagram(store.storeData._id)
   const token = new ClassToken()
   await token.findTokenByStore(store.storeData._id)
   const instagram = new ClassInstagram()
@@ -129,7 +136,7 @@ async function renewP(storeId) {
     },
     { new: true }
   ).then((updatedStore) => {
-    console.log(`Loja Atualizada : ${updatedStore}`)
+    // console.log(`Loja Atualizada : ${updatedStore}`)
     return true
   }).catch(err => {
     console.log('erro update store ' + err)
@@ -148,17 +155,16 @@ module.exports = {
     //  return res.send('ok')
     let daysBefore = new Date()
     let today = new Date()
-    daysBefore.setDate(daysBefore.getDate() - 3)
+    daysBefore.setDate(daysBefore.getDate() - 1)
     // $gte: daysBefore,$lte: today ----- de ate (between)
     // $lt --- cutoff retorna abaixo dessa data
-    console.table(daysBefore)
+    console.log(daysBefore)
     Store.find({
       lastCheck: { $lt: daysBefore },
       dataFromInstagram: true
     })
       .populate('token')
       .then((result) => {
-        console.log(result)
         result.map(async (item, index) => {
           if (item.token) {
             await renewP(item._id)

@@ -9,19 +9,19 @@ import * as actions from '../../store/module/searchStuffs/actions'
 export function MainSearch({ stores, stuffs, categoriesData, Search, isLoading }) {
   const state = useSelector(state => state.search)
   const dispatch = useDispatch()
-  let input = document.getElementById(`search-input`)
-  if (input) {
-    switch (state.type) {
-      case 'stores':
-        input.value = state.stores.inputValue
-        break;
-      case 'stuff':
-        input.value = state.stuff.inputValue
-        break;
-      default:
-        break;
-    }
-  }
+  // let input = document.getElementById(`search-input`)
+  // if (input) {
+  //   switch (state.type) {
+  //     case 'stores':
+  //       // input.value = state.stores.inputValue
+  //       break;
+  //     case 'stuff':
+  //       //input.value = state.stuff.inputValue
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
   useEffect(() => {
     let el = document.querySelectorAll('.tabs');
     const tab = M.Tabs.init(el);

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-
+const { ObjectId } = mongoose.Schema.Types
 
 const UserSchema = new mongoose.Schema({
     name:{
         type: String,
-        required:true, 
+        required:true,
         minlength: 2
     },
     email:{
@@ -15,6 +15,11 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    level: {
+      type: ObjectId,
+      ref: "Level",
+      required: true
     }
 });
 

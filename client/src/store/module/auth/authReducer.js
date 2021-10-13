@@ -5,11 +5,14 @@ export const initialState = {
   userData: {},
   storeId: '',
   token: '',
-  isLoading: false
+  isLoading: false,
+  menu: false
 }
 export default function (state=initialState,action){
   switch (action.type) {
     case types.LOGIN_REQUEST:
+      return state
+    case types.MENU:
       return state
     case types.LOGIN_SUCCESS:
       const {token, store_id, userData} = action.payload
@@ -28,8 +31,11 @@ export default function (state=initialState,action){
       return initialState
     case types.UPDATE_STATE:
       const newStateUpdt = { ...state, ...action.payload }
-      console.log(newStateUpdt)
       return newStateUpdt
+    case types.MENU_CHANGE:
+      const newStateMenu = { ...state }
+      newStateMenu.menu=action.payload
+      return newStateMenu
     default:
       return state
   }

@@ -63,6 +63,26 @@ export default function EditPost(){
     })
   }
 
+  function editCaption() {
+    const caption = document.querySelectorAll('#input-caption')[0]
+    const value = caption.value
+    const data = {
+      storeId,
+      postId,
+      captionValue: value
+    }
+
+    axios.post(`${API.AMBIENTE}/post/editpost`,data,{headers:{
+      "authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+      }}).then((rs)=>{
+        console.log(rs)
+      }).catch(err=>{
+        console.log(err)
+      })
+
+  }
+
   return(
     <Container>
       {showPayment?
@@ -112,7 +132,7 @@ export default function EditPost(){
         </div> */}
         </ConfigPostContainer>
       <Loading isLoading={isLoading} />
-      <CardPost data={postData} scrollToPost={false} hasEdit={true} />
+      <CardPost data={postData} scrollToPost={false} hasEdit={true} saveEdit={editCaption} />
     </Container>
   )
 }

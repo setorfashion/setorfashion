@@ -38,6 +38,10 @@ const postSchema = new mongoose.Schema({
   },
   childrens: {
     type: Array
+  },
+  edited: {
+    type: Boolean,
+    default: false
   }
 })
 postSchema.plugin(mongoosePaginate); //habilitando a paginação para esse schema
@@ -47,6 +51,7 @@ class ClassPosts {
     this.body = body
     this.errors = []
     this.posts = []
+    this.postInstagramId=''
   }
   async getAllPosts() {
     console.log(this.body)
@@ -70,6 +75,33 @@ class ClassPosts {
       }).catch(err => {
         this.errors.push(err)
       });
+  }
+  async updatePost(filter,data){
+    await PostModel.findOne(filter,data,{new:true}).then(rs=>{
+      console.log(rs)
+    }).catch(err=>{
+      this.erros.push(err)
+    })
+  }
+  async editCaption(){
+    await PostModel.findOneAndUpdate({postedBy: this.body.storeId,_id:this.body.postId},{
+      caption: this.body.captionValue,
+      edited: true
+    },{new: true}).then((rs)=>{
+      console.log(rs)
+    })
+    .catch(err=>{
+      this.errors.push(err)
+    })
+  }
+  async getPostByInstagramId(instagramId){
+    await PostModel.findOne({id:instagramId}).then((rs)=>{
+      if(!rs){
+        this.postInstagramId=''
+      }else{
+        this.postInstagramId=rs._id
+      }
+    })
   }
   async getStorePostById(){
     await PostModel.find({postedBy: this.body.storeId,_id:this.body.postId})

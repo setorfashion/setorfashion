@@ -1,4 +1,3 @@
-const { json } = require('express')
 const mongoose = require('mongoose')
 const Token = mongoose.model('Token')
 const Store = mongoose.model('Store')
@@ -7,7 +6,8 @@ const { get } = require("axios").default;
 const { post } = require("request");
 const { promisify } = require("util");
 require("dotenv").config();
-const http = require('http');
+const https = require('https');
+
 
 const postAsync = promisify(post);
 
@@ -22,7 +22,7 @@ module.exports = {
           Post.deleteMany({postedBy:store_id,from:'instagram'}).then(post=>{
             //excluir o token
             Token.findOneAndDelete({storeId:store_id}).then(token=>{
-              //atualizar status do instagram na loja               
+              //atualizar status do instagram na loja
               Store.findByIdAndUpdate(store_id,
                 {
                   dataFromInstagram: false
@@ -32,7 +32,7 @@ module.exports = {
                   return res.status(200).json({msg: 'Sua conta do instagram foi desvinculada com sucesso!'})
                 }).catch(err=>{
                   console.log(err)
-                })     
+                })
             }).catch(err=>{
               console.log(err)
             })
@@ -41,13 +41,18 @@ module.exports = {
           })
         }else{
           return res.status(406).json({msg:'Os dados da sua loja não foram localizados, faça seu login novamente e tente mais uma vez.'})
-          
+
         }
       }).catch(err=>{
         console.log(err)
       })
 
-    }, 
+    },
+    async testeToken(req,res){
+      console.log(req.query.code)
+      // const tokenData = await Token.findById('6130c9a3be33c13450c5f717')
+
+    },
     async receiveToken(req,res) {
         // sending the request.
         const authCode = req.body.authCode
@@ -68,14 +73,15 @@ module.exports = {
         }).catch(err=>{
           console.log('erro da consulta do token '+JSON.stringify(err))
         });
-      
+
         let response = JSON.parse(body);
+        console.log(response)
         if (statusCode !== 200) {
           let error_message = response.error_message;
           return res.status(402).json({msg:error_message})
         }
-       
-        
+
+
         const shortToken = response.access_token
 
         //obter long-live token
@@ -121,11 +127,11 @@ module.exports = {
                 ).then((storeUpdated)=>{
                   //apagar todas as imagens (caso aja de um vinculo anterior) sincronizadas do instagram
                   console.log(`Loja atualizada no token ${storeUpdated}`)
-                  Post.deleteMany({postedBy:storeData._id,from:'instagram'})   
+                  Post.deleteMany({postedBy:storeData._id,from:'instagram'})
                   return res.status(201).json({msg: 'Token atualizado com suceso'})
                 }).catch(err=>{
                   console.log(err)
-                })                
+                })
             }).catch (err=>{
               console.log('erro do insert token '+ err)
                 return res.status(402).json({erro:err})
@@ -140,7 +146,7 @@ module.exports = {
       async getInstagramData(req,res){
         const userId= req.user._id
         const tokenData = await Token.findOne({userId:userId})
-        if(tokenData){        
+        if(tokenData){
           const responseProfileData = await get("https://graph.instagram.com/me", {
             params: {
               fields: "id,username,media_count,account_type",
@@ -162,7 +168,7 @@ module.exports = {
               host: "graph.instagram.com",
             },
           });
-          console.log(responseMediaData)
+          // console.log(responseMediaData)
           return res.status(201).json({data:responseMediaData['data']})
         }
         return res.status(201).json({data:''})
@@ -177,7 +183,7 @@ module.exports = {
           }else{
             return res.status(203).json()
           }
-          
+
         }).catch(err=>{
           console.log('nao achou valor')
         })
