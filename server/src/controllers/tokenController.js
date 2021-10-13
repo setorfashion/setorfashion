@@ -76,7 +76,7 @@ module.exports = {
         });
         console.log("-------------------------------------------------");
         let {body, statusCode} = resultToken
-        console.log(respLongToken)
+        console.log(resultToken)
         let response = JSON.parse(body);
         console.log(response)
         console.log("-------------------------------------------------");
