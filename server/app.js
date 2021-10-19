@@ -63,6 +63,12 @@ app.use('/search', require('./src/routes/searchRoutes'));
 app.use('/gn', require('./src/routes/gnPixRoutes'));
 app.use('/planos', require('./src/routes/planoRoutes'));
 
-// axios.get('https://api.instagram.com/oauth/authorize/?client_id=261340495802382&response_type=code&redirect_uri=http://localhost:5000/token/teste');
+// https://api.instagram.com/v1/users/search?q=buscafeed&client_id=261340495802382
+// axios.get('https://www.instagram.com/buscafeed/?__a=1').then((rs)=>{
+//   console.log(rs.data)
+// // const jsonObj =  rs.data.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/)[1].slice(0,-1)
+// // const obj = JSON.parse(jsonObj)
+// // console.log(obj)
+// });
 
 app.listen(PORT);

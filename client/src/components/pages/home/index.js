@@ -21,11 +21,11 @@ const Home = () => {
   }
   useEffect(() => {
 
-    // axios.get('https://www.instagram.com/buscafeed/').then((rs)=>{
+    axios.get('https://www.instagram.com/buscafeed/?__a=1').then((rs)=>{
     // const jsonObj =  rs.data.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/)[1].slice(0,-1)
     // const obj = JSON.parse(jsonObj)
-    // console.log(obj)
-    // });
+    console.log(rs)
+    });
 
     setIsLoading(true)
     axios.get(API.AMBIENTE + `/post/getallposts/${nextPage}`)

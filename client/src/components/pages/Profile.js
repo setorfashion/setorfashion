@@ -4,6 +4,7 @@ import insta_logo_color from "../images/insta_icon_color.png"
 import whats_logo from "../images/logo_whatsapp.png"
 import Loading from '../loading'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useSelector } from 'react-redux'
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import M from 'materialize-css'
 import Galery from '../profile/Galery'
@@ -21,11 +22,13 @@ const Profile = () => {
   }
   let query = useQuery();
   const storeId = query.get("storeId");
+  const state = useSelector(state=>state.auth)
   const [posts, setPosts] = useState([])
   const [storeData, setStoreData] = useState()
   const [isLoading, setIsLoading] = useState(false)
 
-  let isAdmin = false
+  let isAdmin = state.type==='STORE'?state.storeId===storeId?true:false:false
+  
   const history = useHistory()
   if (!storeId || storeId === undefined || storeId === 'undefined') {
     M.toast({ html: "Loja Indiponível no momento, por favor tente mais tarde ", classes: TOAST_ERROR })
